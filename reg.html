@@ -165,11 +165,6 @@
       letter-spacing: 0.3px;
     }
 
-    .form-group label .required {
-      color: #dc2626;
-      margin-left: 0.2rem;
-    }
-
     .form-group input, .form-group select {
       padding: 0.75rem;
       border: 1.5px solid #e2e8f0;
@@ -401,46 +396,46 @@
           </div>
 
           <div class="form-group">
-            <label>District <span class="required">*</span></label>
-            <select id="district" required>
+            <label>District</label>
+            <select id="district">
               <option value="">Select District</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label>Chiefdom <span class="required">*</span></label>
-            <select id="chiefdom" required disabled>
+            <label>Chiefdom</label>
+            <select id="chiefdom" disabled>
               <option value="">Select Chiefdom first</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label>PHU <span class="required">*</span></label>
-            <select id="phu" required disabled>
+            <label>PHU</label>
+            <select id="phu" disabled>
               <option value="">Select PHU first</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label>Community <span class="required">*</span></label>
-            <select id="community" required disabled>
+            <label>Community</label>
+            <select id="community" disabled>
               <option value="">Select Community first</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label>HHR Name <span class="required">*</span></label>
-            <select id="hhr" required disabled>
+            <label>HHR Name</label>
+            <select id="hhr" disabled>
               <option value="">Select HHR first</option>
             </select>
           </div>
         </div>
 
-        <!-- Section 2: Household Details -->
+        <!-- Section 2: Household Details (includes GPS and Registration Token) -->
         <div class="form-section" id="section2">
           <div class="form-group">
-            <label>Household Head Name <span class="required">*</span></label>
-            <input type="text" id="householdHead" placeholder="Enter full name" required>
+            <label>Household Head Name</label>
+            <input type="text" id="householdHead" placeholder="Enter full name">
           </div>
 
           <div class="form-group">
@@ -450,19 +445,19 @@
           </div>
 
           <div class="form-group">
-            <label>Number of People in Household <span class="required">*</span></label>
-            <input type="number" id="totalPeople" min="0" step="1" value="0" required>
+            <label>Number of People in Household</label>
+            <input type="number" id="totalPeople" min="0" step="1" value="0">
           </div>
 
           <div class="form-group">
-            <label>Number of Under Five <span class="required">*</span></label>
-            <input type="number" id="underFive" min="0" step="1" value="0" required>
+            <label>Number of Under Five</label>
+            <input type="number" id="underFive" min="0" step="1" value="0">
             <div class="error-message" id="underFiveError">Under five children cannot exceed total household members</div>
           </div>
 
           <div class="form-group">
-            <label>Number of Pregnant Women <span class="required">*</span></label>
-            <input type="number" id="pregnantWomen" min="0" step="1" value="0" required>
+            <label>Number of Pregnant Women</label>
+            <input type="number" id="pregnantWomen" min="0" step="1" value="0">
             <div class="error-message" id="pregnantError">Pregnant women cannot exceed total household members</div>
           </div>
 
@@ -470,10 +465,7 @@
             <label>Total Family Member (Auto-calculated)</label>
             <input type="text" id="totalFamily" class="readonly-input" readonly>
           </div>
-        </div>
 
-        <!-- Section 3: Review -->
-        <div class="form-section" id="section3">
           <div class="form-group">
             <label>GPS Coordinates</label>
             <div class="gps-row">
@@ -490,8 +482,10 @@
               <button type="button" id="generateTokenBtn" class="token-btn">Generate Token</button>
             </div>
           </div>
+        </div>
 
-          <!-- Summary Details -->
+        <!-- Section 3: Review -->
+        <div class="form-section" id="section3">
           <div class="summary-card">
             <div class="summary-row">
               <span class="summary-label">Date:</span>
@@ -725,75 +719,32 @@
     
     if (totalPeople === 1 || totalPeople === 2) {
       bednetCount = 1;
-      bednetMessage = '🦟 Based on household size of ' + totalPeople + ' people, this household should receive 1 bednet.';
+      bednetMessage = 'Based on household size of ' + totalPeople + ' people, this household should receive 1 bednet.';
     } else if (totalPeople === 3 || totalPeople === 4) {
       bednetCount = 2;
-      bednetMessage = '🦟 Based on household size of ' + totalPeople + ' people, this household should receive 2 bednets.';
+      bednetMessage = 'Based on household size of ' + totalPeople + ' people, this household should receive 2 bednets.';
     } else if (totalPeople >= 5) {
       bednetCount = 3;
-      bednetMessage = '🦟 Based on household size of ' + totalPeople + ' people, this household should receive 3 bednets.';
+      bednetMessage = 'Based on household size of ' + totalPeople + ' people, this household should receive 3 bednets.';
     } else {
-      bednetMessage = '🦟 Please enter valid number of people in household.';
+      bednetMessage = 'Please enter number of people in household to see bednet recommendation.';
     }
     
     document.getElementById('completeHead').textContent = householdHeadInput.value.trim() || '-';
     document.getElementById('completeTotalFamily').textContent = totalFamilyInput.value || '0';
     document.getElementById('completeToken').textContent = tokenInput.value || '-';
-    document.getElementById('bednetMessage').innerHTML = bednetMessage;
+    document.getElementById('bednetMessage').innerHTML = '🦟 Bednet Recommendation: ' + bednetMessage;
   }
 
   function validateSection(section) {
-    if (section === 1) {
-      const district = districtSelect.value;
-      const chiefdom = chiefdomSelect.value;
-      const phu = phuSelect.value;
-      const community = communitySelect.value;
-      const hhr = hhrSelect.value;
-      
-      if (!district || !chiefdom || !phu || !community || !hhr) {
-        alert('Please fill all required fields in Demographic Information section');
-        return false;
-      }
-    } else if (section === 2) {
-      const householdHead = householdHeadInput.value.trim();
-      const totalPeople = totalPeopleInput.value;
-      const underFive = underFiveInput.value;
-      const pregnantWomen = pregnantWomenInput.value;
-      
-      if (!householdHead) {
-        alert('Please enter Household Head Name');
-        return false;
-      }
-      
-      if (totalPeople === '' || parseInt(totalPeople) < 0) {
-        alert('Please enter valid number of people in household');
-        return false;
-      }
-      
-      if (underFive === '' || parseInt(underFive) < 0) {
-        alert('Please enter valid number of under five children');
-        return false;
-      }
-      
-      if (pregnantWomen === '' || parseInt(pregnantWomen) < 0) {
-        alert('Please enter valid number of pregnant women');
-        return false;
-      }
-      
-      if (!validateHouseholdNumbers()) {
-        alert('Under five children and pregnant women cannot exceed total household members');
-        return false;
-      }
-    }
+    // No mandatory fields - always return true
     return true;
   }
 
   function nextSection() {
-    if (validateSection(currentSection)) {
-      if (currentSection < totalSections) {
-        currentSection++;
-        updateSection();
-      }
+    if (currentSection < totalSections) {
+      currentSection++;
+      updateSection();
     }
   }
 
@@ -811,11 +762,6 @@
       telephoneInput.classList.add('error-input');
       telephoneInput.focus();
       alert('Please enter a valid phone number (9 digits starting with 0)');
-      return;
-    }
-    
-    if (!validateSection(1) || !validateSection(2)) {
-      alert('Please complete all required fields before completing');
       return;
     }
     
@@ -853,7 +799,7 @@
     console.log('Registration Data:', registrationData);
     
     let message = '✓ Registration Completed Successfully!\n\n';
-    message += 'Household Head: ' + registrationData.householdHead + '\n';
+    message += 'Household Head: ' + (registrationData.householdHead || 'Not provided') + '\n';
     message += 'Total Family Members: ' + registrationData.totalFamily + '\n';
     message += 'Bednets to distribute: ' + bednetCount + '\n';
     message += 'Token: ' + registrationData.token;
@@ -878,7 +824,7 @@
     
     let isValid = true;
     
-    if (underFive > totalPeople) {
+    if (underFive > totalPeople && totalPeople > 0) {
       underFiveError.classList.add('show');
       underFiveInput.classList.add('error-input');
       isValid = false;
@@ -887,7 +833,7 @@
       underFiveInput.classList.remove('error-input');
     }
     
-    if (pregnantWomen > totalPeople) {
+    if (pregnantWomen > totalPeople && totalPeople > 0) {
       pregnantError.classList.add('show');
       pregnantWomenInput.classList.add('error-input');
       isValid = false;
@@ -904,14 +850,7 @@
     const householdHead = householdHeadInput.value.trim();
     let phone = telephoneInput.value.trim();
     
-    if (!householdHead) {
-      alert('Please enter Household Head Name first');
-      return '';
-    }
-    
-    let cleanName = householdHead.replace(/[^a-zA-Z0-9]/g, '_');
-    cleanName = cleanName.replace(/_+/g, '_');
-    
+    let cleanName = householdHead ? householdHead.replace(/[^a-zA-Z0-9]/g, '_').replace(/_+/g, '_') : 'noName';
     const phonePart = phone || 'noPhone';
     const randomSuffix = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
     
@@ -921,28 +860,24 @@
 
   generateTokenBtn.addEventListener('click', () => {
     const newToken = generateToken();
-    if (newToken) {
-      tokenInput.value = newToken;
-      if (currentSection === 3) {
-        updateReviewSummary();
-      }
-      if (currentSection === 4) {
-        updateCompleteSection();
-      }
+    tokenInput.value = newToken;
+    if (currentSection === 3) {
+      updateReviewSummary();
+    }
+    if (currentSection === 4) {
+      updateCompleteSection();
     }
   });
 
   function autoUpdateToken() {
     if (tokenInput.value && tokenInput.value !== '') {
       const newToken = generateToken();
-      if (newToken) {
-        tokenInput.value = newToken;
-        if (currentSection === 3) {
-          updateReviewSummary();
-        }
-        if (currentSection === 4) {
-          updateCompleteSection();
-        }
+      tokenInput.value = newToken;
+      if (currentSection === 3) {
+        updateReviewSummary();
+      }
+      if (currentSection === 4) {
+        updateCompleteSection();
       }
     }
   }
