@@ -540,15 +540,16 @@
   const contentFrame = document.getElementById('contentFrame');
   const iframeTitle = document.getElementById('iframeTitle');
 
-  // Load passwords from CSV file
-  async function loadPasswords() {
+  // Load credentials from test.csv file
+  async function loadCredentials() {
     try {
-      const response = await fetch('password.csv');
+      const response = await fetch('test.csv');
       const csvText = await response.text();
       
       const lines = csvText.trim().split('\n');
       
-      for (let i = 1; i < lines.length; i++) {
+      // Skip header row if exists, otherwise process all rows
+      for (let i = 0; i < lines.length; i++) {
         const line = lines[i].trim();
         if (line === '') continue;
         
@@ -561,9 +562,9 @@
         }
       }
       
-      console.log('Credentials loaded:', Object.keys(credentials));
+      console.log('Credentials loaded from test.csv:', Object.keys(credentials));
     } catch (error) {
-      console.error('Error loading password.csv:', error);
+      console.error('Error loading test.csv:', error);
       // Fallback credentials if CSV not found
       credentials = {
         registration: { username: "reg_user", password: "reg@2026" },
@@ -655,7 +656,7 @@
   });
 
   // Load credentials on page load
-  loadPasswords();
+  loadCredentials();
 </script>
 </body>
 </html>
