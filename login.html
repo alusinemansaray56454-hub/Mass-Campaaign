@@ -40,7 +40,7 @@
       z-index: 0;
     }
 
-    /* main card - full width on mobile with comfortable margins */
+    /* main card */
     .login-container {
       max-width: 400px;
       width: 100%;
@@ -54,7 +54,7 @@
       margin: 0 auto;
     }
 
-    /* SKY BLUE HEADER - phone optimized */
+    /* SKY BLUE HEADER */
     .sky-header {
       background: #87CEEB;
       background: linear-gradient(135deg, #7bc5e8, #6bb5d8);
@@ -100,13 +100,13 @@
       opacity: 0.95;
     }
 
-    /* main content - comfortable touch spacing */
+    /* main content */
     .card-inner {
       padding: 1.2rem 1.2rem 1rem 1.2rem;
       background: #ffffff;
     }
 
-    /* form elements - larger touch targets */
+    /* form elements */
     .input-group {
       margin-bottom: 1rem;
     }
@@ -142,7 +142,7 @@
       background: #fff;
     }
 
-    /* LOGIN BUTTON - larger tap area */
+    /* LOGIN BUTTON */
     .login-wrapper {
       display: flex;
       justify-content: center;
@@ -173,10 +173,9 @@
 
     .btn-primary:active {
       transform: scale(0.97);
-      background: linear-gradient(135deg, #b91c1c, #991b1b);
     }
 
-    /* SCAN BADGE BUTTON - larger tap area */
+    /* SCAN BADGE BUTTON */
     .scan-wrapper {
       display: flex;
       justify-content: center;
@@ -206,7 +205,6 @@
 
     .btn-scan:active {
       transform: scale(0.97);
-      background: linear-gradient(135deg, #059669, #047857);
     }
 
     .btn-scan svg {
@@ -214,7 +212,7 @@
       height: 16px;
     }
 
-    /* connectivity / test / provision row - mobile grid */
+    /* connectivity / test / provision row */
     .grid-actions {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -245,7 +243,6 @@
 
     .card-action-btn:active {
       transform: scale(0.97);
-      filter: brightness(0.95);
     }
 
     .card-action-btn svg {
@@ -264,7 +261,7 @@
       background: linear-gradient(135deg, #e67e22, #b45f1b);
     }
 
-    /* backup, language, about row - mobile friendly */
+    /* backup, language, about row */
     .bottom-options {
       display: flex;
       flex-wrap: wrap;
@@ -307,25 +304,16 @@
       background: linear-gradient(135deg, #2c5282, #1a365d);
       color: white;
     }
-    #backupSdBtn:active {
-      background: linear-gradient(135deg, #2b6cb0, #1e4a7a);
-    }
     #languageBtn {
       background: linear-gradient(135deg, #2f855a, #1f5a3e);
       color: white;
-    }
-    #languageBtn:active {
-      background: linear-gradient(135deg, #38a169, #276749);
     }
     #aboutBtn {
       background: linear-gradient(135deg, #4a5568, #2d3748);
       color: white;
     }
-    #aboutBtn:active {
-      background: linear-gradient(135deg, #5a6a7e, #3a4a5e);
-    }
 
-    /* SKY BLUE FOOTER - phone friendly */
+    /* SKY BLUE FOOTER */
     .sky-footer {
       background: #87CEEB;
       background: linear-gradient(100deg, #7bc5e8, #6bb5d8);
@@ -372,7 +360,88 @@
       height: 14px;
     }
 
-    /* toast message - mobile optimized */
+    /* IFRAME MODAL OVERLAY */
+    .iframe-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .iframe-container {
+      width: 90%;
+      max-width: 1200px;
+      height: 85%;
+      background: white;
+      border-radius: 1.5rem;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      position: relative;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .iframe-header {
+      background: linear-gradient(135deg, #1f4e6e, #0f3e5c);
+      padding: 0.8rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+
+    .iframe-header h3 {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .close-iframe {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .close-iframe:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    .close-iframe:active {
+      transform: scale(0.95);
+    }
+
+    iframe {
+      width: 100%;
+      height: calc(100% - 52px);
+      border: none;
+    }
+
+    /* toast message */
     .toast-msg {
       position: fixed;
       bottom: 20px;
@@ -384,104 +453,28 @@
       border-radius: 40px;
       font-size: 0.75rem;
       font-weight: 500;
-      z-index: 1000;
+      z-index: 1001;
       opacity: 0;
       transition: opacity 0.2s;
       pointer-events: none;
       font-family: monospace;
       box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-      white-space: nowrap;
-      max-width: 90%;
-      white-space: normal;
       text-align: center;
+      max-width: 90%;
     }
 
-    /* phone-specific adjustments */
     @media (max-width: 450px) {
-      body {
-        padding: 0.8rem;
-      }
-      
-      .login-container {
-        max-width: 100%;
-        border-radius: 1.2rem;
-      }
-      
-      .card-inner {
-        padding: 1rem 1rem 0.9rem;
-      }
-      
-      .grid-actions {
-        gap: 0.5rem;
-      }
-      
-      .card-action-btn {
-        padding: 0.6rem 0.1rem;
-        font-size: 0.65rem;
-        min-height: 58px;
-      }
-      
-      .card-action-btn svg {
-        width: 20px;
-        height: 20px;
-      }
-      
-      .bottom-options {
-        gap: 0.5rem;
-      }
-      
-      .bottom-link {
-        padding: 0.5rem 0.6rem;
-        font-size: 0.65rem;
-        min-width: 85px;
-      }
-      
-      .btn-primary {
-        padding: 0.7rem 1.5rem;
-        min-width: 130px;
-        font-size: 0.95rem;
-      }
-      
-      .btn-scan {
-        padding: 0.6rem 1.5rem;
-        min-width: 130px;
-        font-size: 0.85rem;
-      }
-      
-      .input-field {
-        padding: 0.75rem 0.9rem;
-        font-size: 0.9rem;
-      }
-      
-      .logo-placeholder {
-        width: 50px;
-        height: 50px;
-      }
-      
-      .logo-placeholder svg {
-        width: 32px;
-        height: 32px;
-      }
-    }
-
-    /* very small phones */
-    @media (max-width: 380px) {
-      .grid-actions {
-        gap: 0.4rem;
-      }
-      
-      .card-action-btn {
-        font-size: 0.6rem;
-      }
-      
-      .bottom-link {
-        font-size: 0.6rem;
-        padding: 0.45rem 0.5rem;
-      }
-      
-      .btn-primary, .btn-scan {
-        min-width: 120px;
-      }
+      body { padding: 0.8rem; }
+      .login-container { max-width: 100%; border-radius: 1.2rem; }
+      .card-inner { padding: 1rem 1rem 0.9rem; }
+      .grid-actions { gap: 0.5rem; }
+      .card-action-btn { padding: 0.6rem 0.1rem; font-size: 0.65rem; min-height: 58px; }
+      .card-action-btn svg { width: 20px; height: 20px; }
+      .bottom-options { gap: 0.5rem; }
+      .bottom-link { padding: 0.5rem 0.6rem; font-size: 0.65rem; min-width: 85px; }
+      .btn-primary { padding: 0.7rem 1.5rem; min-width: 130px; font-size: 0.95rem; }
+      .btn-scan { padding: 0.6rem 1.5rem; min-width: 130px; font-size: 0.85rem; }
+      .iframe-container { width: 95%; height: 80%; }
     }
   </style>
 </head>
@@ -533,39 +526,16 @@
 
     <!-- BUTTONS WITH CUSTOM SVG ICONS -->
     <div class="grid-actions">
-      <!-- Connectivity Icon -->
       <button class="card-action-btn" id="connectivityBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
-          <path d="M1.42 9a16 16 0 0 1 21.16 0"/>
-          <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
-          <circle cx="12" cy="19" r="1.5" fill="white" stroke="none"/>
-          <line x1="12" y1="20" x2="12" y2="22"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="19" r="1.5" fill="white" stroke="none"/></svg>
         <span>Connectivity</span>
       </button>
-      
-      <!-- Test Fingerprint Reader Icon -->
       <button class="card-action-btn" id="testFingerprintBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 2a6 6 0 0 0-6 6v3.6a6 6 0 0 0 12 0V8a6 6 0 0 0-6-6z"/>
-          <path d="M12 18v4"/>
-          <path d="M9 22h6"/>
-          <circle cx="12" cy="11" r="2" fill="white" stroke="white"/>
-          <path d="M7 14.5c1.2 1.8 3.2 2.5 5 2.5s3.8-.7 5-2.5"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M12 2a6 6 0 0 0-6 6v3.6a6 6 0 0 0 12 0V8a6 6 0 0 0-6-6z"/><path d="M12 18v4"/><path d="M9 22h6"/><circle cx="12" cy="11" r="2" fill="white"/></svg>
         <span>Test Fingerprint</span>
       </button>
-      
-      <!-- Provision Icon -->
       <button class="card-action-btn" id="provisionBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="3"/>
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H5.78a1.65 1.65 0 0 0-1.51 1 1.65 1.65 0 0 0 .33 1.82l.07.08A10 10 0 0 0 12 18a10 10 0 0 0 6.26-2.22z"/>
-          <path d="M5.64 12.5A10 10 0 0 1 12 10a10 10 0 0 1 6.36 2.5"/>
-          <path d="M12 6v2"/>
-          <path d="M12 16v2"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.7"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H5.78a1.65 1.65 0 0 0-1.51 1 1.65 1.65 0 0 0 .33 1.82l.07.08A10 10 0 0 0 12 18a10 10 0 0 0 6.26-2.22z"/></svg>
         <span>Provision</span>
       </button>
     </div>
@@ -573,57 +543,41 @@
     <!-- Bottom row -->
     <div class="bottom-options">
       <button class="bottom-link" id="backupSdBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-          <path d="M8 7h8"/>
-          <path d="M8 11h6"/>
-          <path d="M8 15h4"/>
-          <path d="M16 18l-3 3-3-3"/>
-          <path d="M13 15v6"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><path d="M8 7h8"/><path d="M16 18l-3 3-3-3"/><path d="M13 15v6"/></svg>
         <span>Back-up to SD</span>
       </button>
-      
       <button class="bottom-link" id="languageBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"/>
-          <path d="M2 12h20"/>
-          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-          <path d="M6 5.5A12 12 0 0 0 4 12a12 12 0 0 0 2 6.5"/>
-          <path d="M18 5.5A12 12 0 0 1 20 12a12 12 0 0 1-2 6.5"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.7"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
         <span>Language</span>
       </button>
-      
       <button class="bottom-link" id="aboutBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"/>
-          <line x1="12" y1="12" x2="12" y2="16"/>
-          <line x1="12" y1="8" x2="12.01" y2="8"/>
-          <path d="M9 18h6"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.7"><circle cx="12" cy="12" r="10"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
         <span>About</span>
       </button>
     </div>
   </div>
   
-  <!-- FOOTER with author icon -->
+  <!-- FOOTER -->
   <div class="sky-footer">
     <p class="dev-by">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0b3552" stroke-width="1.6">
-        <rect x="4" y="4" width="16" height="16" rx="2" ry="2"/>
-        <line x1="9" y1="9" x2="15" y2="15"/>
-        <line x1="15" y1="9" x2="9" y2="15"/>
-      </svg>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0b3552" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
       Developed by <strong>Informatics Consultancy Firm-SL</strong> @2026
     </p>
     <div class="footer-author">
-      <svg class="author-icon" viewBox="0 0 24 24" fill="none" stroke="#124066" stroke-width="1.8">
-        <path d="M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
-        <path d="M14 6l4 4"/>
-      </svg>
+      <svg class="author-icon" viewBox="0 0 24 24" fill="none" stroke="#124066" stroke-width="1.8"><path d="M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/><path d="M14 6l4 4"/></svg>
       <span>Author: Wisdom</span>
     </div>
+  </div>
+</div>
+
+<!-- IFRAME OVERLAY -->
+<div id="iframeOverlay" class="iframe-overlay">
+  <div class="iframe-container">
+    <div class="iframe-header">
+      <h3>📄 Registration Portal</h3>
+      <button class="close-iframe" id="closeIframeBtn">✕</button>
+    </div>
+    <iframe id="regIframe" src="reg.html" title="Registration Portal"></iframe>
   </div>
 </div>
 
@@ -631,6 +585,8 @@
 
 <script>
   const toast = document.getElementById('toastMsg');
+  const iframeOverlay = document.getElementById('iframeOverlay');
+  const regIframe = document.getElementById('regIframe');
   
   function showMessage(text, isError = false) {
     toast.style.backgroundColor = isError ? '#b91c1c' : '#1f4e6e';
@@ -639,24 +595,105 @@
     setTimeout(() => {
       toast.style.opacity = '0';
     }, 2000);
-    setTimeout(() => {
-      toast.style.backgroundColor = '#1e2f3e';
-    }, 2200);
   }
 
+  // Function to load and validate credentials from password.csv
+  let credentialsMap = new Map(); // username -> password
+
+  async function loadCredentials() {
+    try {
+      const response = await fetch('password.csv');
+      if (!response.ok) {
+        console.warn('password.csv not found, using demo mode');
+        // Demo mode - allow test credentials
+        credentialsMap.set('admin', 'admin123');
+        credentialsMap.set('user', 'password');
+        return true;
+      }
+      const csvText = await response.text();
+      const lines = csvText.trim().split('\n');
+      
+      // Assume CSV format: username,password (with or without header)
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (line === '') continue;
+        const parts = line.split(',');
+        if (parts.length >= 2) {
+          // Skip header if present (case insensitive)
+          if (i === 0 && (parts[0].toLowerCase() === 'username' || parts[0].toLowerCase() === 'user')) {
+            continue;
+          }
+          const username = parts[0].trim();
+          const password = parts[1].trim();
+          if (username && password) {
+            credentialsMap.set(username, password);
+          }
+        }
+      }
+      console.log(`Loaded ${credentialsMap.size} credentials from CSV`);
+      return true;
+    } catch (error) {
+      console.error('Error loading CSV:', error);
+      // Demo fallback
+      credentialsMap.set('admin', 'admin123');
+      credentialsMap.set('demo', 'demo');
+      return true;
+    }
+  }
+
+  function validateCredentials(username, password) {
+    const storedPassword = credentialsMap.get(username);
+    if (storedPassword && storedPassword === password) {
+      return true;
+    }
+    return false;
+  }
+
+  // Open iframe with reg.html
+  function openRegistrationIframe() {
+    // Reload iframe to ensure fresh content
+    regIframe.src = regIframe.src;
+    iframeOverlay.style.display = 'flex';
+  }
+
+  function closeIframe() {
+    iframeOverlay.style.display = 'none';
+  }
+
+  // Login logic with CSV validation
   const loginBtn = document.getElementById('loginBtn');
   const usernameField = document.getElementById('usernameInput');
   const passwordField = document.getElementById('passwordInput');
   
-  function performLogin() {
+  async function performLogin() {
     const username = usernameField.value.trim();
     const password = passwordField.value;
+    
     if (username === "" || password === "") {
       showMessage("⚠️ Please enter both username and password", true);
       return;
     }
-    showMessage(`✅ Welcome, ${username}! Access granted.`);
+    
+    // Ensure credentials are loaded
+    if (credentialsMap.size === 0) {
+      await loadCredentials();
+    }
+    
+    if (validateCredentials(username, password)) {
+      showMessage(`✅ Welcome, ${username}! Access granted. Loading registration portal...`);
+      // Open reg.html in iframe after successful login
+      setTimeout(() => {
+        openRegistrationIframe();
+      }, 500);
+    } else {
+      showMessage("❌ Invalid username or password. Please try again.", true);
+      passwordField.value = '';
+      passwordField.focus();
+    }
   }
+  
+  // Load credentials on page load
+  loadCredentials();
   
   loginBtn.addEventListener('click', (e) => {
     e.preventDefault();
@@ -672,6 +709,13 @@
     });
   });
   
+  // Close iframe
+  document.getElementById('closeIframeBtn').addEventListener('click', closeIframe);
+  iframeOverlay.addEventListener('click', (e) => {
+    if (e.target === iframeOverlay) closeIframe();
+  });
+  
+  // Other button handlers
   document.getElementById('scanBadgeBtn').addEventListener('click', () => {
     showMessage("📸 Badge scanned successfully (demo).");
   });
@@ -691,7 +735,7 @@
     showMessage("🌍 Language: English (default).");
   });
   document.getElementById('aboutBtn').addEventListener('click', () => {
-    showMessage("ℹ️ Informatics Portal v2.4 | Secure access");
+    showMessage("ℹ️ Informatics Portal v2.4 | Secure access with CSV authentication");
   });
 </script>
 </body>
