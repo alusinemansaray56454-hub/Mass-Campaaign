@@ -82,18 +82,80 @@
       margin: 0 auto;
     }
 
+    .progress-bar {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      padding: 0 0.5rem;
+    }
+
+    .progress-step {
+      flex: 1;
+      text-align: center;
+      font-size: 0.7rem;
+      color: #94a3b8;
+      position: relative;
+      padding-top: 1.5rem;
+    }
+
+    .progress-step.active {
+      color: #3b82f6;
+      font-weight: 600;
+    }
+
+    .progress-step::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      border: 2px solid #cbd5e1;
+    }
+
+    .progress-step.active::before {
+      background: #3b82f6;
+      border-color: #3b82f6;
+    }
+
+    .progress-step.completed::before {
+      background: #10b981;
+      border-color: #10b981;
+    }
+
     .registration-form {
       padding: 1.5rem 1rem;
       background: #ffffff;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
+    }
+
+    .form-section {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .form-section.active-section {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateX(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
     }
 
     .form-group {
       display: flex;
       flex-direction: column;
       gap: 0.4rem;
+      margin-bottom: 1rem;
     }
 
     .form-group label {
@@ -146,20 +208,132 @@
       display: block;
     }
 
-    .submit-btn {
-      background: linear-gradient(105deg, #3b82f6, #2563eb);
+    .gps-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .gps-row input {
+      flex: 1;
+    }
+
+    .gps-btn {
+      background: #3b82f6;
+      border: none;
+      padding: 0.75rem 1rem;
+      border-radius: 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .gps-btn:active {
+      transform: scale(0.97);
+    }
+
+    .token-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .token-row input {
+      flex: 1;
+    }
+
+    .token-btn {
+      background: #10b981;
+      border: none;
+      padding: 0.75rem 1rem;
+      border-radius: 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .token-btn:active {
+      transform: scale(0.97);
+    }
+
+    .summary-card {
+      background: #f8fafc;
+      border-radius: 1rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid #e2e8f0;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #e2e8f0;
+      font-size: 0.85rem;
+    }
+
+    .summary-row:last-child {
+      border-bottom: none;
+    }
+
+    .summary-label {
+      font-weight: 600;
+      color: #1e3a8a;
+    }
+
+    .summary-value {
+      color: #334155;
+    }
+
+    .bednet-message {
+      background: #dbeafe;
+      padding: 0.75rem;
+      border-radius: 0.75rem;
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #1e3a8a;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .nav-btn {
+      flex: 1;
+      background: #e2e8f0;
       border: none;
       padding: 0.85rem;
       border-radius: 2rem;
       font-weight: 600;
       font-size: 1rem;
-      color: white;
       cursor: pointer;
       transition: 0.2s;
-      margin-top: 0.5rem;
     }
 
-    .submit-btn:active {
+    .nav-btn.next {
+      background: linear-gradient(105deg, #3b82f6, #2563eb);
+      color: white;
+    }
+
+    .nav-btn.prev {
+      background: #f1f5f9;
+      color: #1e3a8a;
+    }
+
+    .nav-btn.submit {
+      background: linear-gradient(105deg, #10b981, #059669);
+      color: white;
+    }
+
+    .nav-btn:active {
       transform: scale(0.98);
     }
 
@@ -193,6 +367,10 @@
       .registration-form {
         padding: 1.25rem 0.75rem;
       }
+      .gps-btn, .token-btn {
+        padding: 0.75rem 0.75rem;
+        font-size: 0.7rem;
+      }
     }
   </style>
 </head>
@@ -205,60 +383,184 @@
       <img src="logo.png" alt="logo" class="header-logo" onerror="this.style.display='none'">
     </header>
 
-    <form class="registration-form" id="registrationForm">
-      <div class="form-group">
-        <label>Date</label>
-        <input type="text" id="currentDate" class="readonly-input" readonly>
+    <div class="registration-form">
+      <!-- Progress Bar -->
+      <div class="progress-bar">
+        <div class="progress-step" id="step1Indicator">Demographic Info</div>
+        <div class="progress-step" id="step2Indicator">Household Details</div>
+        <div class="progress-step" id="step3Indicator">Review & Complete</div>
       </div>
 
-      <div class="form-group">
-        <label>District <span class="required">*</span></label>
-        <select id="district" required>
-          <option value="">Select District</option>
-        </select>
-      </div>
+      <form id="registrationForm">
+        <!-- Section 1: Demographic Information -->
+        <div class="form-section active-section" id="section1">
+          <div class="form-group">
+            <label>Date</label>
+            <input type="text" id="currentDate" class="readonly-input" readonly>
+          </div>
 
-      <div class="form-group">
-        <label>Chiefdom <span class="required">*</span></label>
-        <select id="chiefdom" required disabled>
-          <option value="">Select Chiefdom first</option>
-        </select>
-      </div>
+          <div class="form-group">
+            <label>District <span class="required">*</span></label>
+            <select id="district" required>
+              <option value="">Select District</option>
+            </select>
+          </div>
 
-      <div class="form-group">
-        <label>PHU <span class="required">*</span></label>
-        <select id="phu" required disabled>
-          <option value="">Select PHU first</option>
-        </select>
-      </div>
+          <div class="form-group">
+            <label>Chiefdom <span class="required">*</span></label>
+            <select id="chiefdom" required disabled>
+              <option value="">Select Chiefdom first</option>
+            </select>
+          </div>
 
-      <div class="form-group">
-        <label>Community <span class="required">*</span></label>
-        <select id="community" required disabled>
-          <option value="">Select Community first</option>
-        </select>
-      </div>
+          <div class="form-group">
+            <label>PHU <span class="required">*</span></label>
+            <select id="phu" required disabled>
+              <option value="">Select PHU first</option>
+            </select>
+          </div>
 
-      <div class="form-group">
-        <label>HHR Name <span class="required">*</span></label>
-        <select id="hhr" required disabled>
-          <option value="">Select HHR first</option>
-        </select>
-      </div>
+          <div class="form-group">
+            <label>Community <span class="required">*</span></label>
+            <select id="community" required disabled>
+              <option value="">Select Community first</option>
+            </select>
+          </div>
 
-      <div class="form-group">
-        <label>Household Head Name <span class="required">*</span></label>
-        <input type="text" id="householdHead" placeholder="Enter full name" required>
-      </div>
+          <div class="form-group">
+            <label>HHR Name <span class="required">*</span></label>
+            <select id="hhr" required disabled>
+              <option value="">Select HHR first</option>
+            </select>
+          </div>
+        </div>
 
-      <div class="form-group">
-        <label>Telephone</label>
-        <input type="tel" id="telephone" placeholder="0XXXXXXXX" maxlength="9">
-        <div class="error-message" id="phoneError">Phone number must be exactly 9 digits and start with 0</div>
-      </div>
+        <!-- Section 2: Household Details -->
+        <div class="form-section" id="section2">
+          <div class="form-group">
+            <label>Household Head Name <span class="required">*</span></label>
+            <input type="text" id="householdHead" placeholder="Enter full name" required>
+          </div>
 
-      <button type="submit" class="submit-btn">Save Registration</button>
-    </form>
+          <div class="form-group">
+            <label>Telephone</label>
+            <input type="tel" id="telephone" placeholder="0XXXXXXXX" maxlength="9">
+            <div class="error-message" id="phoneError">Phone number must be exactly 9 digits and start with 0</div>
+          </div>
+
+          <div class="form-group">
+            <label>Number of People in Household <span class="required">*</span></label>
+            <input type="number" id="totalPeople" min="0" step="1" value="0" required>
+          </div>
+
+          <div class="form-group">
+            <label>Number of Under Five <span class="required">*</span></label>
+            <input type="number" id="underFive" min="0" step="1" value="0" required>
+            <div class="error-message" id="underFiveError">Under five children cannot exceed total household members</div>
+          </div>
+
+          <div class="form-group">
+            <label>Number of Pregnant Women <span class="required">*</span></label>
+            <input type="number" id="pregnantWomen" min="0" step="1" value="0" required>
+            <div class="error-message" id="pregnantError">Pregnant women cannot exceed total household members</div>
+          </div>
+
+          <div class="form-group">
+            <label>Total Family Member (Auto-calculated)</label>
+            <input type="text" id="totalFamily" class="readonly-input" readonly>
+          </div>
+        </div>
+
+        <!-- Section 3: Review & Complete -->
+        <div class="form-section" id="section3">
+          <div class="form-group">
+            <label>GPS Coordinates</label>
+            <div class="gps-row">
+              <input type="text" id="gps" placeholder="Click 'Get GPS' to capture location" readonly class="readonly-input">
+              <button type="button" id="getGpsBtn" class="gps-btn">Get GPS</button>
+            </div>
+            <div class="error-message" id="gpsError">Unable to get GPS location. Please check permissions.</div>
+          </div>
+
+          <div class="form-group">
+            <label>Registration Token</label>
+            <div class="token-row">
+              <input type="text" id="token" placeholder="Click 'Generate Token'" readonly class="readonly-input">
+              <button type="button" id="generateTokenBtn" class="token-btn">Generate Token</button>
+            </div>
+          </div>
+
+          <!-- Summary Details -->
+          <div class="summary-card" id="summaryCard">
+            <div class="summary-row">
+              <span class="summary-label">Date:</span>
+              <span class="summary-value" id="summaryDate">-</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">District:</span>
+              <span class="summary-value" id="summaryDistrict">-</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Chiefdom:</span>
+              <span class="summary-value" id="summaryChiefdom">-</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">PHU:</span>
+              <span class="summary-value" id="summaryPhu">-</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Community:</span>
+              <span class="summary-value" id="summaryCommunity">-</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">HHR Name:</span>
+              <span class="summary-value" id="summaryHhr">-</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Household Head:</span>
+              <span class="summary-value" id="summaryHead">-</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Telephone:</span>
+              <span class="summary-value" id="summaryPhone">-</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Total People:</span>
+              <span class="summary-value" id="summaryTotalPeople">-</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Under Five:</span>
+              <span class="summary-value" id="summaryUnderFive">-</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Pregnant Women:</span>
+              <span class="summary-value" id="summaryPregnant">-</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Total Family:</span>
+              <span class="summary-value" id="summaryTotalFamily">-</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">GPS:</span>
+              <span class="summary-value" id="summaryGps">-</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Token:</span>
+              <span class="summary-value" id="summaryToken">-</span>
+            </div>
+          </div>
+
+          <div class="bednet-message" id="bednetMessage"></div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="nav-buttons">
+          <button type="button" class="nav-btn prev" id="prevBtn" style="display: none;">Previous</button>
+          <button type="button" class="nav-btn next" id="nextBtn">Next</button>
+          <button type="button" class="nav-btn submit" id="submitBtn" style="display: none;">Complete</button>
+        </div>
+      </form>
+    </div>
 
     <footer class="light-footer">
       <span class="footer-text">ICF-SL @2026</span>
@@ -267,6 +569,9 @@
 </div>
 
 <script>
+  let currentSection = 1;
+  const totalSections = 3;
+
   // Auto-capture date
   const today = new Date();
   const formattedDate = today.toLocaleDateString('en-GB', {
@@ -315,6 +620,409 @@
   const telephoneInput = document.getElementById('telephone');
   const phoneError = document.getElementById('phoneError');
   const householdHeadInput = document.getElementById('householdHead');
+  const totalPeopleInput = document.getElementById('totalPeople');
+  const underFiveInput = document.getElementById('underFive');
+  const pregnantWomenInput = document.getElementById('pregnantWomen');
+  const totalFamilyInput = document.getElementById('totalFamily');
+  const underFiveError = document.getElementById('underFiveError');
+  const pregnantError = document.getElementById('pregnantError');
+  const gpsInput = document.getElementById('gps');
+  const getGpsBtn = document.getElementById('getGpsBtn');
+  const gpsError = document.getElementById('gpsError');
+  const tokenInput = document.getElementById('token');
+  const generateTokenBtn = document.getElementById('generateTokenBtn');
+
+  // Navigation functions
+  function updateSection() {
+    for (let i = 1; i <= totalSections; i++) {
+      const section = document.getElementById(`section${i}`);
+      if (section) {
+        section.classList.remove('active-section');
+      }
+    }
+    
+    const currentSectionElement = document.getElementById(`section${currentSection}`);
+    if (currentSectionElement) {
+      currentSectionElement.classList.add('active-section');
+    }
+    
+    for (let i = 1; i <= totalSections; i++) {
+      const indicator = document.getElementById(`step${i}Indicator`);
+      if (indicator) {
+        indicator.classList.remove('active', 'completed');
+        if (i === currentSection) {
+          indicator.classList.add('active');
+        } else if (i < currentSection) {
+          indicator.classList.add('completed');
+        }
+      }
+    }
+    
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    
+    if (currentSection === 1) {
+      prevBtn.style.display = 'none';
+      nextBtn.style.display = 'block';
+      submitBtn.style.display = 'none';
+    } else if (currentSection === totalSections) {
+      prevBtn.style.display = 'block';
+      nextBtn.style.display = 'none';
+      submitBtn.style.display = 'block';
+      updateSummaryAndBednet();
+    } else {
+      prevBtn.style.display = 'block';
+      nextBtn.style.display = 'block';
+      submitBtn.style.display = 'none';
+    }
+  }
+
+  function updateSummaryAndBednet() {
+    const totalPeople = parseInt(totalPeopleInput.value) || 0;
+    let bednetCount = 0;
+    let bednetMessage = '';
+    
+    if (totalPeople === 1 || totalPeople === 2) {
+      bednetCount = 1;
+      bednetMessage = 'Based on household size of ' + totalPeople + ' people, this household should receive 1 bednet.';
+    } else if (totalPeople === 3 || totalPeople === 4) {
+      bednetCount = 2;
+      bednetMessage = 'Based on household size of ' + totalPeople + ' people, this household should receive 2 bednets.';
+    } else if (totalPeople >= 5) {
+      bednetCount = 3;
+      bednetMessage = 'Based on household size of ' + totalPeople + ' people, this household should receive 3 bednets.';
+    } else {
+      bednetMessage = 'Please enter valid number of people in household.';
+    }
+    
+    document.getElementById('summaryDate').textContent = formattedDate;
+    document.getElementById('summaryDistrict').textContent = districtSelect.value || '-';
+    document.getElementById('summaryChiefdom').textContent = chiefdomSelect.value || '-';
+    document.getElementById('summaryPhu').textContent = phuSelect.value || '-';
+    document.getElementById('summaryCommunity').textContent = communitySelect.value || '-';
+    document.getElementById('summaryHhr').textContent = hhrSelect.value || '-';
+    document.getElementById('summaryHead').textContent = householdHeadInput.value.trim() || '-';
+    document.getElementById('summaryPhone').textContent = telephoneInput.value || '-';
+    document.getElementById('summaryTotalPeople').textContent = totalPeople;
+    document.getElementById('summaryUnderFive').textContent = underFiveInput.value || '0';
+    document.getElementById('summaryPregnant').textContent = pregnantWomenInput.value || '0';
+    document.getElementById('summaryTotalFamily').textContent = totalFamilyInput.value || '0';
+    document.getElementById('summaryGps').textContent = gpsInput.value || '-';
+    document.getElementById('summaryToken').textContent = tokenInput.value || '-';
+    
+    document.getElementById('bednetMessage').innerHTML = '🦟 Bednet Recommendation: ' + bednetMessage;
+  }
+
+  function validateSection(section) {
+    if (section === 1) {
+      const district = districtSelect.value;
+      const chiefdom = chiefdomSelect.value;
+      const phu = phuSelect.value;
+      const community = communitySelect.value;
+      const hhr = hhrSelect.value;
+      
+      if (!district || !chiefdom || !phu || !community || !hhr) {
+        alert('Please fill all required fields in Demographic Information section');
+        return false;
+      }
+    } else if (section === 2) {
+      const householdHead = householdHeadInput.value.trim();
+      const totalPeople = totalPeopleInput.value;
+      const underFive = underFiveInput.value;
+      const pregnantWomen = pregnantWomenInput.value;
+      
+      if (!householdHead) {
+        alert('Please enter Household Head Name');
+        return false;
+      }
+      
+      if (totalPeople === '' || parseInt(totalPeople) < 0) {
+        alert('Please enter valid number of people in household');
+        return false;
+      }
+      
+      if (underFive === '' || parseInt(underFive) < 0) {
+        alert('Please enter valid number of under five children');
+        return false;
+      }
+      
+      if (pregnantWomen === '' || parseInt(pregnantWomen) < 0) {
+        alert('Please enter valid number of pregnant women');
+        return false;
+      }
+      
+      if (!validateHouseholdNumbers()) {
+        alert('Under five children and pregnant women cannot exceed total household members');
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function nextSection() {
+    if (validateSection(currentSection)) {
+      if (currentSection < totalSections) {
+        currentSection++;
+        updateSection();
+      }
+    }
+  }
+
+  function prevSection() {
+    if (currentSection > 1) {
+      currentSection--;
+      updateSection();
+    }
+  }
+
+  function completeRegistration() {
+    const phone = telephoneInput.value;
+    if (phone && !validateTelephone(phone)) {
+      phoneError.classList.add('show');
+      telephoneInput.classList.add('error-input');
+      telephoneInput.focus();
+      alert('Please enter a valid phone number (9 digits starting with 0)');
+      return;
+    }
+    
+    if (!validateSection(1) || !validateSection(2)) {
+      alert('Please complete all required fields before completing');
+      return;
+    }
+    
+    if (!tokenInput.value) {
+      const newToken = generateToken();
+      if (newToken) {
+        tokenInput.value = newToken;
+      }
+    }
+    
+    const totalPeople = parseInt(totalPeopleInput.value) || 0;
+    let bednetCount = 0;
+    if (totalPeople === 1 || totalPeople === 2) bednetCount = 1;
+    else if (totalPeople === 3 || totalPeople === 4) bednetCount = 2;
+    else if (totalPeople >= 5) bednetCount = 3;
+    
+    const registrationData = {
+      date: formattedDate,
+      district: districtSelect.value,
+      chiefdom: chiefdomSelect.value,
+      phu: phuSelect.value,
+      community: communitySelect.value,
+      hhr: hhrSelect.value,
+      householdHead: householdHeadInput.value.trim(),
+      telephone: phone || '',
+      totalPeople: totalPeople,
+      underFive: parseInt(underFiveInput.value),
+      pregnantWomen: parseInt(pregnantWomenInput.value),
+      totalFamily: parseInt(totalFamilyInput.value),
+      gps: gpsInput.value || '',
+      token: tokenInput.value || '',
+      bednetRecommended: bednetCount
+    };
+    
+    console.log('Registration Data:', registrationData);
+    
+    let message = 'Registration Completed Successfully!\n\n';
+    message += 'Household: ' + registrationData.householdHead + '\n';
+    message += 'Total Members: ' + registrationData.totalFamily + '\n';
+    message += 'Bednets to distribute: ' + bednetCount + '\n';
+    message += 'Token: ' + registrationData.token;
+    
+    alert(message);
+  }
+
+  // Auto-calculate total family member
+  function calculateTotalFamily() {
+    const totalPeople = parseInt(totalPeopleInput.value) || 0;
+    const underFive = parseInt(underFiveInput.value) || 0;
+    const pregnantWomen = parseInt(pregnantWomenInput.value) || 0;
+    const total = totalPeople + underFive + pregnantWomen;
+    totalFamilyInput.value = total;
+  }
+
+  // Validation for under five and pregnant women not exceeding total people
+  function validateHouseholdNumbers() {
+    const totalPeople = parseInt(totalPeopleInput.value) || 0;
+    const underFive = parseInt(underFiveInput.value) || 0;
+    const pregnantWomen = parseInt(pregnantWomenInput.value) || 0;
+    
+    let isValid = true;
+    
+    if (underFive > totalPeople) {
+      underFiveError.classList.add('show');
+      underFiveInput.classList.add('error-input');
+      isValid = false;
+    } else {
+      underFiveError.classList.remove('show');
+      underFiveInput.classList.remove('error-input');
+    }
+    
+    if (pregnantWomen > totalPeople) {
+      pregnantError.classList.add('show');
+      pregnantWomenInput.classList.add('error-input');
+      isValid = false;
+    } else {
+      pregnantError.classList.remove('show');
+      pregnantWomenInput.classList.remove('error-input');
+    }
+    
+    return isValid;
+  }
+
+  // Generate Token based on Household Head Name and Telephone
+  function generateToken() {
+    const householdHead = householdHeadInput.value.trim();
+    let phone = telephoneInput.value.trim();
+    
+    if (!householdHead) {
+      alert('Please enter Household Head Name first');
+      return '';
+    }
+    
+    let cleanName = householdHead.replace(/[^a-zA-Z0-9]/g, '_');
+    cleanName = cleanName.replace(/_+/g, '_');
+    
+    const phonePart = phone || 'noPhone';
+    const randomSuffix = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+    
+    const token = `${cleanName}_${phonePart}_${randomSuffix}`;
+    return token;
+  }
+
+  generateTokenBtn.addEventListener('click', () => {
+    const newToken = generateToken();
+    if (newToken) {
+      tokenInput.value = newToken;
+      if (currentSection === totalSections) {
+        updateSummaryAndBednet();
+      }
+    }
+  });
+
+  function autoUpdateToken() {
+    if (tokenInput.value && tokenInput.value !== '') {
+      const newToken = generateToken();
+      if (newToken) {
+        tokenInput.value = newToken;
+        if (currentSection === totalSections) {
+          updateSummaryAndBednet();
+        }
+      }
+    }
+  }
+
+  householdHeadInput.addEventListener('input', () => {
+    autoUpdateToken();
+  });
+
+  telephoneInput.addEventListener('input', (e) => {
+    let value = e.target.value;
+    if (value.length > 9) {
+      value = value.slice(0, 9);
+    }
+    value = value.replace(/[^0-9]/g, '');
+    e.target.value = value;
+    
+    if (value && !validateTelephone(value)) {
+      phoneError.classList.add('show');
+      telephoneInput.classList.add('error-input');
+    } else {
+      phoneError.classList.remove('show');
+      telephoneInput.classList.remove('error-input');
+    }
+    autoUpdateToken();
+  });
+
+  getGpsBtn.addEventListener('click', () => {
+    if (!navigator.geolocation) {
+      gpsError.textContent = 'Geolocation is not supported by your browser';
+      gpsError.classList.add('show');
+      return;
+    }
+    
+    gpsError.classList.remove('show');
+    getGpsBtn.textContent = 'Getting GPS...';
+    getGpsBtn.disabled = true;
+    
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const latitude = position.coords.latitude.toFixed(6);
+        const longitude = position.coords.longitude.toFixed(6);
+        gpsInput.value = `${latitude}, ${longitude}`;
+        getGpsBtn.textContent = 'Get GPS';
+        getGpsBtn.disabled = false;
+        gpsError.classList.remove('show');
+        if (currentSection === totalSections) {
+          updateSummaryAndBednet();
+        }
+      },
+      (error) => {
+        let errorMessage = 'Unable to get GPS location. ';
+        switch(error.code) {
+          case error.PERMISSION_DENIED:
+            errorMessage += 'Permission denied. Please allow location access.';
+            break;
+          case error.POSITION_UNAVAILABLE:
+            errorMessage += 'Location information is unavailable.';
+            break;
+          case error.TIMEOUT:
+            errorMessage += 'Request timed out.';
+            break;
+          default:
+            errorMessage += 'An unknown error occurred.';
+        }
+        gpsError.textContent = errorMessage;
+        gpsError.classList.add('show');
+        getGpsBtn.textContent = 'Get GPS';
+        getGpsBtn.disabled = false;
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+      }
+    );
+  });
+
+  totalPeopleInput.addEventListener('input', () => {
+    let value = parseInt(totalPeopleInput.value);
+    if (isNaN(value) || value < 0) {
+      totalPeopleInput.value = 0;
+    }
+    calculateTotalFamily();
+    validateHouseholdNumbers();
+    if (currentSection === totalSections) {
+      updateSummaryAndBednet();
+    }
+  });
+
+  underFiveInput.addEventListener('input', () => {
+    let value = parseInt(underFiveInput.value);
+    if (isNaN(value) || value < 0) {
+      underFiveInput.value = 0;
+    }
+    calculateTotalFamily();
+    validateHouseholdNumbers();
+    if (currentSection === totalSections) {
+      updateSummaryAndBednet();
+    }
+  });
+
+  pregnantWomenInput.addEventListener('input', () => {
+    let value = parseInt(pregnantWomenInput.value);
+    if (isNaN(value) || value < 0) {
+      pregnantWomenInput.value = 0;
+    }
+    calculateTotalFamily();
+    validateHouseholdNumbers();
+    if (currentSection === totalSections) {
+      updateSummaryAndBednet();
+    }
+  });
+
+  calculateTotalFamily();
 
   function populateDistricts() {
     const districts = [...new Set(cascadingData.map(item => item.District))];
@@ -350,96 +1058,11 @@
 
   function validateTelephone(phone) {
     if (!phone || phone.length === 0) {
-      return true; // Telephone is optional
+      return true;
     }
     const phoneRegex = /^0[0-9]{8}$/;
     return phoneRegex.test(phone);
   }
-
-  function showFieldError(field, show) {
-    const errorDiv = field.parentElement.querySelector('.error-message');
-    if (errorDiv) {
-      if (show) {
-        errorDiv.classList.add('show');
-        field.classList.add('error-input');
-      } else {
-        errorDiv.classList.remove('show');
-        field.classList.remove('error-input');
-      }
-    }
-  }
-
-  function validateFormFields() {
-    let isValid = true;
-    
-    const district = districtSelect.value;
-    const chiefdom = chiefdomSelect.value;
-    const phu = phuSelect.value;
-    const community = communitySelect.value;
-    const hhr = hhrSelect.value;
-    const householdHead = householdHeadInput.value.trim();
-    
-    if (!district) {
-      showFieldError(districtSelect, true);
-      isValid = false;
-    } else {
-      showFieldError(districtSelect, false);
-    }
-    
-    if (!chiefdom) {
-      showFieldError(chiefdomSelect, true);
-      isValid = false;
-    } else {
-      showFieldError(chiefdomSelect, false);
-    }
-    
-    if (!phu) {
-      showFieldError(phuSelect, true);
-      isValid = false;
-    } else {
-      showFieldError(phuSelect, false);
-    }
-    
-    if (!community) {
-      showFieldError(communitySelect, true);
-      isValid = false;
-    } else {
-      showFieldError(communitySelect, false);
-    }
-    
-    if (!hhr) {
-      showFieldError(hhrSelect, true);
-      isValid = false;
-    } else {
-      showFieldError(hhrSelect, false);
-    }
-    
-    if (!householdHead) {
-      showFieldError(householdHeadInput, true);
-      isValid = false;
-    } else {
-      showFieldError(householdHeadInput, false);
-    }
-    
-    return isValid;
-  }
-
-  telephoneInput.addEventListener('input', (e) => {
-    let value = e.target.value;
-    if (value.length > 9) {
-      value = value.slice(0, 9);
-    }
-    value = value.replace(/[^0-9]/g, '');
-    e.target.value = value;
-    
-    if (value && !validateTelephone(value)) {
-      phoneError.classList.add('show');
-      telephoneInput.classList.add('error-input');
-    } else {
-      phoneError.classList.remove('show');
-      telephoneInput.classList.remove('error-input');
-    }
-  });
 
   telephoneInput.addEventListener('blur', () => {
     const phone = telephoneInput.value;
@@ -454,8 +1077,6 @@
 
   districtSelect.addEventListener('change', () => {
     const selectedDistrict = districtSelect.value;
-    showFieldError(districtSelect, false);
-    
     resetSelect(chiefdomSelect, 'Select Chiefdom first', true);
     resetSelect(phuSelect, 'Select PHU first', true);
     resetSelect(communitySelect, 'Select Community first', true);
@@ -477,7 +1098,6 @@
   chiefdomSelect.addEventListener('change', () => {
     const selectedDistrict = districtSelect.value;
     const selectedChiefdom = chiefdomSelect.value;
-    showFieldError(chiefdomSelect, false);
     
     resetSelect(phuSelect, 'Select PHU first', true);
     resetSelect(communitySelect, 'Select Community first', true);
@@ -500,7 +1120,6 @@
     const selectedDistrict = districtSelect.value;
     const selectedChiefdom = chiefdomSelect.value;
     const selectedPHU = phuSelect.value;
-    showFieldError(phuSelect, false);
     
     resetSelect(communitySelect, 'Select Community first', true);
     resetSelect(hhrSelect, 'Select HHR first', true);
@@ -527,7 +1146,6 @@
     const selectedChiefdom = chiefdomSelect.value;
     const selectedPHU = phuSelect.value;
     const selectedCommunity = communitySelect.value;
-    showFieldError(communitySelect, false);
     
     resetSelect(hhrSelect, 'Select HHR first', true);
     
@@ -549,49 +1167,17 @@
     }
   });
 
-  hhrSelect.addEventListener('change', () => {
-    showFieldError(hhrSelect, false);
-  });
-
-  householdHeadInput.addEventListener('input', () => {
-    if (householdHeadInput.value.trim()) {
-      showFieldError(householdHeadInput, false);
-    }
-  });
-
   const form = document.getElementById('registrationForm');
+  document.getElementById('nextBtn').addEventListener('click', nextSection);
+  document.getElementById('prevBtn').addEventListener('click', prevSection);
+  document.getElementById('submitBtn').addEventListener('click', completeRegistration);
   
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    
-    const phone = telephoneInput.value;
-    if (phone && !validateTelephone(phone)) {
-      phoneError.classList.add('show');
-      telephoneInput.classList.add('error-input');
-      telephoneInput.focus();
-      return;
-    }
-    
-    if (!validateFormFields()) {
-      alert('Please fill all required fields');
-      return;
-    }
-    
-    const registrationData = {
-      date: formattedDate,
-      district: districtSelect.value,
-      chiefdom: chiefdomSelect.value,
-      phu: phuSelect.value,
-      community: communitySelect.value,
-      hhr: hhrSelect.value,
-      householdHead: householdHeadInput.value.trim(),
-      telephone: phone || ''
-    };
-    
-    console.log('Registration Data:', registrationData);
-    alert('Registration saved successfully');
   });
 
+  // Initialize
+  updateSection();
   loadCascadingData();
 </script>
 </body>
