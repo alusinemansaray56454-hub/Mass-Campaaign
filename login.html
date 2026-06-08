@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>Informatics Portal | Secure Access</title>
+  <!-- Google Fonts & simple reset -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* FULLSCREEN BACKGROUND IMAGE - using malaria.png */
+    body {
+      background: url('malaria.png') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      position: relative;
+    }
+
+    /* dark overlay for better text contrast */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 0;
+    }
+
+    /* main card - full width on mobile with comfortable margins */
+    .login-container {
+      max-width: 400px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 1.5rem;
+      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: all 0.2s ease;
+      position: relative;
+      z-index: 2;
+      margin: 0 auto;
+    }
+
+    /* SKY BLUE HEADER - phone optimized */
+    .sky-header {
+      background: #87CEEB;
+      background: linear-gradient(135deg, #7bc5e8, #6bb5d8);
+      padding: 1rem 1rem 0.8rem 1rem;
+      border-bottom: 2px solid #eef7ff;
+    }
+
+    .logo-area {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 0.3rem;
+    }
+
+    .logo-placeholder {
+      width: 56px;
+      height: 56px;
+      background: white;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+      transition: transform 0.2s ease;
+    }
+
+    .logo-placeholder:active {
+      transform: scale(0.98);
+    }
+
+    .logo-placeholder svg {
+      width: 36px;
+      height: 36px;
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+    }
+
+    .header-brand {
+      text-align: center;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #1a4972;
+      letter-spacing: 0.4px;
+      margin-top: 4px;
+      opacity: 0.95;
+    }
+
+    /* main content - comfortable touch spacing */
+    .card-inner {
+      padding: 1.2rem 1.2rem 1rem 1.2rem;
+      background: #ffffff;
+    }
+
+    /* form elements - larger touch targets */
+    .input-group {
+      margin-bottom: 1rem;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #2c5a7a;
+      margin-bottom: 0.4rem;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 1rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+      background: #fefefe;
+      transition: all 0.2s;
+      font-family: 'Inter', monospace;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .input-field:focus {
+      outline: none;
+      border-color: #5faee3;
+      box-shadow: 0 0 0 3px rgba(135, 206, 235, 0.3);
+      background: #fff;
+    }
+
+    /* LOGIN BUTTON - larger tap area */
+    .login-wrapper {
+      display: flex;
+      justify-content: center;
+      margin: 0.5rem 0 0.7rem;
+    }
+    
+    .btn-primary {
+      background: #dc2626;
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+      border: none;
+      padding: 0.75rem 2rem;
+      border-radius: 2.5rem;
+      font-weight: 700;
+      font-size: 1rem;
+      color: white;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      letter-spacing: 0.5px;
+      width: auto;
+      min-width: 140px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-primary:active {
+      transform: scale(0.97);
+      background: linear-gradient(135deg, #b91c1c, #991b1b);
+    }
+
+    /* SCAN BADGE BUTTON - larger tap area */
+    .scan-wrapper {
+      display: flex;
+      justify-content: center;
+      margin: 0.2rem 0 1rem;
+    }
+    
+    .btn-scan {
+      background: #10b981;
+      background: linear-gradient(135deg, #10b981, #059669);
+      border: none;
+      padding: 0.7rem 1.8rem;
+      border-radius: 2.5rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+      width: auto;
+      min-width: 140px;
+    }
+
+    .btn-scan:active {
+      transform: scale(0.97);
+      background: linear-gradient(135deg, #059669, #047857);
+    }
+
+    .btn-scan svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* connectivity / test / provision row - mobile grid */
+    .grid-actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.6rem;
+      margin: 0.8rem 0 1rem;
+    }
+
+    .card-action-btn {
+      border: none;
+      border-radius: 1.2rem;
+      padding: 0.7rem 0.2rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      color: white;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      min-height: 64px;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .card-action-btn:active {
+      transform: scale(0.97);
+      filter: brightness(0.95);
+    }
+
+    .card-action-btn svg {
+      width: 22px;
+      height: 22px;
+      margin-bottom: 2px;
+    }
+
+    #connectivityBtn {
+      background: linear-gradient(135deg, #0f7b6e, #0a5c52);
+    }
+    #testFingerprintBtn {
+      background: linear-gradient(135deg, #6d3b9b, #4a2c6d);
+    }
+    #provisionBtn {
+      background: linear-gradient(135deg, #e67e22, #b45f1b);
+    }
+
+    /* backup, language, about row - mobile friendly */
+    .bottom-options {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.6rem;
+      margin: 1rem 0 0.3rem;
+      padding-top: 0.6rem;
+      border-top: 1px solid #eef2f8;
+    }
+
+    .bottom-link {
+      border: none;
+      font-size: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.15s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 0.55rem 0.9rem;
+      border-radius: 2rem;
+      flex: 1;
+      min-width: 100px;
+      text-align: center;
+    }
+
+    .bottom-link:active {
+      transform: scale(0.97);
+    }
+
+    .bottom-link svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    #backupSdBtn {
+      background: linear-gradient(135deg, #2c5282, #1a365d);
+      color: white;
+    }
+    #backupSdBtn:active {
+      background: linear-gradient(135deg, #2b6cb0, #1e4a7a);
+    }
+    #languageBtn {
+      background: linear-gradient(135deg, #2f855a, #1f5a3e);
+      color: white;
+    }
+    #languageBtn:active {
+      background: linear-gradient(135deg, #38a169, #276749);
+    }
+    #aboutBtn {
+      background: linear-gradient(135deg, #4a5568, #2d3748);
+      color: white;
+    }
+    #aboutBtn:active {
+      background: linear-gradient(135deg, #5a6a7e, #3a4a5e);
+    }
+
+    /* SKY BLUE FOOTER - phone friendly */
+    .sky-footer {
+      background: #87CEEB;
+      background: linear-gradient(100deg, #7bc5e8, #6bb5d8);
+      border-top: 2px solid #ceecff;
+      padding: 0.8rem 1rem;
+      text-align: center;
+    }
+
+    .dev-by {
+      font-weight: 600;
+      font-size: 0.6rem;
+      color: #0b3552;
+      letter-spacing: 0.3px;
+      margin-bottom: 0.2rem;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .dev-by strong {
+      font-weight: 800;
+      color: #0a2e48;
+    }
+
+    .footer-author {
+      font-size: 0.65rem;
+      color: #124066;
+      font-weight: 600;
+      margin-top: 0.25rem;
+      background: rgba(255,255,250,0.35);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0.25rem 1rem;
+      border-radius: 40px;
+      backdrop-filter: blur(2px);
+    }
+
+    .author-icon {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* toast message - mobile optimized */
+    .toast-msg {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1e2f3e;
+      color: white;
+      padding: 8px 18px;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+      font-family: monospace;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      white-space: nowrap;
+      max-width: 90%;
+      white-space: normal;
+      text-align: center;
+    }
+
+    /* phone-specific adjustments */
+    @media (max-width: 450px) {
+      body {
+        padding: 0.8rem;
+      }
+      
+      .login-container {
+        max-width: 100%;
+        border-radius: 1.2rem;
+      }
+      
+      .card-inner {
+        padding: 1rem 1rem 0.9rem;
+      }
+      
+      .grid-actions {
+        gap: 0.5rem;
+      }
+      
+      .card-action-btn {
+        padding: 0.6rem 0.1rem;
+        font-size: 0.65rem;
+        min-height: 58px;
+      }
+      
+      .card-action-btn svg {
+        width: 20px;
+        height: 20px;
+      }
+      
+      .bottom-options {
+        gap: 0.5rem;
+      }
+      
+      .bottom-link {
+        padding: 0.5rem 0.6rem;
+        font-size: 0.65rem;
+        min-width: 85px;
+      }
+      
+      .btn-primary {
+        padding: 0.7rem 1.5rem;
+        min-width: 130px;
+        font-size: 0.95rem;
+      }
+      
+      .btn-scan {
+        padding: 0.6rem 1.5rem;
+        min-width: 130px;
+        font-size: 0.85rem;
+      }
+      
+      .input-field {
+        padding: 0.75rem 0.9rem;
+        font-size: 0.9rem;
+      }
+      
+      .logo-placeholder {
+        width: 50px;
+        height: 50px;
+      }
+      
+      .logo-placeholder svg {
+        width: 32px;
+        height: 32px;
+      }
+    }
+
+    /* very small phones */
+    @media (max-width: 380px) {
+      .grid-actions {
+        gap: 0.4rem;
+      }
+      
+      .card-action-btn {
+        font-size: 0.6rem;
+      }
+      
+      .bottom-link {
+        font-size: 0.6rem;
+        padding: 0.45rem 0.5rem;
+      }
+      
+      .btn-primary, .btn-scan {
+        min-width: 120px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="login-container">
+  <!-- SKY BLUE HEADER -->
+  <div class="sky-header">
+    <div class="logo-area">
+      <div class="logo-placeholder" aria-label="Informatics logo">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="100" height="100" rx="20" fill="url(#grad)" />
+          <path d="M50 25 L70 35 L70 55 C70 70 60 80 50 85 C40 80 30 70 30 55 L30 35 L50 25Z" fill="white" fill-opacity="0.9" stroke="#ffffff" stroke-width="1.2"/>
+          <path d="M50 42 L58 48 L55 58 L45 58 L42 48 L50 42Z" fill="#1f4e6e" stroke="none" />
+          <circle cx="50" cy="52" r="3" fill="#ffffff" />
+          <defs>
+            <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#ffd966" />
+              <stop offset="100%" stop-color="#d9a13b" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+    </div>
+    <div class="header-brand">Informatics Access Portal</div>
+  </div>
+  
+  <!-- MAIN CONTENT -->
+  <div class="card-inner">
+    <div class="input-group">
+      <label>username</label>
+      <input type="text" class="input-field" id="usernameInput" placeholder="Username" autocomplete="username" inputmode="text">
+    </div>
+    <div class="input-group">
+      <label>Password</label>
+      <input type="password" class="input-field" id="passwordInput" placeholder="••••••••" autocomplete="current-password">
+    </div>
+
+    <div class="login-wrapper">
+      <button class="btn-primary" id="loginBtn">Login</button>
+    </div>
+
+    <div class="scan-wrapper">
+      <button class="btn-scan" id="scanBadgeBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10v3a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3"/><path d="M7 7h10"/><path d="M12 3v4"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
+        Scan badge
+      </button>
+    </div>
+
+    <!-- BUTTONS WITH CUSTOM SVG ICONS -->
+    <div class="grid-actions">
+      <!-- Connectivity Icon -->
+      <button class="card-action-btn" id="connectivityBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
+          <path d="M1.42 9a16 16 0 0 1 21.16 0"/>
+          <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+          <circle cx="12" cy="19" r="1.5" fill="white" stroke="none"/>
+          <line x1="12" y1="20" x2="12" y2="22"/>
+        </svg>
+        <span>Connectivity</span>
+      </button>
+      
+      <!-- Test Fingerprint Reader Icon -->
+      <button class="card-action-btn" id="testFingerprintBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2a6 6 0 0 0-6 6v3.6a6 6 0 0 0 12 0V8a6 6 0 0 0-6-6z"/>
+          <path d="M12 18v4"/>
+          <path d="M9 22h6"/>
+          <circle cx="12" cy="11" r="2" fill="white" stroke="white"/>
+          <path d="M7 14.5c1.2 1.8 3.2 2.5 5 2.5s3.8-.7 5-2.5"/>
+        </svg>
+        <span>Test Fingerprint</span>
+      </button>
+      
+      <!-- Provision Icon -->
+      <button class="card-action-btn" id="provisionBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H5.78a1.65 1.65 0 0 0-1.51 1 1.65 1.65 0 0 0 .33 1.82l.07.08A10 10 0 0 0 12 18a10 10 0 0 0 6.26-2.22z"/>
+          <path d="M5.64 12.5A10 10 0 0 1 12 10a10 10 0 0 1 6.36 2.5"/>
+          <path d="M12 6v2"/>
+          <path d="M12 16v2"/>
+        </svg>
+        <span>Provision</span>
+      </button>
+    </div>
+
+    <!-- Bottom row -->
+    <div class="bottom-options">
+      <button class="bottom-link" id="backupSdBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+          <path d="M8 7h8"/>
+          <path d="M8 11h6"/>
+          <path d="M8 15h4"/>
+          <path d="M16 18l-3 3-3-3"/>
+          <path d="M13 15v6"/>
+        </svg>
+        <span>Back-up to SD</span>
+      </button>
+      
+      <button class="bottom-link" id="languageBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M2 12h20"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          <path d="M6 5.5A12 12 0 0 0 4 12a12 12 0 0 0 2 6.5"/>
+          <path d="M18 5.5A12 12 0 0 1 20 12a12 12 0 0 1-2 6.5"/>
+        </svg>
+        <span>Language</span>
+      </button>
+      
+      <button class="bottom-link" id="aboutBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="12" x2="12" y2="16"/>
+          <line x1="12" y1="8" x2="12.01" y2="8"/>
+          <path d="M9 18h6"/>
+        </svg>
+        <span>About</span>
+      </button>
+    </div>
+  </div>
+  
+  <!-- FOOTER with author icon -->
+  <div class="sky-footer">
+    <p class="dev-by">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0b3552" stroke-width="1.6">
+        <rect x="4" y="4" width="16" height="16" rx="2" ry="2"/>
+        <line x1="9" y1="9" x2="15" y2="15"/>
+        <line x1="15" y1="9" x2="9" y2="15"/>
+      </svg>
+      Developed by <strong>Informatics Consultancy Firm-SL</strong> @2026
+    </p>
+    <div class="footer-author">
+      <svg class="author-icon" viewBox="0 0 24 24" fill="none" stroke="#124066" stroke-width="1.8">
+        <path d="M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+        <path d="M14 6l4 4"/>
+      </svg>
+      <span>Author: Wisdom</span>
+    </div>
+  </div>
+</div>
+
+<div id="toastMsg" class="toast-msg">✨ Ready</div>
+
+<script>
+  const toast = document.getElementById('toastMsg');
+  
+  function showMessage(text, isError = false) {
+    toast.style.backgroundColor = isError ? '#b91c1c' : '#1f4e6e';
+    toast.textContent = text;
+    toast.style.opacity = '1';
+    setTimeout(() => {
+      toast.style.opacity = '0';
+    }, 2000);
+    setTimeout(() => {
+      toast.style.backgroundColor = '#1e2f3e';
+    }, 2200);
+  }
+
+  const loginBtn = document.getElementById('loginBtn');
+  const usernameField = document.getElementById('usernameInput');
+  const passwordField = document.getElementById('passwordInput');
+  
+  function performLogin() {
+    const username = usernameField.value.trim();
+    const password = passwordField.value;
+    if (username === "" || password === "") {
+      showMessage("⚠️ Please enter both username and password", true);
+      return;
+    }
+    showMessage(`✅ Welcome, ${username}! Access granted.`);
+  }
+  
+  loginBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    performLogin();
+  });
+  
+  [usernameField, passwordField].forEach(inp => {
+    inp.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        performLogin();
+      }
+    });
+  });
+  
+  document.getElementById('scanBadgeBtn').addEventListener('click', () => {
+    showMessage("📸 Badge scanned successfully (demo).");
+  });
+  document.getElementById('connectivityBtn').addEventListener('click', () => {
+    showMessage("🌐 Connectivity: Network stable & secure.");
+  });
+  document.getElementById('testFingerprintBtn').addEventListener('click', () => {
+    showMessage("🖐️ Fingerprint reader: Sensor ready.");
+  });
+  document.getElementById('provisionBtn').addEventListener('click', () => {
+    showMessage("⚙️ Provisioning wizard started.");
+  });
+  document.getElementById('backupSdBtn').addEventListener('click', () => {
+    showMessage("💾 Backup to SD card initiated.");
+  });
+  document.getElementById('languageBtn').addEventListener('click', () => {
+    showMessage("🌍 Language: English (default).");
+  });
+  document.getElementById('aboutBtn').addEventListener('click', () => {
+    showMessage("ℹ️ Informatics Portal v2.4 | Secure access");
+  });
+</script>
+</body>
+</html>
