@@ -574,10 +574,10 @@
 <div id="iframeOverlay" class="iframe-overlay">
   <div class="iframe-container">
     <div class="iframe-header">
-      <h3>📄 Portal Dashboard</h3>
+      <h3>🏠 Home Dashboard</h3>
       <button class="close-iframe" id="closeIframeBtn">✕</button>
     </div>
-    <iframe id="mainIframe" src="index.html" title="Main Portal"></iframe>
+    <iframe id="homeIframe" src="home.html" title="Home Portal"></iframe>
   </div>
 </div>
 
@@ -586,7 +586,7 @@
 <script>
   const toast = document.getElementById('toastMsg');
   const iframeOverlay = document.getElementById('iframeOverlay');
-  const mainIframe = document.getElementById('mainIframe');
+  const homeIframe = document.getElementById('homeIframe');
   
   function showMessage(text, isError = false) {
     toast.style.backgroundColor = isError ? '#b91c1c' : '#1f4e6e';
@@ -620,7 +620,7 @@
         const line = lines[i].trim();
         if (line === '') continue;
         
-        // Split by comma - supports both "username,password" format
+        // Split by comma - supports "username,password" format
         const parts = line.split(',');
         if (parts.length >= 2) {
           // Skip header row if it contains 'username' or 'user' (case insensitive)
@@ -664,10 +664,10 @@
     return false;
   }
 
-  // Open iframe with index.html
-  function openMainIframe() {
+  // Open iframe with home.html
+  function openHomeIframe() {
     // Reload iframe to ensure fresh content
-    mainIframe.src = mainIframe.src;
+    homeIframe.src = homeIframe.src;
     iframeOverlay.style.display = 'flex';
   }
 
@@ -695,10 +695,10 @@
     }
     
     if (validateCredentials(username, password)) {
-      showMessage(`✅ Welcome, ${username}! Access granted. Loading portal...`);
-      // Open index.html in iframe after successful login
+      showMessage(`✅ Welcome, ${username}! Access granted. Loading home portal...`);
+      // Open home.html in iframe after successful login
       setTimeout(() => {
-        openMainIframe();
+        openHomeIframe();
       }, 500);
     } else {
       showMessage("❌ Invalid username or password. Please try again.", true);
