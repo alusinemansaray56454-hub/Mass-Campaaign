@@ -388,7 +388,8 @@
       <div class="progress-bar">
         <div class="progress-step" id="step1Indicator">Demographic Info</div>
         <div class="progress-step" id="step2Indicator">Household Details</div>
-        <div class="progress-step" id="step3Indicator">Review & Complete</div>
+        <div class="progress-step" id="step3Indicator">Review</div>
+        <div class="progress-step" id="step4Indicator">Complete</div>
       </div>
 
       <form id="registrationForm">
@@ -471,7 +472,7 @@
           </div>
         </div>
 
-        <!-- Section 3: Review & Complete -->
+        <!-- Section 3: Review -->
         <div class="form-section" id="section3">
           <div class="form-group">
             <label>GPS Coordinates</label>
@@ -491,7 +492,7 @@
           </div>
 
           <!-- Summary Details -->
-          <div class="summary-card" id="summaryCard">
+          <div class="summary-card">
             <div class="summary-row">
               <span class="summary-label">Date:</span>
               <span class="summary-value" id="summaryDate">-</span>
@@ -549,6 +550,24 @@
               <span class="summary-value" id="summaryToken">-</span>
             </div>
           </div>
+        </div>
+
+        <!-- Section 4: Complete -->
+        <div class="form-section" id="section4">
+          <div class="summary-card">
+            <div class="summary-row">
+              <span class="summary-label">Household Head:</span>
+              <span class="summary-value" id="completeHead">-</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Total Family Size:</span>
+              <span class="summary-value" id="completeTotalFamily">-</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Token:</span>
+              <span class="summary-value" id="completeToken">-</span>
+            </div>
+          </div>
 
           <div class="bednet-message" id="bednetMessage"></div>
         </div>
@@ -570,7 +589,7 @@
 
 <script>
   let currentSection = 1;
-  const totalSections = 3;
+  const totalSections = 4;
 
   // Auto-capture date
   const today = new Date();
@@ -670,32 +689,19 @@
       prevBtn.style.display = 'block';
       nextBtn.style.display = 'none';
       submitBtn.style.display = 'block';
-      updateSummaryAndBednet();
+      updateCompleteSection();
     } else {
       prevBtn.style.display = 'block';
       nextBtn.style.display = 'block';
       submitBtn.style.display = 'none';
     }
+    
+    if (currentSection === 3) {
+      updateReviewSummary();
+    }
   }
 
-  function updateSummaryAndBednet() {
-    const totalPeople = parseInt(totalPeopleInput.value) || 0;
-    let bednetCount = 0;
-    let bednetMessage = '';
-    
-    if (totalPeople === 1 || totalPeople === 2) {
-      bednetCount = 1;
-      bednetMessage = 'Based on household size of ' + totalPeople + ' people, this household should receive 1 bednet.';
-    } else if (totalPeople === 3 || totalPeople === 4) {
-      bednetCount = 2;
-      bednetMessage = 'Based on household size of ' + totalPeople + ' people, this household should receive 2 bednets.';
-    } else if (totalPeople >= 5) {
-      bednetCount = 3;
-      bednetMessage = 'Based on household size of ' + totalPeople + ' people, this household should receive 3 bednets.';
-    } else {
-      bednetMessage = 'Please enter valid number of people in household.';
-    }
-    
+  function updateReviewSummary() {
     document.getElementById('summaryDate').textContent = formattedDate;
     document.getElementById('summaryDistrict').textContent = districtSelect.value || '-';
     document.getElementById('summaryChiefdom').textContent = chiefdomSelect.value || '-';
@@ -704,14 +710,36 @@
     document.getElementById('summaryHhr').textContent = hhrSelect.value || '-';
     document.getElementById('summaryHead').textContent = householdHeadInput.value.trim() || '-';
     document.getElementById('summaryPhone').textContent = telephoneInput.value || '-';
-    document.getElementById('summaryTotalPeople').textContent = totalPeople;
+    document.getElementById('summaryTotalPeople').textContent = totalPeopleInput.value || '0';
     document.getElementById('summaryUnderFive').textContent = underFiveInput.value || '0';
     document.getElementById('summaryPregnant').textContent = pregnantWomenInput.value || '0';
     document.getElementById('summaryTotalFamily').textContent = totalFamilyInput.value || '0';
     document.getElementById('summaryGps').textContent = gpsInput.value || '-';
     document.getElementById('summaryToken').textContent = tokenInput.value || '-';
+  }
+
+  function updateCompleteSection() {
+    const totalPeople = parseInt(totalPeopleInput.value) || 0;
+    let bednetCount = 0;
+    let bednetMessage = '';
     
-    document.getElementById('bednetMessage').innerHTML = '🦟 Bednet Recommendation: ' + bednetMessage;
+    if (totalPeople === 1 || totalPeople === 2) {
+      bednetCount = 1;
+      bednetMessage = '🦟 Based on household size of ' + totalPeople + ' people, this household should receive 1 bednet.';
+    } else if (totalPeople === 3 || totalPeople === 4) {
+      bednetCount = 2;
+      bednetMessage = '🦟 Based on household size of ' + totalPeople + ' people, this household should receive 2 bednets.';
+    } else if (totalPeople >= 5) {
+      bednetCount = 3;
+      bednetMessage = '🦟 Based on household size of ' + totalPeople + ' people, this household should receive 3 bednets.';
+    } else {
+      bednetMessage = '🦟 Please enter valid number of people in household.';
+    }
+    
+    document.getElementById('completeHead').textContent = householdHeadInput.value.trim() || '-';
+    document.getElementById('completeTotalFamily').textContent = totalFamilyInput.value || '0';
+    document.getElementById('completeToken').textContent = tokenInput.value || '-';
+    document.getElementById('bednetMessage').innerHTML = bednetMessage;
   }
 
   function validateSection(section) {
@@ -824,9 +852,9 @@
     
     console.log('Registration Data:', registrationData);
     
-    let message = 'Registration Completed Successfully!\n\n';
-    message += 'Household: ' + registrationData.householdHead + '\n';
-    message += 'Total Members: ' + registrationData.totalFamily + '\n';
+    let message = '✓ Registration Completed Successfully!\n\n';
+    message += 'Household Head: ' + registrationData.householdHead + '\n';
+    message += 'Total Family Members: ' + registrationData.totalFamily + '\n';
     message += 'Bednets to distribute: ' + bednetCount + '\n';
     message += 'Token: ' + registrationData.token;
     
@@ -895,8 +923,11 @@
     const newToken = generateToken();
     if (newToken) {
       tokenInput.value = newToken;
-      if (currentSection === totalSections) {
-        updateSummaryAndBednet();
+      if (currentSection === 3) {
+        updateReviewSummary();
+      }
+      if (currentSection === 4) {
+        updateCompleteSection();
       }
     }
   });
@@ -906,8 +937,11 @@
       const newToken = generateToken();
       if (newToken) {
         tokenInput.value = newToken;
-        if (currentSection === totalSections) {
-          updateSummaryAndBednet();
+        if (currentSection === 3) {
+          updateReviewSummary();
+        }
+        if (currentSection === 4) {
+          updateCompleteSection();
         }
       }
     }
@@ -954,8 +988,11 @@
         getGpsBtn.textContent = 'Get GPS';
         getGpsBtn.disabled = false;
         gpsError.classList.remove('show');
-        if (currentSection === totalSections) {
-          updateSummaryAndBednet();
+        if (currentSection === 3) {
+          updateReviewSummary();
+        }
+        if (currentSection === 4) {
+          updateCompleteSection();
         }
       },
       (error) => {
@@ -993,8 +1030,11 @@
     }
     calculateTotalFamily();
     validateHouseholdNumbers();
-    if (currentSection === totalSections) {
-      updateSummaryAndBednet();
+    if (currentSection === 3) {
+      updateReviewSummary();
+    }
+    if (currentSection === 4) {
+      updateCompleteSection();
     }
   });
 
@@ -1005,8 +1045,11 @@
     }
     calculateTotalFamily();
     validateHouseholdNumbers();
-    if (currentSection === totalSections) {
-      updateSummaryAndBednet();
+    if (currentSection === 3) {
+      updateReviewSummary();
+    }
+    if (currentSection === 4) {
+      updateCompleteSection();
     }
   });
 
@@ -1017,8 +1060,11 @@
     }
     calculateTotalFamily();
     validateHouseholdNumbers();
-    if (currentSection === totalSections) {
-      updateSummaryAndBednet();
+    if (currentSection === 3) {
+      updateReviewSummary();
+    }
+    if (currentSection === 4) {
+      updateCompleteSection();
     }
   });
 
