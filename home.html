@@ -544,41 +544,64 @@
   async function loadCredentials() {
     try {
       const response = await fetch('test.csv');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
       const csvText = await response.text();
       
       const lines = csvText.trim().split('\n');
       
-      // Skip header row if exists, otherwise process all rows
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i].trim();
         if (line === '') continue;
         
-        const parts = line.split(',');
+        // Handle CSV with possible quotes
+        let parts = [];
+        let inQuotes = false;
+        let currentPart = '';
+        
+        for (let j = 0; j < line.length; j++) {
+          const char = line[j];
+          if (char === '"') {
+            inQuotes = !inQuotes;
+          } else if (char === ',' && !inQuotes) {
+            parts.push(currentPart.trim());
+            currentPart = '';
+          } else {
+            currentPart += char;
+          }
+        }
+        parts.push(currentPart.trim());
+        
         if (parts.length >= 3) {
-          const module = parts[0].trim().toLowerCase();
-          const username = parts[1].trim();
-          const password = parts[2].trim();
+          const module = parts[0].replace(/^["']|["']$/g, '').toLowerCase();
+          const username = parts[1].replace(/^["']|["']$/g, '');
+          const password = parts[2].replace(/^["']|["']$/g, '');
           credentials[module] = { username, password };
         }
       }
       
       console.log('Credentials loaded from test.csv:', Object.keys(credentials));
+      
+      // If no credentials found, show alert
+      if (Object.keys(credentials).length === 0) {
+        console.warn('No credentials found in test.csv');
+      }
     } catch (error) {
       console.error('Error loading test.csv:', error);
-      // Fallback credentials if CSV not found
-      credentials = {
-        registration: { username: "reg_user", password: "reg@2026" },
-        distribution: { username: "dist_user", password: "dist@2026" },
-        dashboard: { username: "dash_user", password: "dash@2026" },
-        stock: { username: "stock_user", password: "stock@2026" },
-        attendance: { username: "attend_user", password: "attend@2026" },
-        monitoring: { username: "monitor_user", password: "monitor@2026" }
-      };
+      // Set empty credentials - no fallback, user must have valid CSV
+      credentials = {};
     }
   }
 
   // Show login modal
   function showLogin(moduleName, pageName) {
+    // Check if credentials are loaded
+    if (Object.keys(credentials).length === 0) {
+      alert('Please ensure test.csv file exists with valid credentials.\n\nFormat: module,username,password\nExample: registration,admin,pass123');
+      return;
+    }
+    
     pendingModule = moduleName;
     pendingPage = pageName;
     const moduleDisplay = moduleName.charAt(0).toUpperCase() + moduleName.slice(1);
