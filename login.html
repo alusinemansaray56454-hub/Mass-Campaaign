@@ -574,10 +574,10 @@
 <div id="iframeOverlay" class="iframe-overlay">
   <div class="iframe-container">
     <div class="iframe-header">
-      <h3>📄 Registration Portal</h3>
+      <h3>📄 Portal Dashboard</h3>
       <button class="close-iframe" id="closeIframeBtn">✕</button>
     </div>
-    <iframe id="regIframe" src="reg.html" title="Registration Portal"></iframe>
+    <iframe id="mainIframe" src="index.html" title="Main Portal"></iframe>
   </div>
 </div>
 
@@ -586,7 +586,7 @@
 <script>
   const toast = document.getElementById('toastMsg');
   const iframeOverlay = document.getElementById('iframeOverlay');
-  const regIframe = document.getElementById('regIframe');
+  const mainIframe = document.getElementById('mainIframe');
   
   function showMessage(text, isError = false) {
     toast.style.backgroundColor = isError ? '#b91c1c' : '#1f4e6e';
@@ -597,30 +597,35 @@
     }, 2000);
   }
 
-  // Function to load and validate credentials from password.csv
-  let credentialsMap = new Map(); // username -> password
+  // Store credentials from CSV
+  let credentialsMap = new Map();
 
+  // Load and parse password.csv file
   async function loadCredentials() {
     try {
       const response = await fetch('password.csv');
       if (!response.ok) {
-        console.warn('password.csv not found, using demo mode');
-        // Demo mode - allow test credentials
+        console.warn('password.csv not found, using demo mode with default credentials');
+        // Demo fallback credentials for testing
         credentialsMap.set('admin', 'admin123');
         credentialsMap.set('user', 'password');
+        credentialsMap.set('demo', 'demo');
         return true;
       }
+      
       const csvText = await response.text();
       const lines = csvText.trim().split('\n');
       
-      // Assume CSV format: username,password (with or without header)
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i].trim();
         if (line === '') continue;
+        
+        // Split by comma - supports both "username,password" format
         const parts = line.split(',');
         if (parts.length >= 2) {
-          // Skip header if present (case insensitive)
-          if (i === 0 && (parts[0].toLowerCase() === 'username' || parts[0].toLowerCase() === 'user')) {
+          // Skip header row if it contains 'username' or 'user' (case insensitive)
+          const firstPartLower = parts[0].toLowerCase();
+          if (i === 0 && (firstPartLower === 'username' || firstPartLower === 'user' || firstPartLower === 'user name')) {
             continue;
           }
           const username = parts[0].trim();
@@ -630,7 +635,16 @@
           }
         }
       }
-      console.log(`Loaded ${credentialsMap.size} credentials from CSV`);
+      
+      console.log(`✅ Loaded ${credentialsMap.size} credential(s) from password.csv`);
+      
+      // If no credentials loaded, add demo fallback
+      if (credentialsMap.size === 0) {
+        credentialsMap.set('admin', 'admin123');
+        credentialsMap.set('demo', 'demo');
+        console.log('⚠️ No valid credentials found in CSV, using demo fallback');
+      }
+      
       return true;
     } catch (error) {
       console.error('Error loading CSV:', error);
@@ -641,6 +655,7 @@
     }
   }
 
+  // Validate username and password against loaded credentials
   function validateCredentials(username, password) {
     const storedPassword = credentialsMap.get(username);
     if (storedPassword && storedPassword === password) {
@@ -649,10 +664,10 @@
     return false;
   }
 
-  // Open iframe with reg.html
-  function openRegistrationIframe() {
+  // Open iframe with index.html
+  function openMainIframe() {
     // Reload iframe to ensure fresh content
-    regIframe.src = regIframe.src;
+    mainIframe.src = mainIframe.src;
     iframeOverlay.style.display = 'flex';
   }
 
@@ -680,10 +695,10 @@
     }
     
     if (validateCredentials(username, password)) {
-      showMessage(`✅ Welcome, ${username}! Access granted. Loading registration portal...`);
-      // Open reg.html in iframe after successful login
+      showMessage(`✅ Welcome, ${username}! Access granted. Loading portal...`);
+      // Open index.html in iframe after successful login
       setTimeout(() => {
-        openRegistrationIframe();
+        openMainIframe();
       }, 500);
     } else {
       showMessage("❌ Invalid username or password. Please try again.", true);
@@ -692,7 +707,7 @@
     }
   }
   
-  // Load credentials on page load
+  // Load credentials when page loads
   loadCredentials();
   
   loginBtn.addEventListener('click', (e) => {
@@ -700,6 +715,7 @@
     performLogin();
   });
   
+  // Allow Enter key to submit
   [usernameField, passwordField].forEach(inp => {
     inp.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') {
@@ -709,13 +725,13 @@
     });
   });
   
-  // Close iframe
+  // Close iframe when clicking close button or overlay background
   document.getElementById('closeIframeBtn').addEventListener('click', closeIframe);
   iframeOverlay.addEventListener('click', (e) => {
     if (e.target === iframeOverlay) closeIframe();
   });
   
-  // Other button handlers
+  // Other button handlers (demo functionality)
   document.getElementById('scanBadgeBtn').addEventListener('click', () => {
     showMessage("📸 Badge scanned successfully (demo).");
   });
