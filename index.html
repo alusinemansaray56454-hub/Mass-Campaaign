@@ -54,40 +54,30 @@
       margin: 0 auto;
     }
 
-    /* SKY BLUE HEADER */
+    /* SKY BLUE HEADER with ICF Logo only - no SVG */
     .sky-header {
       background: #87CEEB;
       background: linear-gradient(135deg, #7bc5e8, #6bb5d8);
       padding: 1rem 1rem 0.8rem 1rem;
       border-bottom: 2px solid #eef7ff;
+      text-align: center;
     }
 
     .logo-area {
       display: flex;
       justify-content: center;
+      align-items: center;
       margin-bottom: 0.3rem;
     }
 
-    .logo-placeholder {
-      width: 56px;
-      height: 56px;
-      background: white;
-      border-radius: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
-      transition: transform 0.2s ease;
-    }
-
-    .logo-placeholder:active {
-      transform: scale(0.98);
-    }
-
-    .logo-placeholder svg {
-      width: 36px;
-      height: 36px;
-      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+    /* ICF Logo image styling */
+    .icf-logo {
+      max-width: 70px;
+      max-height: 70px;
+      width: auto;
+      height: auto;
+      display: block;
+      object-fit: contain;
     }
 
     .header-brand {
@@ -475,31 +465,20 @@
       .btn-primary { padding: 0.7rem 1.5rem; min-width: 130px; font-size: 0.95rem; }
       .btn-scan { padding: 0.6rem 1.5rem; min-width: 130px; font-size: 0.85rem; }
       .iframe-container { width: 95%; height: 80%; }
+      .icf-logo { max-width: 55px; max-height: 55px; }
     }
   </style>
 </head>
 <body>
 
 <div class="login-container">
-  <!-- SKY BLUE HEADER -->
+  <!-- SKY BLUE HEADER with ICF Logo only - NO SVG -->
   <div class="sky-header">
     <div class="logo-area">
-      <div class="logo-placeholder" aria-label="Informatics logo">
-        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="100" height="100" rx="20" fill="url(#grad)" />
-          <path d="M50 25 L70 35 L70 55 C70 70 60 80 50 85 C40 80 30 70 30 55 L30 35 L50 25Z" fill="white" fill-opacity="0.9" stroke="#ffffff" stroke-width="1.2"/>
-          <path d="M50 42 L58 48 L55 58 L45 58 L42 48 L50 42Z" fill="#1f4e6e" stroke="none" />
-          <circle cx="50" cy="52" r="3" fill="#ffffff" />
-          <defs>
-            <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#ffd966" />
-              <stop offset="100%" stop-color="#d9a13b" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
+      <!-- ICF Logo image only - no SVG fallback -->
+      <img src="" alt="ICF Logo" class="icf-logo">
     </div>
-    <div class="header-brand">Informatics Access Portal</div>
+    <div class="header-brand">Informatics Consultancy Firm</div>
   </div>
   
   <!-- MAIN CONTENT -->
