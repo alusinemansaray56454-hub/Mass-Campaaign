@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>Monitoring - ITN Campaign Checklist</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #eef2ff;
+      font-family: system-ui, 'Segoe UI', 'Inter', 'Helvetica Neue', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 0;
+    }
+
+    .phone-wrapper {
+      width: 100%;
+      max-width: 390px;
+      margin: 0 auto;
+      background: #eef2ff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 0.75rem;
+    }
+
+    .form-container {
+      width: 100%;
+      background: #ffffff;
+      border-radius: 1.5rem;
+      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(59, 130, 246, 0.1);
+      overflow: hidden;
+    }
+
+    .light-header {
+      background: linear-gradient(105deg, #dbeafe, #eff6ff);
+      padding: 1.5rem 1rem 1.2rem 1rem;
+      text-align: center;
+      border-bottom: 1px solid #bfdbfe;
+      position: relative;
+    }
+
+    .back-button {
+      position: absolute;
+      left: 1rem;
+      top: 1.5rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #1e3a8a;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(59, 130, 246, 0.1);
+    }
+
+    .header-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+      color: #1e3a8a;
+      margin-bottom: 0.3rem;
+    }
+
+    .header-sub {
+      font-size: 0.7rem;
+      color: #3b82f6;
+    }
+
+    .header-logo {
+      height: 42px;
+      width: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .monitoring-form {
+      padding: 1.5rem 1rem;
+      background: #ffffff;
+    }
+
+    .section {
+      background: #f8fafc;
+      border-radius: 1rem;
+      padding: 1rem;
+      margin-bottom: 1.2rem;
+      border: 1px solid #e2e8f0;
+    }
+
+    .section-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1e3a8a;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #bfdbfe;
+    }
+
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-bottom: 0.8rem;
+      align-items: flex-start;
+    }
+
+    .form-field {
+      flex: 1;
+      min-width: 140px;
+    }
+
+    .form-field label {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #1e3a8a;
+      margin-bottom: 0.2rem;
+    }
+
+    .form-field input, .form-field select, .form-field textarea {
+      width: 100%;
+      padding: 0.6rem;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 0.7rem;
+      font-size: 0.8rem;
+      font-family: inherit;
+      background: #ffffff;
+      transition: all 0.2s;
+      outline: none;
+    }
+
+    .form-field input:focus, .form-field select:focus, .form-field textarea:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+
+    .readonly-input {
+      background: #f1f5f9;
+      color: #334155;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 0.3rem;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+    }
+
+    .checkbox-item input {
+      width: 18px;
+      height: 18px;
+      margin: 0;
+    }
+
+    .radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 0.3rem;
+    }
+
+    .radio-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+    }
+
+    .radio-item input {
+      width: 16px;
+      height: 16px;
+      margin: 0;
+    }
+
+    .spot-check-table {
+      width: 100%;
+      font-size: 0.7rem;
+      border-collapse: collapse;
+      margin-top: 0.8rem;
+    }
+
+    .spot-check-table th, .spot-check-table td {
+      border: 1px solid #cbd5e1;
+      padding: 0.5rem;
+      text-align: left;
+    }
+
+    .spot-check-table th {
+      background: #dbeafe;
+      color: #1e3a8a;
+      font-weight: 600;
+    }
+
+    .spot-check-table input {
+      width: 100%;
+      padding: 0.3rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 0.4rem;
+      font-size: 0.7rem;
+    }
+
+    .stock-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .stock-item {
+      flex: 1;
+      text-align: center;
+    }
+
+    .stock-item label {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #1e3a8a;
+    }
+
+    .stock-item input {
+      width: 100%;
+      padding: 0.6rem;
+      text-align: center;
+    }
+
+    .dqa-rating {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .submit-btn {
+      background: linear-gradient(105deg, #3b82f6, #2563eb);
+      border: none;
+      padding: 0.85rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      font-size: 1rem;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+
+    .submit-btn:active {
+      transform: scale(0.98);
+    }
+
+    .signature-row {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .light-footer {
+      background: linear-gradient(105deg, #dbeafe, #eff6ff);
+      border-top: 1px solid #bfdbfe;
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.8rem;
+      color: #1e3a8a;
+      font-weight: 500;
+    }
+
+    .footer-text {
+      font-family: system-ui, sans-serif;
+      letter-spacing: 0.3px;
+    }
+
+    @media (max-width: 400px) {
+      .phone-wrapper { padding: 0.5rem; }
+      .header-title { font-size: 1.2rem; }
+      .header-logo { height: 38px; }
+      .monitoring-form { padding: 1.25rem 0.75rem; }
+      .form-field { min-width: 100%; }
+      .stock-row { flex-direction: column; }
+      .signature-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+<div class="phone-wrapper">
+  <div class="form-container">
+    <header class="light-header">
+      <a href="index.html" class="back-button">←</a>
+      <div class="header-title">ITN Mass Campaign</div>
+      <div class="header-sub">Sampling Monitoring Checklist (Supervision)</div>
+      <img src="logo.png" alt="logo" class="header-logo" onerror="this.style.display='none'">
+    </header>
+
+    <div class="monitoring-form">
+      <form id="monitoringForm">
+        <!-- Section 1: General Information with Cascading Dropdowns -->
+        <div class="section">
+          <div class="section-title">1. General Information</div>
+          <div class="form-row">
+            <div class="form-field">
+              <label>Date of Visit</label>
+              <input type="text" id="visitDate" class="readonly-input" readonly>
+            </div>
+            <div class="form-field">
+              <label>Supervisor Name</label>
+              <input type="text" id="supervisorName" placeholder="Enter supervisor name">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label>District</label>
+              <select id="district">
+                <option value="">Select District</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label>Chiefdom/Ward</label>
+              <select id="chiefdom" disabled>
+                <option value="">Select District first</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label>Community/PHU</label>
+              <select id="community" disabled>
+                <option value="">Select Chiefdom first</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label>Distribution Point (DP)</label>
+              <select id="dp" disabled>
+                <option value="">Select Community first</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label>Team/Supervisor ID</label>
+              <input type="text" id="teamId" placeholder="Enter team/supervisor ID">
+            </div>
+            <div class="form-field">
+              <label>Campaign Phase</label>
+              <select id="campaignPhase">
+                <option value="">Select</option>
+                <option value="Registration">Registration</option>
+                <option value="Distribution">Distribution</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field"><label>Time In</label><input type="time" id="timeIn"></div>
+            <div class="form-field"><label>Time Out</label><input type="time" id="timeOut"></div>
+          </div>
+        </div>
+
+        <!-- Section 2: Team Presence and Preparedness -->
+        <div class="section">
+          <div class="section-title">2. Team Presence and Preparedness</div>
+          <div class="checkbox-group" id="teamChecklist"></div>
+          <div class="form-field" style="margin-top:0.8rem;"><label>Comments</label><textarea id="teamComments" rows="2" placeholder="Additional comments..."></textarea></div>
+        </div>
+
+        <!-- Section 3: Registration/Beneficiary Sampling Verification -->
+        <div class="section">
+          <div class="section-title">3. Registration/Beneficiary Sampling Verification</div>
+          <div class="form-field"><label>Sample Size Checked: ______ households/cards</label><input type="number" id="sampleSize" placeholder="Number of households/cards checked"></div>
+          <div class="checkbox-group" id="verificationChecklist"></div>
+          <div class="section-title" style="margin-top:1rem; font-size:0.85rem;">Spot Check Sample</div>
+          <table class="spot-check-table" id="spotCheckTable">
+            <thead>
+              <tr><th>Household ID</th><th>Registered HH Size</th><th>Verified HH Size</th><th>Difference</th><th>Remarks</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><input type="text" placeholder="ID"></td><td><input type="number" placeholder="Size"></td><td><input type="number" placeholder="Size"></td><td><input type="text" placeholder="Diff"></td><td><input type="text" placeholder="Remarks"></td></tr>
+              <tr><td><input type="text" placeholder="ID"></td><td><input type="number" placeholder="Size"></td><td><input type="number" placeholder="Size"></td><td><input type="text" placeholder="Diff"></td><td><input type="text" placeholder="Remarks"></td></tr>
+              <tr><td><input type="text" placeholder="ID"></td><td><input type="number" placeholder="Size"></td><td><input type="number" placeholder="Size"></td><td><input type="text" placeholder="Diff"></td><td><input type="text" placeholder="Remarks"></td></tr>
+            </tbody>
+           </table>
+        </div>
+
+        <!-- Section 4: Distribution Monitoring Checklist -->
+        <div class="section">
+          <div class="section-title">4. Distribution Monitoring Checklist</div>
+          <div class="checkbox-group" id="distributionChecklist"></div>
+          <div class="form-field" style="margin-top:0.8rem;"><label>Comments</label><textarea id="distributionComments" rows="2" placeholder="Additional comments..."></textarea></div>
+        </div>
+
+        <!-- Section 5: Stock Accountability -->
+        <div class="section">
+          <div class="section-title">5. Stock Accountability</div>
+          <div class="stock-row">
+            <div class="stock-item"><label>Opening Stock</label><input type="number" id="openingStock" value="0"></div>
+            <div class="stock-item"><label>Received During Day</label><input type="number" id="receivedStock" value="0"></div>
+            <div class="stock-item"><label>Distributed</label><input type="number" id="distributedStock" value="0"></div>
+          </div>
+          <div class="stock-row">
+            <div class="stock-item"><label>Damaged/Lost</label><input type="number" id="damagedStock" value="0"></div>
+            <div class="stock-item"><label>Closing Balance</label><input type="number" id="closingBalance" value="0" readonly class="readonly-input"></div>
+          </div>
+          <div class="radio-group" style="margin-top:0.8rem;">
+            <span style="font-weight:600; font-size:0.8rem;">Physical count matches records?</span>
+            <label class="radio-item"><input type="radio" name="stockMatch" value="Yes"> Yes</label>
+            <label class="radio-item"><input type="radio" name="stockMatch" value="No"> No</label>
+          </div>
+          <div class="form-field" style="margin-top:0.8rem;"><label>Comments</label><textarea id="stockComments" rows="2" placeholder="Comments..."></textarea></div>
+        </div>
+
+        <!-- Section 6: Data Quality Assessment (DQA) -->
+        <div class="section">
+          <div class="section-title">6. Data Quality Assessment (DQA)</div>
+          <div id="dqaItems"></div>
+          <div class="form-field" style="margin-top:0.8rem;"><label>Comments</label><textarea id="dqaComments" rows="2" placeholder="Additional comments..."></textarea></div>
+        </div>
+
+        <!-- Section 7: Community Feedback / Complaints -->
+        <div class="section">
+          <div class="section-title">7. Community Feedback / Complaints</div>
+          <div class="form-row">
+            <div class="form-field"><label>Issue Reported</label><input type="text" id="issue1" placeholder="Issue reported"></div>
+            <div class="form-field"><label>Action Taken</label><input type="text" id="action1" placeholder="Action taken"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-field"><label>Issue Reported</label><input type="text" id="issue2" placeholder="Issue reported"></div>
+            <div class="form-field"><label>Action Taken</label><input type="text" id="action2" placeholder="Action taken"></div>
+          </div>
+        </div>
+
+        <!-- Section 8: Key Findings & Recommendations -->
+        <div class="section">
+          <div class="section-title">8. Key Findings & Recommendations</div>
+          <div class="form-field"><label>Strengths Observed</label><textarea id="strengths" rows="2" placeholder="List strengths..."></textarea></div>
+          <div class="form-field" style="margin-top:0.5rem;"><label>Gaps Identified</label><textarea id="gaps" rows="2" placeholder="List gaps..."></textarea></div>
+          <div class="form-field" style="margin-top:0.5rem;"><label>Immediate Actions Required</label><textarea id="actions" rows="2" placeholder="List actions..."></textarea></div>
+        </div>
+
+        <!-- Signatures -->
+        <div class="section">
+          <div class="section-title">Signatures</div>
+          <div class="signature-row">
+            <div class="form-field"><label>Supervisor Signature</label><input type="text" id="supervisorSignature" placeholder="Full name / e-signature"></div>
+            <div class="form-field"><label>Team Lead Signature</label><input type="text" id="teamLeadSignature" placeholder="Full name / e-signature"></div>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn">Save Monitoring Report</button>
+      </form>
+    </div>
+
+    <footer class="light-footer">
+      <span class="footer-text">ICF-SL @2026</span>
+    </footer>
+  </div>
+</div>
+
+<script>
+  // Auto-set date
+  const today = new Date();
+  const formattedDate = today.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  });
+  document.getElementById('visitDate').value = formattedDate;
+
+  // ======================== CASCADING DATA (Location Hierarchy) ========================
+  const locationData = [
+    { District: "Bo", Chiefdom: "Bo Central", Community: "New London", DP: "DP1 - New London" },
+    { District: "Bo", Chiefdom: "Bo Central", Community: "Kissi Town", DP: "DP2 - Kissi Town" },
+    { District: "Bo", Chiefdom: "Bo Central", Community: "Mattru", DP: "DP3 - Mattru" },
+    { District: "Kenema", Chiefdom: "Dama", Community: "Kpetema", DP: "DP1 - Kpetema" },
+    { District: "Kenema", Chiefdom: "Dama", Community: "Woroma", DP: "DP2 - Woroma" },
+    { District: "Kenema", Chiefdom: "Nongowa", Community: "Tongo Fields", DP: "DP1 - Tongo Fields" },
+    { District: "Kenema", Chiefdom: "Nongowa", Community: "Falla", DP: "DP2 - Falla" },
+    { District: "Western Urban", Chiefdom: "Freetown", Community: "Brookfields", DP: "DP1 - Brookfields" },
+    { District: "Western Urban", Chiefdom: "Freetown", Community: "Kissi Road", DP: "DP2 - Kissi Road" },
+    { District: "Western Rural", Chiefdom: "Koya", Community: "Newton", DP: "DP1 - Newton" },
+    { District: "Western Rural", Chiefdom: "Waterloo", Community: "Tombo", DP: "DP1 - Tombo" }
+  ];
+
+  const districtSelect = document.getElementById('district');
+  const chiefdomSelect = document.getElementById('chiefdom');
+  const communitySelect = document.getElementById('community');
+  const dpSelect = document.getElementById('dp');
+
+  // Populate Districts
+  function populateDistricts() {
+    const districts = [...new Set(locationData.map(item => item.District))];
+    districts.forEach(district => {
+      const option = document.createElement('option');
+      option.value = district;
+      option.textContent = district;
+      districtSelect.appendChild(option);
+    });
+  }
+
+  // Get unique values based on parent filters
+  function getUniqueValues(field, parentFilters = {}) {
+    let filtered = [...locationData];
+    if (parentFilters.District) {
+      filtered = filtered.filter(item => item.District === parentFilters.District);
+    }
+    if (parentFilters.Chiefdom) {
+      filtered = filtered.filter(item => item.Chiefdom === parentFilters.Chiefdom);
+    }
+    if (parentFilters.Community) {
+      filtered = filtered.filter(item => item.Community === parentFilters.Community);
+    }
+    return [...new Set(filtered.map(item => item[field]))];
+  }
+
+  function resetSelect(select, placeholder, disabled) {
+    select.innerHTML = `<option value="">${placeholder}</option>`;
+    select.disabled = disabled;
+  }
+
+  // District change
+  districtSelect.addEventListener('change', () => {
+    const selectedDistrict = districtSelect.value;
+    resetSelect(chiefdomSelect, 'Select Chiefdom first', true);
+    resetSelect(communitySelect, 'Select Community first', true);
+    resetSelect(dpSelect, 'Select DP first', true);
+    
+    if (selectedDistrict) {
+      const chiefdoms = getUniqueValues('Chiefdom', { District: selectedDistrict });
+      chiefdomSelect.disabled = false;
+      chiefdomSelect.innerHTML = '<option value="">Select Chiefdom</option>';
+      chiefdoms.forEach(chiefdom => {
+        const option = document.createElement('option');
+        option.value = chiefdom;
+        option.textContent = chiefdom;
+        chiefdomSelect.appendChild(option);
+      });
+    }
+  });
+
+  // Chiefdom change
+  chiefdomSelect.addEventListener('change', () => {
+    const selectedDistrict = districtSelect.value;
+    const selectedChiefdom = chiefdomSelect.value;
+    resetSelect(communitySelect, 'Select Community first', true);
+    resetSelect(dpSelect, 'Select DP first', true);
+    
+    if (selectedChiefdom) {
+      const communities = getUniqueValues('Community', { 
+        District: selectedDistrict, 
+        Chiefdom: selectedChiefdom 
+      });
+      communitySelect.disabled = false;
+      communitySelect.innerHTML = '<option value="">Select Community</option>';
+      communities.forEach(community => {
+        const option = document.createElement('option');
+        option.value = community;
+        option.textContent = community;
+        communitySelect.appendChild(option);
+      });
+    }
+  });
+
+  // Community change
+  communitySelect.addEventListener('change', () => {
+    const selectedDistrict = districtSelect.value;
+    const selectedChiefdom = chiefdomSelect.value;
+    const selectedCommunity = communitySelect.value;
+    resetSelect(dpSelect, 'Select DP first', true);
+    
+    if (selectedCommunity) {
+      const dps = getUniqueValues('DP', { 
+        District: selectedDistrict, 
+        Chiefdom: selectedChiefdom,
+        Community: selectedCommunity
+      });
+      dpSelect.disabled = false;
+      dpSelect.innerHTML = '<option value="">Select Distribution Point</option>';
+      dps.forEach(dp => {
+        const option = document.createElement('option');
+        option.value = dp;
+        option.textContent = dp;
+        dpSelect.appendChild(option);
+      });
+    }
+  });
+
+  // Team Presence and Preparedness items
+  const teamItems = [
+    "Team members present at assigned post",
+    "Team arrived on time",
+    "Team has identification materials",
+    "Adequate campaign materials available",
+    "IEC/BCC materials displayed",
+    "Team understands campaign procedures"
+  ];
+
+  const teamContainer = document.getElementById('teamChecklist');
+  teamItems.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'checkbox-item';
+    div.innerHTML = `<input type="checkbox" value="Yes"> <span>${item}</span>`;
+    teamContainer.appendChild(div);
+  });
+
+  // Registration/Beneficiary Sampling Verification items
+  const verificationItems = [
+    "Households correctly registered",
+    "Household size accurately captured",
+    "Coupon/cards correctly issued",
+    "Duplicate registration avoided",
+    "Data entered correctly in register/app",
+    "Household members verified"
+  ];
+
+  const verificationContainer = document.getElementById('verificationChecklist');
+  verificationItems.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'checkbox-item';
+    div.innerHTML = `<input type="checkbox" value="Yes"> <span>${item}</span>`;
+    verificationContainer.appendChild(div);
+  });
+
+  // Distribution Monitoring Checklist items
+  const distributionItems = [
+    "Beneficiary presents valid coupon/card",
+    "Correct number of ITNs issued",
+    "Beneficiary register signed/thumb printed",
+    "Queue management adequate",
+    "Crowd control maintained",
+    "Priority groups managed (elderly, disabled, pregnant women)",
+    "Beneficiary receives usage message"
+  ];
+
+  const distributionContainer = document.getElementById('distributionChecklist');
+  distributionItems.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'checkbox-item';
+    div.innerHTML = `<input type="checkbox" value="Yes"> <span>${item}</span>`;
+    distributionContainer.appendChild(div);
+  });
+
+  // DQA Items
+  const dqaItems = [
+    { name: "Accuracy of records", options: ["Good", "Fair", "Poor"] },
+    { name: "Completeness of forms", options: ["Good", "Fair", "Poor"] },
+    { name: "Timely reporting", options: ["Good", "Fair", "Poor"] },
+    { name: "Consistency between register and stock", options: ["Good", "Fair", "Poor"] }
+  ];
+
+  const dqaContainer = document.getElementById('dqaItems');
+  dqaItems.forEach(item => {
+    const div = document.createElement('div');
+    div.style.marginBottom = '0.8rem';
+    div.innerHTML = `<label style="font-size:0.75rem; font-weight:600; color:#1e3a8a;">${item.name}</label>
+      <div class="radio-group" style="margin-top:0.2rem;">${item.options.map(opt => `<label class="radio-item"><input type="radio" name="dqa_${item.name.replace(/\s/g,'_')}" value="${opt}"> ${opt}</label>`).join('')}</div>`;
+    dqaContainer.appendChild(div);
+  });
+
+  // Auto-calculate closing balance
+  function calculateClosingBalance() {
+    const opening = parseInt(document.getElementById('openingStock').value) || 0;
+    const received = parseInt(document.getElementById('receivedStock').value) || 0;
+    const distributed = parseInt(document.getElementById('distributedStock').value) || 0;
+    const damaged = parseInt(document.getElementById('damagedStock').value) || 0;
+    const closing = opening + received - distributed - damaged;
+    document.getElementById('closingBalance').value = closing >= 0 ? closing : 0;
+  }
+
+  document.getElementById('openingStock').addEventListener('input', calculateClosingBalance);
+  document.getElementById('receivedStock').addEventListener('input', calculateClosingBalance);
+  document.getElementById('distributedStock').addEventListener('input', calculateClosingBalance);
+  document.getElementById('damagedStock').addEventListener('input', calculateClosingBalance);
+
+  // Helper to get checkbox group values
+  function getCheckboxValues(container) {
+    const checkboxes = container.querySelectorAll('input[type="checkbox"]');
+    const values = {};
+    checkboxes.forEach((cb, idx) => {
+      const labelSpan = cb.nextElementSibling;
+      const labelText = labelSpan ? labelSpan.innerText : `item_${idx}`;
+      values[labelText] = cb.checked ? 'Yes' : 'No';
+    });
+    return values;
+  }
+
+  // Helper to get DQA radio values
+  function getDQAValues() {
+    const dqaRadios = document.querySelectorAll('#dqaItems input[type="radio"]:checked');
+    const values = {};
+    dqaRadios.forEach(radio => {
+      const parentDiv = radio.closest('div');
+      const label = parentDiv.querySelector('label')?.innerText || 'unknown';
+      values[label] = radio.value;
+    });
+    return values;
+  }
+
+  // Form submission
+  const form = document.getElementById('monitoringForm');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    // Collect spot check data
+    const spotRows = document.querySelectorAll('#spotCheckTable tbody tr');
+    const spotCheckData = [];
+    spotRows.forEach(row => {
+      const inputs = row.querySelectorAll('input');
+      if (inputs[0]?.value) {
+        spotCheckData.push({
+          householdId: inputs[0].value,
+          registeredSize: inputs[1].value,
+          verifiedSize: inputs[2].value,
+          difference: inputs[3].value,
+          remarks: inputs[4].value
+        });
+      }
+    });
+
+    const monitoringData = {
+      timestamp: new Date().toISOString(),
+      general: {
+        visitDate: document.getElementById('visitDate').value,
+        supervisorName: document.getElementById('supervisorName').value,
+        district: document.getElementById('district').value,
+        chiefdom: document.getElementById('chiefdom').value,
+        community: document.getElementById('community').value,
+        dp: document.getElementById('dp').value,
+        teamId: document.getElementById('teamId').value,
+        campaignPhase: document.getElementById('campaignPhase').value,
+        timeIn: document.getElementById('timeIn').value,
+        timeOut: document.getElementById('timeOut').value
+      },
+      teamPresence: {
+        checklist: getCheckboxValues(teamContainer),
+        comments: document.getElementById('teamComments').value
+      },
+      verification: {
+        sampleSize: document.getElementById('sampleSize').value,
+        checklist: getCheckboxValues(verificationContainer),
+        spotChecks: spotCheckData
+      },
+      distribution: {
+        checklist: getCheckboxValues(distributionContainer),
+        comments: document.getElementById('distributionComments').value
+      },
+      stock: {
+        openingStock: document.getElementById('openingStock').value,
+        receivedDuringDay: document.getElementById('receivedStock').value,
+        distributed: document.getElementById('distributedStock').value,
+        damagedLost: document.getElementById('damagedStock').value,
+        closingBalance: document.getElementById('closingBalance').value,
+        stockMatch: document.querySelector('input[name="stockMatch"]:checked')?.value || '',
+        comments: document.getElementById('stockComments').value
+      },
+      dqa: {
+        ratings: getDQAValues(),
+        comments: document.getElementById('dqaComments').value
+      },
+      complaints: {
+        issue1: document.getElementById('issue1').value,
+        action1: document.getElementById('action1').value,
+        issue2: document.getElementById('issue2').value,
+        action2: document.getElementById('action2').value
+      },
+      findings: {
+        strengths: document.getElementById('strengths').value,
+        gaps: document.getElementById('gaps').value,
+        actions: document.getElementById('actions').value
+      },
+      signatures: {
+        supervisor: document.getElementById('supervisorSignature').value,
+        teamLead: document.getElementById('teamLeadSignature').value
+      }
+    };
+
+    // Save to localStorage
+    let allReports = JSON.parse(localStorage.getItem('itnMonitoringReports') || '[]');
+    allReports.push(monitoringData);
+    localStorage.setItem('itnMonitoringReports', JSON.stringify(allReports));
+
+    console.log('Monitoring Report Saved:', monitoringData);
+    alert('Monitoring report saved successfully!\n\n' +
+          'District: ' + monitoringData.general.district + '\n' +
+          'Date: ' + monitoringData.general.visitDate + '\n' +
+          'Supervisor: ' + monitoringData.general.supervisorName);
+  });
+
+  // Initialize districts
+  populateDistricts();
+</script>
+</body>
+</html>
