@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>Attendance - ITN Campaign</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #eef2ff;
+      font-family: system-ui, 'Segoe UI', 'Inter', 'Helvetica Neue', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 0;
+    }
+
+    .phone-wrapper {
+      width: 100%;
+      max-width: 390px;
+      margin: 0 auto;
+      background: #eef2ff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 0.75rem;
+    }
+
+    .form-container {
+      width: 100%;
+      background: #ffffff;
+      border-radius: 1.5rem;
+      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(59, 130, 246, 0.1);
+      overflow: hidden;
+    }
+
+    .light-header {
+      background: linear-gradient(105deg, #dbeafe, #eff6ff);
+      padding: 1.5rem 1rem 1.2rem 1rem;
+      text-align: center;
+      border-bottom: 1px solid #bfdbfe;
+      position: relative;
+    }
+
+    .back-button {
+      position: absolute;
+      left: 1rem;
+      top: 1.5rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #1e3a8a;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(59, 130, 246, 0.1);
+    }
+
+    .header-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+      color: #1e3a8a;
+      margin-bottom: 0.3rem;
+    }
+
+    .header-sub {
+      font-size: 0.7rem;
+      color: #3b82f6;
+    }
+
+    .header-logo {
+      height: 42px;
+      width: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* Progress Bar */
+    .progress-bar {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      padding: 0 0.5rem;
+      background: #ffffff;
+    }
+
+    .progress-step {
+      flex: 1;
+      text-align: center;
+      font-size: 0.65rem;
+      color: #94a3b8;
+      position: relative;
+      padding-top: 1.5rem;
+      font-weight: 500;
+    }
+
+    .progress-step.active {
+      color: #3b82f6;
+      font-weight: 700;
+    }
+
+    .progress-step::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      border: 2px solid #cbd5e1;
+    }
+
+    .progress-step.active::before {
+      background: #3b82f6;
+      border-color: #3b82f6;
+    }
+
+    .progress-step.completed::before {
+      background: #10b981;
+      border-color: #10b981;
+    }
+
+    .attendance-form {
+      padding: 1.5rem 1rem;
+      background: #ffffff;
+    }
+
+    .form-section {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .form-section.active-section {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateX(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .section {
+      background: #f8fafc;
+      border-radius: 1rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid #e2e8f0;
+    }
+
+    .section-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1e3a8a;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #bfdbfe;
+    }
+
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-bottom: 0.8rem;
+      align-items: flex-start;
+    }
+
+    .form-field {
+      flex: 1;
+      min-width: 140px;
+    }
+
+    .form-field label {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #1e3a8a;
+      margin-bottom: 0.2rem;
+    }
+
+    .form-field input, .form-field select {
+      width: 100%;
+      padding: 0.6rem;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 0.7rem;
+      font-size: 0.8rem;
+      font-family: inherit;
+      background: #ffffff;
+      transition: all 0.2s;
+      outline: none;
+    }
+
+    .form-field input:focus, .form-field select:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+
+    .readonly-input {
+      background: #f1f5f9;
+      color: #334155;
+    }
+
+    /* Staff Table */
+    .staff-table {
+      width: 100%;
+      font-size: 0.7rem;
+      border-collapse: collapse;
+      margin-top: 0.5rem;
+      overflow-x: auto;
+      display: block;
+    }
+
+    .staff-table th, .staff-table td {
+      border: 1px solid #cbd5e1;
+      padding: 0.5rem;
+      text-align: left;
+    }
+
+    .staff-table th {
+      background: #dbeafe;
+      color: #1e3a8a;
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+    }
+
+    .staff-table input, .staff-table select {
+      width: 100%;
+      padding: 0.3rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 0.4rem;
+      font-size: 0.7rem;
+    }
+
+    .staff-table .present-check {
+      width: 20px;
+      height: 20px;
+      margin: 0 auto;
+      display: block;
+    }
+
+    /* Summary Grid */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+      margin-top: 0.5rem;
+    }
+
+    .summary-item {
+      background: #ffffff;
+      padding: 0.5rem;
+      border-radius: 0.7rem;
+      text-align: center;
+      border: 1px solid #e2e8f0;
+    }
+
+    .summary-item label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #1e3a8a;
+      display: block;
+    }
+
+    .summary-item input {
+      width: 100%;
+      text-align: center;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 0.4rem;
+    }
+
+    /* Verification Checklist */
+    .verification-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .verification-item span {
+      width: 200px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #1e3a8a;
+    }
+
+    .verification-item .radio-group {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .radio-item {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.75rem;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .nav-btn {
+      flex: 1;
+      background: #e2e8f0;
+      border: none;
+      padding: 0.85rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .nav-btn.next {
+      background: linear-gradient(105deg, #3b82f6, #2563eb);
+      color: white;
+    }
+
+    .nav-btn.prev {
+      background: #f1f5f9;
+      color: #1e3a8a;
+    }
+
+    .nav-btn.submit {
+      background: linear-gradient(105deg, #10b981, #059669);
+      color: white;
+    }
+
+    .nav-btn:active {
+      transform: scale(0.98);
+    }
+
+    .light-footer {
+      background: linear-gradient(105deg, #dbeafe, #eff6ff);
+      border-top: 1px solid #bfdbfe;
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.8rem;
+      color: #1e3a8a;
+      font-weight: 500;
+    }
+
+    .footer-text {
+      font-family: system-ui, sans-serif;
+      letter-spacing: 0.3px;
+    }
+
+    @media (max-width: 400px) {
+      .phone-wrapper { padding: 0.5rem; }
+      .header-title { font-size: 1.2rem; }
+      .header-logo { height: 38px; }
+      .attendance-form { padding: 1.25rem 0.75rem; }
+      .form-field { min-width: 100%; }
+      .summary-grid { grid-template-columns: 1fr; }
+      .staff-table { font-size: 0.65rem; }
+      .staff-table th, .staff-table td { padding: 0.3rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="phone-wrapper">
+  <div class="form-container">
+    <header class="light-header">
+      <a href="index.html" class="back-button">←</a>
+      <div class="header-title">ITN Mass Campaign</div>
+      <div class="header-sub">Sampling Attendance Sheet</div>
+      <img src="logo.png" alt="logo" class="header-logo" onerror="this.style.display='none'">
+    </header>
+
+    <div class="attendance-form">
+      <!-- Progress Bar -->
+      <div class="progress-bar">
+        <div class="progress-step" id="step1Indicator">General Info</div>
+        <div class="progress-step" id="step2Indicator">Staff Register</div>
+        <div class="progress-step" id="step3Indicator">Summary & Verify</div>
+      </div>
+
+      <form id="attendanceForm">
+        <!-- Section 1: General Information with Cascading Dropdowns -->
+        <div class="form-section active-section" id="section1">
+          <div class="section">
+            <div class="section-title">1. General Information</div>
+            <div class="form-row">
+              <div class="form-field">
+                <label>District</label>
+                <select id="district">
+                  <option value="">Select District</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label>Chiefdom/Ward</label>
+                <select id="chiefdom" disabled>
+                  <option value="">Select District first</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-field">
+                <label>Health Facility/Community</label>
+                <select id="facility" disabled>
+                  <option value="">Select Chiefdom first</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label>Distribution Point (DP)</label>
+                <select id="dp" disabled>
+                  <option value="">Select Facility first</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-field">
+                <label>Campaign Phase</label>
+                <select id="campaignPhase">
+                  <option value="">Select</option>
+                  <option value="Registration">Registration</option>
+                  <option value="Distribution">Distribution</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label>Date</label>
+                <input type="text" id="date" class="readonly-input" readonly>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-field">
+                <label>Supervisor Name</label>
+                <input type="text" id="supervisorName" placeholder="Enter supervisor name">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2: Staff Attendance Sampling Register -->
+        <div class="form-section" id="section2">
+          <div class="section">
+            <div class="section-title">2. Staff Attendance Sampling Register</div>
+            <table class="staff-table" id="staffTable">
+              <thead>
+                <tr><th>S/N</th><th>Name of Staff</th><th>Role/Position</th><th>Team No.</th><th>Phone Number</th><th>Time In</th><th>Time Out</th><th>Present(✓/✗)</th><th>Signature/Thumbprint</th><th>Remarks</th></tr>
+              </thead>
+              <tbody id="staffTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Section 3: Attendance Verification Summary -->
+        <div class="form-section" id="section3">
+          <div class="section">
+            <div class="section-title">3. Attendance Verification Summary</div>
+            <div class="summary-grid">
+              <div class="summary-item"><label>Expected Staff</label><input type="number" id="expectedStaff" value="0" min="0"></div>
+              <div class="summary-item"><label>Present Staff</label><input type="number" id="presentStaff" class="readonly-input" readonly></div>
+              <div class="summary-item"><label>Absent Staff</label><input type="number" id="absentStaff" class="readonly-input" readonly></div>
+              <div class="summary-item"><label>Late Arrivals</label><input type="number" id="lateArrivals" value="0" min="0"></div>
+              <div class="summary-item"><label>Staff Replaced</label><input type="number" id="staffReplaced" value="0" min="0"></div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">4. Sample Verification by Supervisor</div>
+            <div id="verificationItems"></div>
+            <div class="form-field" style="margin-top:0.8rem;"><label>Comments</label><textarea id="verificationComments" rows="2" placeholder="Additional comments..."></textarea></div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">5. Key Issues Observed & Actions Taken</div>
+            <div class="form-field"><label>Key Issues Observed</label><textarea id="keyIssues" rows="2" placeholder="List key issues..."></textarea></div>
+            <div class="form-field" style="margin-top:0.5rem;"><label>Actions Taken</label><textarea id="actionsTaken" rows="2" placeholder="List actions taken..."></textarea></div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">6. Supervisor Sign-off</div>
+            <div class="form-row">
+              <div class="form-field"><label>Supervisor Name</label><input type="text" id="signSupervisorName" placeholder="Full name"></div>
+              <div class="form-field"><label>Signature</label><input type="text" id="signature" placeholder="Signature / e-signature"></div>
+              <div class="form-field"><label>Date</label><input type="text" id="signDate" class="readonly-input" readonly></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="nav-buttons">
+          <button type="button" class="nav-btn prev" id="prevBtn" style="display: none;">Previous</button>
+          <button type="button" class="nav-btn next" id="nextBtn">Next</button>
+          <button type="button" class="nav-btn submit" id="submitBtn" style="display: none;">Save Report</button>
+        </div>
+      </form>
+    </div>
+
+    <footer class="light-footer">
+      <span class="footer-text">ICF-SL @2026</span>
+    </footer>
+  </div>
+</div>
+
+<script>
+  let currentSection = 1;
+  const totalSections = 3;
+
+  // Auto-set date
+  const today = new Date();
+  const formattedDate = today.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  document.getElementById('date').value = formattedDate;
+  document.getElementById('signDate').value = formattedDate;
+
+  // ======================== CASCADING LOCATION DATA ========================
+  const locationData = [
+    { District: "Bo", Chiefdom: "Bo Central", Facility: "Bo Government Hospital", DP: "DP1 - Main Hall" },
+    { District: "Bo", Chiefdom: "Bo Central", Facility: "Bo Government Hospital", DP: "DP2 - Registration Desk" },
+    { District: "Bo", Chiefdom: "Bo Central", Facility: "New London Clinic", DP: "DP1 - New London" },
+    { District: "Bo", Chiefdom: "Bo Central", Facility: "Kissi Town CHC", DP: "DP1 - Kissi Town" },
+    { District: "Bo", Chiefdom: "Bo Central", Facility: "Mattru Health Center", DP: "DP1 - Mattru" },
+    { District: "Kenema", Chiefdom: "Dama", Facility: "Dama Clinic", DP: "DP1 - Dama" },
+    { District: "Kenema", Chiefdom: "Dama", Facility: "Kpetema PHU", DP: "DP1 - Kpetema" },
+    { District: "Kenema", Chiefdom: "Nongowa", Facility: "Nongowa CHC", DP: "DP1 - Tongo Fields" },
+    { District: "Kenema", Chiefdom: "Nongowa", Facility: "Falla Community Health Post", DP: "DP1 - Falla" },
+    { District: "Western Urban", Chiefdom: "Freetown", Facility: "Central PHU", DP: "DP1 - Brookfields" },
+    { District: "Western Urban", Chiefdom: "Freetown", Facility: "East PHU", DP: "DP1 - Kissi Road" },
+    { District: "Western Rural", Chiefdom: "Koya", Facility: "Koya CHC", DP: "DP1 - Newton" },
+    { District: "Western Rural", Chiefdom: "Waterloo", Facility: "Waterloo Hospital", DP: "DP1 - Tombo" },
+    { District: "Western Rural", Chiefdom: "Waterloo", Facility: "Waterloo Hospital", DP: "DP2 - Waterloo Town" }
+  ];
+
+  const districtSelect = document.getElementById('district');
+  const chiefdomSelect = document.getElementById('chiefdom');
+  const facilitySelect = document.getElementById('facility');
+  const dpSelect = document.getElementById('dp');
+
+  // Populate Districts
+  function populateDistricts() {
+    const districts = [...new Set(locationData.map(item => item.District))];
+    districts.forEach(district => {
+      const option = document.createElement('option');
+      option.value = district;
+      option.textContent = district;
+      districtSelect.appendChild(option);
+    });
+  }
+
+  // Get unique values based on parent filters
+  function getUniqueValues(field, parentFilters = {}) {
+    let filtered = [...locationData];
+    if (parentFilters.District) {
+      filtered = filtered.filter(item => item.District === parentFilters.District);
+    }
+    if (parentFilters.Chiefdom) {
+      filtered = filtered.filter(item => item.Chiefdom === parentFilters.Chiefdom);
+    }
+    if (parentFilters.Facility) {
+      filtered = filtered.filter(item => item.Facility === parentFilters.Facility);
+    }
+    return [...new Set(filtered.map(item => item[field]))];
+  }
+
+  function resetSelect(select, placeholder, disabled) {
+    select.innerHTML = `<option value="">${placeholder}</option>`;
+    select.disabled = disabled;
+  }
+
+  // District change
+  districtSelect.addEventListener('change', () => {
+    const selectedDistrict = districtSelect.value;
+    resetSelect(chiefdomSelect, 'Select Chiefdom first', true);
+    resetSelect(facilitySelect, 'Select Facility first', true);
+    resetSelect(dpSelect, 'Select DP first', true);
+    
+    if (selectedDistrict) {
+      const chiefdoms = getUniqueValues('Chiefdom', { District: selectedDistrict });
+      chiefdomSelect.disabled = false;
+      chiefdomSelect.innerHTML = '<option value="">Select Chiefdom</option>';
+      chiefdoms.forEach(chiefdom => {
+        const option = document.createElement('option');
+        option.value = chiefdom;
+        option.textContent = chiefdom;
+        chiefdomSelect.appendChild(option);
+      });
+    }
+  });
+
+  // Chiefdom change
+  chiefdomSelect.addEventListener('change', () => {
+    const selectedDistrict = districtSelect.value;
+    const selectedChiefdom = chiefdomSelect.value;
+    resetSelect(facilitySelect, 'Select Facility first', true);
+    resetSelect(dpSelect, 'Select DP first', true);
+    
+    if (selectedChiefdom) {
+      const facilities = getUniqueValues('Facility', { 
+        District: selectedDistrict, 
+        Chiefdom: selectedChiefdom 
+      });
+      facilitySelect.disabled = false;
+      facilitySelect.innerHTML = '<option value="">Select Health Facility/Community</option>';
+      facilities.forEach(facility => {
+        const option = document.createElement('option');
+        option.value = facility;
+        option.textContent = facility;
+        facilitySelect.appendChild(option);
+      });
+    }
+  });
+
+  // Facility change
+  facilitySelect.addEventListener('change', () => {
+    const selectedDistrict = districtSelect.value;
+    const selectedChiefdom = chiefdomSelect.value;
+    const selectedFacility = facilitySelect.value;
+    resetSelect(dpSelect, 'Select DP first', true);
+    
+    if (selectedFacility) {
+      const dps = getUniqueValues('DP', { 
+        District: selectedDistrict, 
+        Chiefdom: selectedChiefdom,
+        Facility: selectedFacility
+      });
+      dpSelect.disabled = false;
+      dpSelect.innerHTML = '<option value="">Select Distribution Point</option>';
+      dps.forEach(dp => {
+        const option = document.createElement('option');
+        option.value = dp;
+        option.textContent = dp;
+        dpSelect.appendChild(option);
+      });
+    }
+  });
+
+  // Generate staff table rows (15 rows)
+  const staffTableBody = document.getElementById('staffTableBody');
+  for (let i = 1; i <= 15; i++) {
+    const row = staffTableBody.insertRow();
+    row.innerHTML = `
+      <td style="text-align:center">${i}</td>
+      <td><input type="text" placeholder="Name" class="staff-name"></td>
+      <td><input type="text" placeholder="Role" class="staff-role"></td>
+      <td><input type="text" placeholder="Team No" class="staff-team"></td>
+      <td><input type="tel" placeholder="Phone" class="staff-phone"></td>
+      <td><input type="time" class="staff-timein"></td>
+      <td><input type="time" class="staff-timeout"></td>
+      <td style="text-align:center"><input type="checkbox" class="staff-present"></td>
+      <td><input type="text" placeholder="Signature" class="staff-signature"></td>
+      <td><input type="text" placeholder="Remarks" class="staff-remarks"></td>
+    `;
+  }
+
+  // Update present/absent counts based on checkboxes
+  function updateAttendanceCounts() {
+    const presentCheckboxes = document.querySelectorAll('.staff-present');
+    let presentCount = 0;
+    presentCheckboxes.forEach(cb => { if (cb.checked) presentCount++; });
+    
+    const expected = parseInt(document.getElementById('expectedStaff').value) || 0;
+    document.getElementById('presentStaff').value = presentCount;
+    document.getElementById('absentStaff').value = expected - presentCount;
+  }
+
+  // Attach event listeners to all present checkboxes
+  function attachPresentListeners() {
+    const presentCheckboxes = document.querySelectorAll('.staff-present');
+    presentCheckboxes.forEach(cb => {
+      cb.removeEventListener('change', updateAttendanceCounts);
+      cb.addEventListener('change', updateAttendanceCounts);
+    });
+  }
+  
+  document.getElementById('expectedStaff').addEventListener('input', updateAttendanceCounts);
+
+  // Verification items
+  const verificationQuestions = [
+    "Staff present match payroll/roster list",
+    "All staff have ID/official badge",
+    "Team arrived on time",
+    "Absent staff officially reported",
+    "Replacement staff approved"
+  ];
+  
+  const verificationContainer = document.getElementById('verificationItems');
+  verificationQuestions.forEach((q, idx) => {
+    const div = document.createElement('div');
+    div.className = 'verification-item';
+    div.innerHTML = `
+      <span>${q}</span>
+      <div class="radio-group">
+        <label class="radio-item"><input type="radio" name="verify_${idx}" value="Yes"> Yes</label>
+        <label class="radio-item"><input type="radio" name="verify_${idx}" value="No"> No</label>
+      </div>
+    `;
+    verificationContainer.appendChild(div);
+  });
+
+  // Navigation Functions
+  function updateSection() {
+    for (let i = 1; i <= totalSections; i++) {
+      const section = document.getElementById(`section${i}`);
+      if (section) section.classList.remove('active-section');
+      const indicator = document.getElementById(`step${i}Indicator`);
+      if (indicator) {
+        indicator.classList.remove('active', 'completed');
+        if (i === currentSection) indicator.classList.add('active');
+        else if (i < currentSection) indicator.classList.add('completed');
+      }
+    }
+    const currentSectionElement = document.getElementById(`section${currentSection}`);
+    if (currentSectionElement) currentSectionElement.classList.add('active-section');
+
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const submitBtn = document.getElementById('submitBtn');
+
+    if (currentSection === 1) { prevBtn.style.display = 'none'; nextBtn.style.display = 'block'; submitBtn.style.display = 'none'; }
+    else if (currentSection === totalSections) { prevBtn.style.display = 'block'; nextBtn.style.display = 'none'; submitBtn.style.display = 'block'; }
+    else { prevBtn.style.display = 'block'; nextBtn.style.display = 'block'; submitBtn.style.display = 'none'; }
+    
+    if (currentSection === 3) updateAttendanceCounts();
+  }
+
+  function nextSection() { if (currentSection < totalSections) { currentSection++; updateSection(); } }
+  function prevSection() { if (currentSection > 1) { currentSection--; updateSection(); } }
+
+  // Collect staff data
+  function getStaffData() {
+    const rows = staffTableBody.querySelectorAll('tr');
+    const staffData = [];
+    rows.forEach((row, idx) => {
+      const name = row.querySelector('.staff-name')?.value || '';
+      if (name) {
+        staffData.push({
+          sn: idx + 1,
+          name: name,
+          role: row.querySelector('.staff-role')?.value || '',
+          teamNo: row.querySelector('.staff-team')?.value || '',
+          phone: row.querySelector('.staff-phone')?.value || '',
+          timeIn: row.querySelector('.staff-timein')?.value || '',
+          timeOut: row.querySelector('.staff-timeout')?.value || '',
+          present: row.querySelector('.staff-present')?.checked || false,
+          signature: row.querySelector('.staff-signature')?.value || '',
+          remarks: row.querySelector('.staff-remarks')?.value || ''
+        });
+      }
+    });
+    return staffData;
+  }
+
+  function getVerificationResponses() {
+    const responses = [];
+    for (let i = 0; i < verificationQuestions.length; i++) {
+      const selected = document.querySelector(`input[name="verify_${i}"]:checked`);
+      responses.push({ question: verificationQuestions[i], answer: selected ? selected.value : '' });
+    }
+    return responses;
+  }
+
+  // Save Report
+  document.getElementById('submitBtn').addEventListener('click', () => {
+    const generalData = {
+      district: document.getElementById('district').value,
+      chiefdom: document.getElementById('chiefdom').value,
+      facility: document.getElementById('facility').value,
+      dp: document.getElementById('dp').value,
+      campaignPhase: document.getElementById('campaignPhase').value,
+      date: document.getElementById('date').value,
+      supervisorName: document.getElementById('supervisorName').value
+    };
+
+    const summaryData = {
+      expectedStaff: document.getElementById('expectedStaff').value,
+      presentStaff: document.getElementById('presentStaff').value,
+      absentStaff: document.getElementById('absentStaff').value,
+      lateArrivals: document.getElementById('lateArrivals').value,
+      staffReplaced: document.getElementById('staffReplaced').value
+    };
+
+    const verificationData = {
+      responses: getVerificationResponses(),
+      comments: document.getElementById('verificationComments').value
+    };
+
+    const findingsData = {
+      keyIssues: document.getElementById('keyIssues').value,
+      actionsTaken: document.getElementById('actionsTaken').value
+    };
+
+    const signoffData = {
+      supervisorName: document.getElementById('signSupervisorName').value,
+      signature: document.getElementById('signature').value,
+      date: document.getElementById('signDate').value
+    };
+
+    const attendanceData = {
+      timestamp: new Date().toISOString(),
+      general: generalData,
+      staff: getStaffData(),
+      summary: summaryData,
+      verification: verificationData,
+      findings: findingsData,
+      signoff: signoffData
+    };
+
+    let allReports = JSON.parse(localStorage.getItem('itnAttendanceReports') || '[]');
+    allReports.push(attendanceData);
+    localStorage.setItem('itnAttendanceReports', JSON.stringify(allReports));
+
+    console.log('Attendance Report Saved:', attendanceData);
+    alert('Attendance report saved successfully!\n\n' +
+          'District: ' + generalData.district + '\n' +
+          'Date: ' + generalData.date + '\n' +
+          'Present Staff: ' + summaryData.presentStaff + ' / ' + summaryData.expectedStaff);
+  });
+
+  document.getElementById('nextBtn').addEventListener('click', nextSection);
+  document.getElementById('prevBtn').addEventListener('click', prevSection);
+  
+  // Initialize
+  populateDistricts();
+  attachPresentListeners();
+  updateSection();
+</script>
+</body>
+</html>
