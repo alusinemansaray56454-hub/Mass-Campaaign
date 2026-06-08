@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>Registration</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #eef2ff;
+      font-family: system-ui, 'Segoe UI', 'Inter', 'Helvetica Neue', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 0;
+    }
+
+    .phone-wrapper {
+      width: 100%;
+      max-width: 390px;
+      margin: 0 auto;
+      background: #eef2ff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 0.75rem;
+    }
+
+    .form-container {
+      width: 100%;
+      background: #ffffff;
+      border-radius: 1.5rem;
+      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(59, 130, 246, 0.1);
+      overflow: hidden;
+    }
+
+    .light-header {
+      background: linear-gradient(105deg, #dbeafe, #eff6ff);
+      padding: 1.5rem 1rem 1.2rem 1rem;
+      text-align: center;
+      border-bottom: 1px solid #bfdbfe;
+      position: relative;
+    }
+
+    .back-button {
+      position: absolute;
+      left: 1rem;
+      top: 1.5rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #1e3a8a;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(59, 130, 246, 0.1);
+    }
+
+    .header-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+      color: #1e3a8a;
+      margin-bottom: 0.85rem;
+    }
+
+    .header-logo {
+      height: 42px;
+      width: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .registration-form {
+      padding: 1.5rem 1rem;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-group label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #1e3a8a;
+      letter-spacing: 0.3px;
+    }
+
+    .form-group label .required {
+      color: #dc2626;
+      margin-left: 0.2rem;
+    }
+
+    .form-group input, .form-group select {
+      padding: 0.75rem;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 0.75rem;
+      font-size: 0.9rem;
+      font-family: inherit;
+      background: #f8fafc;
+      transition: all 0.2s;
+      outline: none;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+      background: #ffffff;
+    }
+
+    .form-group input.error-input, .form-group select.error-input {
+      border-color: #dc2626;
+    }
+
+    .readonly-input {
+      background: #f1f5f9;
+      color: #334155;
+      cursor: not-allowed;
+    }
+
+    .error-message {
+      color: #dc2626;
+      font-size: 0.7rem;
+      margin-top: 0.25rem;
+      display: none;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    .submit-btn {
+      background: linear-gradient(105deg, #3b82f6, #2563eb);
+      border: none;
+      padding: 0.85rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      font-size: 1rem;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-top: 0.5rem;
+    }
+
+    .submit-btn:active {
+      transform: scale(0.98);
+    }
+
+    .light-footer {
+      background: linear-gradient(105deg, #dbeafe, #eff6ff);
+      border-top: 1px solid #bfdbfe;
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.8rem;
+      color: #1e3a8a;
+      font-weight: 500;
+    }
+
+    .footer-text {
+      font-family: system-ui, sans-serif;
+      letter-spacing: 0.3px;
+    }
+
+    @media (max-width: 400px) {
+      .phone-wrapper {
+        padding: 0.5rem;
+      }
+      .header-title {
+        font-size: 1.35rem;
+      }
+      .header-logo {
+        height: 38px;
+      }
+      .registration-form {
+        padding: 1.25rem 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="phone-wrapper">
+  <div class="form-container">
+    <header class="light-header">
+      <a href="index.html" class="back-button">←</a>
+      <div class="header-title">Registration</div>
+      <img src="logo.png" alt="logo" class="header-logo" onerror="this.style.display='none'">
+    </header>
+
+    <form class="registration-form" id="registrationForm">
+      <div class="form-group">
+        <label>Date</label>
+        <input type="text" id="currentDate" class="readonly-input" readonly>
+      </div>
+
+      <div class="form-group">
+        <label>District <span class="required">*</span></label>
+        <select id="district" required>
+          <option value="">Select District</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Chiefdom <span class="required">*</span></label>
+        <select id="chiefdom" required disabled>
+          <option value="">Select Chiefdom first</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>PHU <span class="required">*</span></label>
+        <select id="phu" required disabled>
+          <option value="">Select PHU first</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Community <span class="required">*</span></label>
+        <select id="community" required disabled>
+          <option value="">Select Community first</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>HHR Name <span class="required">*</span></label>
+        <select id="hhr" required disabled>
+          <option value="">Select HHR first</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Household Head Name <span class="required">*</span></label>
+        <input type="text" id="householdHead" placeholder="Enter full name" required>
+      </div>
+
+      <div class="form-group">
+        <label>Telephone</label>
+        <input type="tel" id="telephone" placeholder="0XXXXXXXX" maxlength="9">
+        <div class="error-message" id="phoneError">Phone number must be exactly 9 digits and start with 0</div>
+      </div>
+
+      <button type="submit" class="submit-btn">Save Registration</button>
+    </form>
+
+    <footer class="light-footer">
+      <span class="footer-text">ICF-SL @2026</span>
+    </footer>
+  </div>
+</div>
+
+<script>
+  // Auto-capture date
+  const today = new Date();
+  const formattedDate = today.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  });
+  document.getElementById('currentDate').value = formattedDate;
+
+  // Load cascading data from cascading.csv
+  let cascadingData = [];
+
+  async function loadCascadingData() {
+    try {
+      const response = await fetch('cascading.csv');
+      const csvText = await response.text();
+      
+      const lines = csvText.trim().split('\n');
+      const headers = lines[0].split(',').map(h => h.trim());
+      
+      for (let i = 1; i < lines.length; i++) {
+        const values = lines[i].split(',').map(v => v.trim());
+        if (values.length >= 5) {
+          cascadingData.push({
+            District: values[0],
+            Chiefdom: values[1],
+            PHU: values[2],
+            Community: values[3],
+            HHR: values[4]
+          });
+        }
+      }
+      
+      populateDistricts();
+    } catch (error) {
+      console.error('Error loading cascading.csv:', error);
+      alert('Could not load cascading.csv. Please ensure the file exists in the same directory.');
+    }
+  }
+
+  const districtSelect = document.getElementById('district');
+  const chiefdomSelect = document.getElementById('chiefdom');
+  const phuSelect = document.getElementById('phu');
+  const communitySelect = document.getElementById('community');
+  const hhrSelect = document.getElementById('hhr');
+  const telephoneInput = document.getElementById('telephone');
+  const phoneError = document.getElementById('phoneError');
+  const householdHeadInput = document.getElementById('householdHead');
+
+  function populateDistricts() {
+    const districts = [...new Set(cascadingData.map(item => item.District))];
+    districts.forEach(district => {
+      const option = document.createElement('option');
+      option.value = district;
+      option.textContent = district;
+      districtSelect.appendChild(option);
+    });
+  }
+
+  function getUniqueValues(field, parentFilters = {}) {
+    let filtered = [...cascadingData];
+    if (parentFilters.District) {
+      filtered = filtered.filter(item => item.District === parentFilters.District);
+    }
+    if (parentFilters.Chiefdom) {
+      filtered = filtered.filter(item => item.Chiefdom === parentFilters.Chiefdom);
+    }
+    if (parentFilters.PHU) {
+      filtered = filtered.filter(item => item.PHU === parentFilters.PHU);
+    }
+    if (parentFilters.Community) {
+      filtered = filtered.filter(item => item.Community === parentFilters.Community);
+    }
+    return [...new Set(filtered.map(item => item[field]))];
+  }
+
+  function resetSelect(select, placeholder, disabled) {
+    select.innerHTML = `<option value="">${placeholder}</option>`;
+    select.disabled = disabled;
+  }
+
+  function validateTelephone(phone) {
+    if (!phone || phone.length === 0) {
+      return true; // Telephone is optional
+    }
+    const phoneRegex = /^0[0-9]{8}$/;
+    return phoneRegex.test(phone);
+  }
+
+  function showFieldError(field, show) {
+    const errorDiv = field.parentElement.querySelector('.error-message');
+    if (errorDiv) {
+      if (show) {
+        errorDiv.classList.add('show');
+        field.classList.add('error-input');
+      } else {
+        errorDiv.classList.remove('show');
+        field.classList.remove('error-input');
+      }
+    }
+  }
+
+  function validateFormFields() {
+    let isValid = true;
+    
+    const district = districtSelect.value;
+    const chiefdom = chiefdomSelect.value;
+    const phu = phuSelect.value;
+    const community = communitySelect.value;
+    const hhr = hhrSelect.value;
+    const householdHead = householdHeadInput.value.trim();
+    
+    if (!district) {
+      showFieldError(districtSelect, true);
+      isValid = false;
+    } else {
+      showFieldError(districtSelect, false);
+    }
+    
+    if (!chiefdom) {
+      showFieldError(chiefdomSelect, true);
+      isValid = false;
+    } else {
+      showFieldError(chiefdomSelect, false);
+    }
+    
+    if (!phu) {
+      showFieldError(phuSelect, true);
+      isValid = false;
+    } else {
+      showFieldError(phuSelect, false);
+    }
+    
+    if (!community) {
+      showFieldError(communitySelect, true);
+      isValid = false;
+    } else {
+      showFieldError(communitySelect, false);
+    }
+    
+    if (!hhr) {
+      showFieldError(hhrSelect, true);
+      isValid = false;
+    } else {
+      showFieldError(hhrSelect, false);
+    }
+    
+    if (!householdHead) {
+      showFieldError(householdHeadInput, true);
+      isValid = false;
+    } else {
+      showFieldError(householdHeadInput, false);
+    }
+    
+    return isValid;
+  }
+
+  telephoneInput.addEventListener('input', (e) => {
+    let value = e.target.value;
+    if (value.length > 9) {
+      value = value.slice(0, 9);
+    }
+    value = value.replace(/[^0-9]/g, '');
+    e.target.value = value;
+    
+    if (value && !validateTelephone(value)) {
+      phoneError.classList.add('show');
+      telephoneInput.classList.add('error-input');
+    } else {
+      phoneError.classList.remove('show');
+      telephoneInput.classList.remove('error-input');
+    }
+  });
+
+  telephoneInput.addEventListener('blur', () => {
+    const phone = telephoneInput.value;
+    if (phone && !validateTelephone(phone)) {
+      phoneError.classList.add('show');
+      telephoneInput.classList.add('error-input');
+    } else {
+      phoneError.classList.remove('show');
+      telephoneInput.classList.remove('error-input');
+    }
+  });
+
+  districtSelect.addEventListener('change', () => {
+    const selectedDistrict = districtSelect.value;
+    showFieldError(districtSelect, false);
+    
+    resetSelect(chiefdomSelect, 'Select Chiefdom first', true);
+    resetSelect(phuSelect, 'Select PHU first', true);
+    resetSelect(communitySelect, 'Select Community first', true);
+    resetSelect(hhrSelect, 'Select HHR first', true);
+    
+    if (selectedDistrict) {
+      const chiefdoms = getUniqueValues('Chiefdom', { District: selectedDistrict });
+      chiefdomSelect.disabled = false;
+      chiefdomSelect.innerHTML = '<option value="">Select Chiefdom</option>';
+      chiefdoms.forEach(chiefdom => {
+        const option = document.createElement('option');
+        option.value = chiefdom;
+        option.textContent = chiefdom;
+        chiefdomSelect.appendChild(option);
+      });
+    }
+  });
+
+  chiefdomSelect.addEventListener('change', () => {
+    const selectedDistrict = districtSelect.value;
+    const selectedChiefdom = chiefdomSelect.value;
+    showFieldError(chiefdomSelect, false);
+    
+    resetSelect(phuSelect, 'Select PHU first', true);
+    resetSelect(communitySelect, 'Select Community first', true);
+    resetSelect(hhrSelect, 'Select HHR first', true);
+    
+    if (selectedChiefdom) {
+      const phus = getUniqueValues('PHU', { District: selectedDistrict, Chiefdom: selectedChiefdom });
+      phuSelect.disabled = false;
+      phuSelect.innerHTML = '<option value="">Select PHU</option>';
+      phus.forEach(phu => {
+        const option = document.createElement('option');
+        option.value = phu;
+        option.textContent = phu;
+        phuSelect.appendChild(option);
+      });
+    }
+  });
+
+  phuSelect.addEventListener('change', () => {
+    const selectedDistrict = districtSelect.value;
+    const selectedChiefdom = chiefdomSelect.value;
+    const selectedPHU = phuSelect.value;
+    showFieldError(phuSelect, false);
+    
+    resetSelect(communitySelect, 'Select Community first', true);
+    resetSelect(hhrSelect, 'Select HHR first', true);
+    
+    if (selectedPHU) {
+      const communities = getUniqueValues('Community', { 
+        District: selectedDistrict, 
+        Chiefdom: selectedChiefdom, 
+        PHU: selectedPHU 
+      });
+      communitySelect.disabled = false;
+      communitySelect.innerHTML = '<option value="">Select Community</option>';
+      communities.forEach(community => {
+        const option = document.createElement('option');
+        option.value = community;
+        option.textContent = community;
+        communitySelect.appendChild(option);
+      });
+    }
+  });
+
+  communitySelect.addEventListener('change', () => {
+    const selectedDistrict = districtSelect.value;
+    const selectedChiefdom = chiefdomSelect.value;
+    const selectedPHU = phuSelect.value;
+    const selectedCommunity = communitySelect.value;
+    showFieldError(communitySelect, false);
+    
+    resetSelect(hhrSelect, 'Select HHR first', true);
+    
+    if (selectedCommunity) {
+      const hhrs = getUniqueValues('HHR', { 
+        District: selectedDistrict, 
+        Chiefdom: selectedChiefdom, 
+        PHU: selectedPHU,
+        Community: selectedCommunity
+      });
+      hhrSelect.disabled = false;
+      hhrSelect.innerHTML = '<option value="">Select HHR</option>';
+      hhrs.forEach(hhr => {
+        const option = document.createElement('option');
+        option.value = hhr;
+        option.textContent = hhr;
+        hhrSelect.appendChild(option);
+      });
+    }
+  });
+
+  hhrSelect.addEventListener('change', () => {
+    showFieldError(hhrSelect, false);
+  });
+
+  householdHeadInput.addEventListener('input', () => {
+    if (householdHeadInput.value.trim()) {
+      showFieldError(householdHeadInput, false);
+    }
+  });
+
+  const form = document.getElementById('registrationForm');
+  
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const phone = telephoneInput.value;
+    if (phone && !validateTelephone(phone)) {
+      phoneError.classList.add('show');
+      telephoneInput.classList.add('error-input');
+      telephoneInput.focus();
+      return;
+    }
+    
+    if (!validateFormFields()) {
+      alert('Please fill all required fields');
+      return;
+    }
+    
+    const registrationData = {
+      date: formattedDate,
+      district: districtSelect.value,
+      chiefdom: chiefdomSelect.value,
+      phu: phuSelect.value,
+      community: communitySelect.value,
+      hhr: hhrSelect.value,
+      householdHead: householdHeadInput.value.trim(),
+      telephone: phone || ''
+    };
+    
+    console.log('Registration Data:', registrationData);
+    alert('Registration saved successfully');
+  });
+
+  loadCascadingData();
+</script>
+</body>
+</html>
