@@ -1,12 +1,9 @@
-step 1<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>HCMS | Sierra Leone Malaria Campaign</title>
-  <!-- Google Fonts & Font Awesome Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>Data Collection Form</title>
   <style>
     * {
       margin: 0;
@@ -15,657 +12,354 @@ step 1<!DOCTYPE html>
     }
 
     body {
-      background: linear-gradient(145deg, #eef5f0 0%, #d9e4dc 100%);
-      font-family: 'Inter', sans-serif;
-      padding: 2rem 1.5rem;
-      color: #1a2e2c;
+      background: #eef2ff;
+      font-family: system-ui, 'Segoe UI', 'Inter', 'Helvetica Neue', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 0;
     }
 
-    .dashboard {
-      max-width: 1400px;
+    /* Phone view container — simulates mobile screen */
+    .phone-wrapper {
+      width: 100%;
+      max-width: 390px;
       margin: 0 auto;
-      background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(2px);
-      border-radius: 2.5rem;
-      box-shadow: 0 25px 45px -12px rgba(0, 32, 32, 0.35);
+      background: #eef2ff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0.75rem;
+    }
+
+    /* Main card container — light blue and white theme */
+    .form-container {
+      width: 100%;
+      background: #ffffff;
+      border-radius: 1.5rem;
+      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(59, 130, 246, 0.1);
       overflow: hidden;
-      transition: all 0.2s;
+      transition: all 0.2s ease;
     }
 
-    .header {
-      background: #0f3b2c;
-      background-image: radial-gradient(circle at 10% 30%, rgba(70, 130, 100, 0.2) 2%, transparent 2.5%);
-      background-size: 28px 28px;
-      padding: 1.8rem 2.5rem 1.2rem 2.5rem;
-      border-bottom: 5px solid #e7b42c;
-    }
-
-    .top-badge {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 15px;
-    }
-
-    .mohealth {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .mohealth .icon-emblem {
-      font-size: 2.6rem;
-      color: #f7d44a;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-    }
-
-    .mohealth h2 {
-      color: white;
-      font-weight: 700;
-      letter-spacing: -0.3px;
-      font-size: 1.4rem;
-      background: rgba(0,0,0,0.3);
-      padding: 0.3rem 1rem;
-      border-radius: 40px;
-    }
-
-    .mohealth h1 {
-      font-size: 1.8rem;
-      font-weight: 800;
-      color: #FFE6A3;
-    }
-
-    .nmcp {
-      background: #e7b42c;
-      padding: 0.5rem 1.3rem;
-      border-radius: 60px;
-      color: #0f3b2c;
-      font-weight: 800;
-      font-size: 1.2rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 6px 0 #8b5e1a;
-    }
-
-    .campaign-title {
-      margin-top: 1.2rem;
+    /* ========= HEADER (light blue) ========= */
+    .light-header {
+      background: linear-gradient(105deg, #dbeafe, #eff6ff);
+      padding: 1.5rem 1rem 1.2rem 1rem;
       text-align: center;
+      border-bottom: 1px solid #bfdbfe;
     }
 
-    .campaign-title h3 {
-      font-size: 2.3rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, #ffffff, #F9E2A1);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .partners {
-      background: #ffffffd9;
-      backdrop-filter: blur(4px);
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-around;
-      align-items: center;
-      gap: 1rem;
-      padding: 1rem 2rem;
-      border-bottom: 1px solid #cbdcd2;
-    }
-
-    .partner-card {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: #fefcf5;
-      padding: 0.5rem 1.2rem;
-      border-radius: 80px;
-      box-shadow: 0 5px 12px rgba(0,0,0,0.03);
+    .header-title {
+      font-size: 1.5rem;
       font-weight: 600;
+      letter-spacing: -0.2px;
+      color: #1e3a8a;
+      margin-bottom: 0.85rem;
     }
 
-    .partner-card i {
-      font-size: 1.8rem;
-      color: #1f6e43;
+    .header-logo {
+      height: 42px;
+      width: auto;
+      display: block;
+      margin: 0 auto;
     }
 
-    .grid-main {
+    /* ========= FORM BODY — 6 cards, 2 columns ========= */
+    .data-form {
+      padding: 1.5rem 1rem;
+      background: #ffffff;
+    }
+
+    .cards-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.8rem;
-      padding: 2rem 2rem 2rem 2rem;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.875rem;
+    }
+
+    .card-link {
+      text-decoration: none;
+      display: block;
     }
 
     .card {
-      background: white;
-      border-radius: 1.8rem;
-      box-shadow: 0 12px 28px -8px rgba(0, 32, 24, 0.12);
-      transition: transform 0.2s ease, box-shadow 0.2s;
-      overflow: hidden;
-      border: 1px solid rgba(180, 210, 180, 0.5);
+      border-radius: 1rem;
+      padding: 1rem 0.5rem;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+      transition: all 0.2s ease;
       cursor: pointer;
     }
 
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 22px 32px -12px rgba(0, 70, 50, 0.25);
+    .card:active {
+      transform: scale(0.97);
     }
 
-    .card-header {
-      background: #f3f9f0;
-      padding: 1.2rem 1.5rem;
-      border-bottom: 3px solid #d0e2c5;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .card-header i {
-      font-size: 2rem;
-      color: #2b7a4b;
-    }
-
-    .card-header h3 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #1f543f;
-    }
-
-    .card-content {
-      padding: 1.6rem 1.5rem;
-      font-size: 0.95rem;
-      color: #2a4b3e;
-      font-weight: 500;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .stat-row {
-      display: flex;
-      justify-content: space-between;
-      border-bottom: 1px dashed #cfe3d4;
-      padding: 8px 0;
-    }
-
-    .stat-label {
-      font-weight: 500;
-      color: #3d6b58;
-    }
-
-    .stat-number {
-      font-weight: 800;
-      color: #0f523b;
-    }
-
-    .metric-badge {
-      background: #eef4ea;
-      border-radius: 32px;
-      padding: 0.5rem 1rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      width: fit-content;
-      font-size: 0.85rem;
-    }
-
-    .wide-card {
-      grid-column: span 2;
-    }
-
-    @media (max-width: 760px) {
-      .wide-card {
-        grid-column: span 1;
-      }
-      .grid-main {
-        padding: 1.2rem;
-      }
-      .campaign-title h3 {
-        font-size: 1.7rem;
-      }
-    }
-
-    .footer-note {
-      background: #fef7e0;
-      padding: 1rem 2rem;
-      text-align: center;
-      font-size: 0.85rem;
-      color: #2c5a48;
-      border-top: 1px solid #eedd99;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .powered {
-      font-weight: 600;
-      background: #fff2d7;
-      padding: 0.2rem 1rem;
-      border-radius: 40px;
-    }
-
-    /* MODAL STYLES (iFrame overlay) */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(10, 30, 20, 0.85);
-      backdrop-filter: blur(5px);
-      z-index: 1000;
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      margin: 0 auto 0.5rem auto;
       display: flex;
       align-items: center;
       justify-content: center;
-      visibility: hidden;
-      opacity: 0;
-      transition: visibility 0.2s, opacity 0.2s ease;
     }
 
-    .modal-overlay.active {
-      visibility: visible;
-      opacity: 1;
+    .card-icon svg {
+      width: 32px;
+      height: 32px;
+      stroke-width: 1.7;
+      fill: none;
     }
 
-    .modal-container {
-      width: 85vw;
-      height: 85vh;
-      max-width: 1300px;
-      background: #fffef7;
-      border-radius: 2rem;
-      overflow: hidden;
-      box-shadow: 0 30px 50px rgba(0, 0, 0, 0.4);
-      display: flex;
-      flex-direction: column;
-      animation: fadeSlideUp 0.2s ease-out;
-    }
-
-    @keyframes fadeSlideUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .modal-header {
-      background: #0f3b2c;
-      padding: 1rem 1.8rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: white;
-    }
-
-    .modal-header h4 {
-      font-size: 1.4rem;
+    .card-title {
+      font-size: 0.85rem;
       font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    /* Registration Card */
+    .card-registration {
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      border: 1px solid #f59e0b;
+    }
+    .card-registration .card-icon svg {
+      stroke: #d97706;
+    }
+    .card-registration .card-title {
+      color: #b45309;
+    }
+
+    /* Distribution Card */
+    .card-distribution {
+      background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+      border: 1px solid #10b981;
+    }
+    .card-distribution .card-icon svg {
+      stroke: #059669;
+    }
+    .card-distribution .card-title {
+      color: #065f46;
+    }
+
+    /* Dashboard Card */
+    .card-dashboard {
+      background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+      border: 1px solid #8b5cf6;
+    }
+    .card-dashboard .card-icon svg {
+      stroke: #7c3aed;
+    }
+    .card-dashboard .card-title {
+      color: #5b21b6;
+    }
+
+    /* Stock Card */
+    .card-stock {
+      background: linear-gradient(135deg, #fce7f3, #fbcfe8);
+      border: 1px solid #ec4899;
+    }
+    .card-stock .card-icon svg {
+      stroke: #db2777;
+    }
+    .card-stock .card-title {
+      color: #be185d;
+    }
+
+    /* Attendance Card */
+    .card-attendance {
+      background: linear-gradient(135deg, #ccfbf1, #99f6e4);
+      border: 1px solid #14b8a6;
+    }
+    .card-attendance .card-icon svg {
+      stroke: #0f766e;
+    }
+    .card-attendance .card-title {
+      color: #115e59;
+    }
+
+    /* Monitoring Card */
+    .card-monitoring {
+      background: linear-gradient(135deg, #fee2e2, #fecaca);
+      border: 1px solid #ef4444;
+    }
+    .card-monitoring .card-icon svg {
+      stroke: #dc2626;
+    }
+    .card-monitoring .card-title {
+      color: #b91c1c;
+    }
+
+    /* ========= FOOTER (same light blue as header) ========= */
+    .light-footer {
+      background: linear-gradient(105deg, #dbeafe, #eff6ff);
+      border-top: 1px solid #bfdbfe;
+      padding: 1rem 1rem;
       display: flex;
+      justify-content: center;
       align-items: center;
-      gap: 12px;
+      gap: 1rem;
+      font-size: 0.8rem;
+      color: #1e3a8a;
+      font-weight: 500;
     }
 
-    .close-modal {
-      background: rgba(255,255,240,0.2);
-      border: none;
-      font-size: 1.8rem;
-      cursor: pointer;
-      color: white;
-      width: 40px;
-      height: 40px;
-      border-radius: 40px;
-      transition: all 0.2s;
+    .footer-text {
+      font-family: system-ui, 'Segoe UI', sans-serif;
+      letter-spacing: 0.3px;
     }
 
-    .close-modal:hover {
-      background: #e7b42c;
-      color: #1e3d34;
+    hr {
+      display: none;
     }
 
-    .iframe-wrapper {
-      flex: 1;
-      background: #f0f4ed;
-    }
-
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    /* hint text on card */
-    .click-hint {
-      font-size: 0.7rem;
-      margin-top: 8px;
-      color: #8ba38e;
-      font-weight: 400;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    @media (max-width: 640px) {
-      .modal-container {
-        width: 95vw;
-        height: 90vh;
+    /* Extra small adjustments */
+    @media (max-width: 400px) {
+      .phone-wrapper {
+        padding: 0.5rem;
+      }
+      .header-title {
+        font-size: 1.35rem;
+      }
+      .header-logo {
+        height: 38px;
+      }
+      .data-form {
+        padding: 1.25rem 0.75rem;
+      }
+      .cards-grid {
+        gap: 0.7rem;
+      }
+      .card {
+        padding: 0.85rem 0.3rem;
+      }
+      .card-icon {
+        width: 36px;
+        height: 36px;
+      }
+      .card-icon svg {
+        width: 28px;
+        height: 28px;
+      }
+      .card-title {
+        font-size: 0.75rem;
+      }
+      .light-footer {
+        padding: 0.85rem;
+        font-size: 0.75rem;
       }
     }
   </style>
 </head>
 <body>
-<div class="dashboard">
-  <div class="header">
-    <div class="top-badge">
-      <div class="mohealth">
-        <i class="fas fa-notes-medical icon-emblem"></i>
-        <h2>MINISTRY OF HEALTH</h2>
-        <h1>SIERRA LEONE</h1>
-      </div>
-      <div class="nmcp">
-        <i class="fas fa-map-marked-alt"></i> NATIONAL MALARIA CONTROL PROGRAMME
-      </div>
-    </div>
-    <div class="campaign-title">
-      <h3><i class="fas fa-people-arrows"></i> HEALTH CAMPAIGN MANAGEMENT SYSTEM</h3>
-    </div>
-  </div>
+<div class="phone-wrapper">
+  <div class="form-container">
+    <!-- HEADER section - light blue, title with logo below -->
+    <header class="light-header">
+      <div class="header-title">Data Collection</div>
+      <img src="logo.png" alt="logo" class="header-logo">
+    </header>
 
-  <div class="partners">
-    <div class="partner-card"><i class="fas fa-building"></i><span>WHO</span></div>
-    <div class="partner-card"><i class="fas fa-chalkboard-user"></i><span>eGOV</span></div>
-    <div class="partner-card"><i class="fas fa-globe-africa"></i><span>WORLD VISION</span></div>
-    <div class="partner-card"><i class="fas fa-hand-holding-heart"></i><span>GLOBAL FUND</span></div>
-  </div>
-
-  <div class="grid-main" id="cardsGrid">
-    <!-- Monitoring -->
-    <div class="card" data-module="monitoring" data-url="monitoring.html">
-      <div class="card-header">
-        <i class="fas fa-chart-line"></i>
-        <h3>Monitoring</h3>
-      </div>
-      <div class="card-content">
-        <div class="stat-row"><span class="stat-label">Active Campaign Monitors:</span><span class="stat-number">24 district officers</span></div>
-        <div class="stat-row"><span class="stat-label">Real-time Alerts:</span><span class="stat-number">3 new <i class="fas fa-bell"></i></span></div>
-        <div class="metric-badge"><i class="fas fa-check-circle"></i> Supervision reports: 89%</div>
-        <div class="click-hint"><i class="fas fa-mouse-pointer"></i> Click to open Monitoring panel</div>
-      </div>
-    </div>
-
-    <!-- Reconciliation -->
-    <div class="card" data-module="reconciliation" data-url="reconciliation.html">
-      <div class="card-header">
-        <i class="fas fa-calculator"></i>
-        <h3>Reconciliation</h3>
-      </div>
-      <div class="card-content">
-        <div class="stat-row"><span class="stat-label">Financial batch:</span><span class="stat-number">Le 2,450,000</span></div>
-        <div class="stat-row"><span class="stat-label">Inventory variance:</span><span class="stat-number">0.3%</span></div>
-        <div><i class="fas fa-file-invoice"></i> Last: 04 June 2026</div>
-        <div class="click-hint"><i class="fas fa-mouse-pointer"></i> Click to open Reconciliation</div>
-      </div>
-    </div>
-
-    <!-- Stock Management -->
-    <div class="card" data-module="stock" data-url="stock-management.html">
-      <div class="card-header">
-        <i class="fas fa-boxes"></i>
-        <h3>Stock Management</h3>
-      </div>
-      <div class="card-content">
-        <div class="stat-row"><span class="stat-label">ACTs (courses):</span><span class="stat-number">124,500</span></div>
-        <div class="stat-row"><span class="stat-label">RDT Kits:</span><span class="stat-number">89,200</span></div>
-        <div class="stat-row"><span class="stat-label">LLINs:</span><span class="stat-number">212,000</span></div>
-        <div class="click-hint"><i class="fas fa-mouse-pointer"></i> Click to open Stock Mgmt</div>
-      </div>
-    </div>
-
-    <!-- Device Tracking -->
-    <div class="card" data-module="device-tracking" data-url="device-tracking.html">
-      <div class="card-header">
-        <i class="fas fa-tablet-alt"></i>
-        <h3>Device Tracking</h3>
-      </div>
-      <div class="card-content">
-        <div class="stat-row"><span class="stat-label">Tablets deployed:</span><span class="stat-number">1,428</span></div>
-        <div class="stat-row"><span class="stat-label">Active devices:</span><span class="stat-number">1,392 (97%)</span></div>
-        <div><i class="fas fa-map-marker-alt"></i> Last sync: all districts</div>
-        <div class="click-hint"><i class="fas fa-mouse-pointer"></i> Click to open Device Tracking</div>
-      </div>
-    </div>
-
-    <!-- Report Desk -->
-    <div class="card wide-card" data-module="reportdesk" data-url="reportdesk.html">
-      <div class="card-header" style="background:#fef3db;">
-        <i class="fas fa-newspaper" style="color:#c9821a;"></i>
-        <h3>📋 Report Desk</h3>
-      </div>
-      <div class="card-content">
-        <div class="stat-row"><span class="stat-label">Pending reports:</span><span class="stat-number">8 from field</span></div>
-        <div class="stat-row"><span class="stat-label">Weekly digest:</span><span class="stat-number">Coverage 94%</span></div>
-        <div style="display: flex; gap: 8px; flex-wrap:wrap;"><span class="metric-badge"><i class="fas fa-file-pdf"></i> Commodity report</span><span class="metric-badge"><i class="fas fa-chart-simple"></i> Performance</span></div>
-        <div class="click-hint"><i class="fas fa-mouse-pointer"></i> Click to open Report Desk</div>
-      </div>
-    </div>
-
-    <!-- Dashboard -->
-    <div class="card" data-module="dashboard" data-url="dashboard.html">
-      <div class="card-header">
-        <i class="fas fa-tachometer-alt"></i>
-        <h3>Dashboard</h3>
-      </div>
-      <div class="card-content">
-        <div class="stat-row"><span class="stat-label">Campaign progress:</span><span class="stat-number">68%</span></div>
-        <div style="background:#cfe3d4; border-radius:20px; height:10px; width:100%; margin:5px 0;"><div style="width:68%; background:#2b7a4b; height:10px; border-radius:20px;"></div></div>
-        <div><i class="fas fa-chart-pie"></i> 1.2M people reached</div>
-        <div class="click-hint"><i class="fas fa-mouse-pointer"></i> Click to open Dashboard</div>
+    <!-- BODY — 6 linked cards in 2 columns with SVG icons -->
+    <div class="data-form">
+      <div class="cards-grid">
+        <!-- 1. Registration → reg.html -->
+        <a href="reg.html" class="card-link">
+          <div class="card card-registration">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                <path d="M22 21v-2a4 4 0 0 0-3-3.85" />
+              </svg>
+            </div>
+            <div class="card-title">Registration</div>
+          </div>
+        </a>
+        <!-- 2. Distribution → dist.html -->
+        <a href="dist.html" class="card-link">
+          <div class="card card-distribution">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16v16H4z" />
+                <path d="M8 8h8v8H8z" />
+                <path d="M12 4v4" />
+                <path d="M12 12v4" />
+                <path d="M4 12h4" />
+                <path d="M16 12h4" />
+              </svg>
+            </div>
+            <div class="card-title">Distribution</div>
+          </div>
+        </a>
+        <!-- 3. Dashboard → dash.html -->
+        <a href="dash.html" class="card-link">
+          <div class="card card-dashboard">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20V10" />
+                <path d="M18 20V4" />
+                <path d="M6 20v-4" />
+                <rect x="2" y="2" width="20" height="20" rx="2" />
+              </svg>
+            </div>
+            <div class="card-title">Dashboard</div>
+          </div>
+        </a>
+        <!-- 4. Stock → stock.html -->
+        <a href="stock.html" class="card-link">
+          <div class="card card-stock">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" />
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                <path d="M9 11h6" />
+                <path d="M9 15h4" />
+              </svg>
+            </div>
+            <div class="card-title">Stock</div>
+          </div>
+        </a>
+        <!-- 5. Attendance → attend.html -->
+        <a href="attend.html" class="card-link">
+          <div class="card card-attendance">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                <path d="M22 21v-2a4 4 0 0 0-3-3.85" />
+              </svg>
+            </div>
+            <div class="card-title">Attendance</div>
+          </div>
+        </a>
+        <!-- 6. Monitoring → monit.html -->
+        <a href="monit.html" class="card-link">
+          <div class="card card-monitoring">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3" />
+                <path d="M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0z" />
+                <path d="M12 2v2" />
+                <path d="M12 20v2" />
+                <path d="M2 12h2" />
+                <path d="M20 12h2" />
+              </svg>
+            </div>
+            <div class="card-title">Monitoring</div>
+          </div>
+        </a>
       </div>
     </div>
 
-    <!-- Attendance -->
-    <div class="card" data-module="attendance" data-url="attendance.html">
-      <div class="card-header">
-        <i class="fas fa-user-check"></i>
-        <h3>Attendance</h3>
-      </div>
-      <div class="card-content">
-        <div class="stat-row"><span class="stat-label">CHWs registered:</span><span class="stat-number">3,782</span></div>
-        <div class="stat-row"><span class="stat-label">Today's attendance:</span><span class="stat-number">2,950 (78%)</span></div>
-        <div><i class="fas fa-clock"></i> Training: 42 ongoing</div>
-        <div class="click-hint"><i class="fas fa-mouse-pointer"></i> Click to open Attendance</div>
-      </div>
-    </div>
-
-    <!-- Distribution -->
-    <div class="card" data-module="distribution" data-url="distribution.html">
-      <div class="card-header">
-        <i class="fas fa-truck-moving"></i>
-        <h3>Distribution</h3>
-      </div>
-      <div class="card-content">
-        <div class="stat-row"><span class="stat-label">LLINs distributed:</span><span class="stat-number">187,400</span></div>
-        <div class="stat-row"><span class="stat-label">ACTs to PHUs:</span><span class="stat-number">92,000 packs</span></div>
-        <div><i class="fas fa-check-double"></i> 12/14 regions done</div>
-        <div class="click-hint"><i class="fas fa-mouse-pointer"></i> Click to open Distribution</div>
-      </div>
-    </div>
-
-    <!-- Records -->
-    <div class="card" data-module="records" data-url="records.html">
-      <div class="card-header">
-        <i class="fas fa-folder-open"></i>
-        <h3>Records</h3>
-      </div>
-      <div class="card-content">
-        <div class="stat-row"><span class="stat-label">Digital case records:</span><span class="stat-number">24,891</span></div>
-        <div class="stat-row"><span class="stat-label">Archived campaigns:</span><span class="stat-number">6 cycles</span></div>
-        <div><i class="fas fa-database"></i> Integrity: 99.7%</div>
-        <div class="click-hint"><i class="fas fa-mouse-pointer"></i> Click to open Records</div>
-      </div>
-    </div>
-
-    <!-- Registration (explicitly opens Reg.html) -->
-    <div class="card" data-module="registration" data-url="Reg.html">
-      <div class="card-header">
-        <i class="fas fa-id-card"></i>
-        <h3>Registration</h3>
-      </div>
-      <div class="card-content">
-        <div class="stat-row"><span class="stat-label">New beneficiaries:</span><span class="stat-number">53,212</span></div>
-        <div class="stat-row"><span class="stat-label">Household registrations:</span><span class="stat-number">11,045</span></div>
-        <div><i class="fas fa-mobile-alt"></i> Self-registration portal</div>
-        <div class="click-hint"><i class="fas fa-mouse-pointer"></i> Click to open Registration (Reg.html)</div>
-      </div>
-    </div>
-
-    <!-- Malaria elimination extra card (non interactive but decorative) -->
-    <div class="card" style="cursor:default; background: linear-gradient(120deg, #fef9e6, white);">
-      <div class="card-header" style="background:#eef1e2;">
-        <div style="background:#fff7e8; border-radius:50%; width:42px; height:42px; display:inline-flex; align-items:center; justify-content:center;"><i class="fas fa-mosquito" style="font-size:1.8rem; color:#bc6f22;"></i></div>
-        <h3>Malaria Elimination Hub</h3>
-      </div>
-      <div class="card-content">
-        <div><i class="fas fa-flag-checkered"></i> Sierra Leone targets: 90% reduction</div>
-        <div class="metric-badge"><i class="fas fa-chart-line"></i> Incidence rate -12% vs last quarter</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="footer-note">
-    <span><i class="far fa-copyright"></i> Informatics Consultancy Firm (ICF-SL) @2027</span>
-    <span class="powered"><i class="fas fa-laptop-code"></i> Powered by ICF-SL · Health Campaign Suite</span>
-    <span><i class="fas fa-chalkboard"></i> v2.4 | NMCP Interactive</span>
+    <!-- FOOTER - same light blue as header, text: ICF-SL @2026 -->
+    <footer class="light-footer">
+      <span class="footer-text">ICF-SL @2026</span>
+    </footer>
   </div>
 </div>
-
-<!-- MODAL STRUCTURE -->
-<div id="iframeModal" class="modal-overlay">
-  <div class="modal-container">
-    <div class="modal-header">
-      <h4><i id="modalIcon" class="fas fa-window-maximize"></i> <span id="modalTitle">Module</span></h4>
-      <button class="close-modal" id="closeModalBtn"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="iframe-wrapper">
-      <iframe id="dynamicIframe" src="about:blank" title="module frame"></iframe>
-    </div>
-  </div>
-</div>
-
-<script>
-  // Map modules to specific URLS as per requirement: 
-  // Registration must open Reg.html
-  // Others open their respective filenames as defined in data-url.
-  // All cards share same behavior, no extra validation needed.
-  
-  // Get all cards that have data-url attribute (interactive cards)
-  const interactiveCards = document.querySelectorAll('.card[data-url]');
-  const modal = document.getElementById('iframeModal');
-  const iframe = document.getElementById('dynamicIframe');
-  const modalTitleSpan = document.getElementById('modalTitle');
-  const modalIcon = document.getElementById('modalIcon');
-  const closeBtn = document.getElementById('closeModalBtn');
-
-  // Helper to open modal with specific URL and title
-  function openModule(url, title, iconClass) {
-    if (!url) return;
-    // Set iframe source
-    iframe.src = url;
-    modalTitleSpan.innerText = title;
-    // Set icon (optional match)
-    if (iconClass) {
-      modalIcon.className = iconClass;
-    } else {
-      modalIcon.className = 'fas fa-window-maximize';
-    }
-    modal.classList.add('active');
-    // Prevent body scroll
-    document.body.style.overflow = 'hidden';
-  }
-
-  // Close modal function
-  function closeModal() {
-    modal.classList.remove('active');
-    // small delay to clear iframe src to stop loading
-    setTimeout(() => {
-      iframe.src = 'about:blank';
-    }, 200);
-    document.body.style.overflow = '';
-  }
-
-  // Attach click event to each interactive card
-  interactiveCards.forEach(card => {
-    card.addEventListener('click', (e) => {
-      // prevent if clicking inside nested interactive elements that might bubble, but fine.
-      e.stopPropagation();
-      const moduleUrl = card.getAttribute('data-url');
-      const moduleNameElem = card.querySelector('.card-header h3');
-      let moduleName = moduleNameElem ? moduleNameElem.innerText : 'Module';
-      const iconElem = card.querySelector('.card-header i');
-      let iconClass = iconElem ? iconElem.className : 'fas fa-chalkboard';
-      
-      // Specifically for registration ensure it's Reg.html (case preserved)
-      // data-url already set to Reg.html for registration card, but double-check:
-      if (moduleName.toLowerCase().includes('registration')) {
-        // we already have data-url="Reg.html" on that card, but we keep robust
-        if (moduleUrl !== 'Reg.html') {
-          // fallback safety
-          card.setAttribute('data-url', 'Reg.html');
-        }
-      }
-      
-      const finalUrl = card.getAttribute('data-url');
-      if (!finalUrl) return;
-      
-      // Simple simulation: if the html files don't exist locally, we will generate a fallback preview inside iframe
-      // but the requirement is to open the iframe with that html. To improve UX, we detect if file likely missing? 
-      // However user expects that these files exist (Reg.html, distribution.html, dashboard.html etc). 
-      // For a full demo preview, we can provide dynamic inline content if 404, but that's beyond scope. Instead we will 
-      // display a friendly info if network error, but user will place actual files. 
-      // To be safe, we also add an error handling on iframe load? Not required but gives better experience.
-      
-      openModule(finalUrl, moduleName, iconClass);
-    });
-  });
-
-  // Close modal by clicking overlay or close button
-  closeBtn.addEventListener('click', closeModal);
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      closeModal();
-    }
-  });
-
-  // Optional: if iframe fails to load (file missing) we can display a fallback message,
-  // but we don't want to break the requirement. This just helps developers see missing file.
-  iframe.addEventListener('error', () => {
-    // silent fallback, but we inject a simple message inside iframe body? cross-origin? we can replace src with data:text/html
-    // better to show a user-friendly note but keep functionality
-    if (iframe.contentWindow && iframe.src !== 'about:blank') {
-      // try to write only if same origin, but due to cross-origin limitations we can't always, but we can replace src 
-      // we avoid overwriting to not disturb intended behavior. For demonstration, do nothing.
-    }
-  });
-
-  // Keyboard ESC support
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('active')) {
-      closeModal();
-    }
-  });
-
-  // Preload note: The design expects that external files exist (Reg.html, distribution.html, dashboard.html, reconciliation.html, stock-management.html, records.html, reportdesk.html, monitoring.html, device-tracking.html, attendance.html)
-  // Since user requested "when registration let it open Reg.html in iframe do for the rest(distribution,dashboard,Reconciliation,stock management,records,report desk,monitoring and device tracking)"
-  // We fully support opening each card in iframe, with proper URLs.
-  console.log('HCMS Ready: Click any card to open respective module in modal iframe.');
-</script>
-<!-- Additional note: ensure that actual HTML files (Reg.html, distribution.html, etc) exist in same directory for full experience -->
 </body>
 </html>
-click on
