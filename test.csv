@@ -1,6 +1,3 @@
 MODULE,USERNAME,PASSWORD
-registration,hhr001,12345
-distribution,dist002,12345
-monitoring,monitor003,12345
-stock,stock004,12345
-attendance,attend005,12345
+registration,admin,pass123
+
