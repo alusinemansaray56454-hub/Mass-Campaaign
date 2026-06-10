@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>Registration - ICF-SL</title>
+  <title>ICF-SL Data Collection Portal</title>
   <style>
     * {
       margin: 0;
@@ -29,6 +29,7 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      justify-content: center;
       padding: 0.75rem;
     }
 
@@ -45,74 +46,214 @@
       padding: 1.5rem 1rem 1.2rem 1rem;
       text-align: center;
       border-bottom: 1px solid #bfdbfe;
-      position: relative;
     }
 
-    .back-button {
-      position: absolute;
-      left: 1rem;
-      top: 1.5rem;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: #1e3a8a;
-      text-decoration: none;
+    .logo-container {
       display: flex;
-      align-items: center;
       justify-content: center;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: rgba(59, 130, 246, 0.1);
-    }
-
-    .header-title {
-      font-size: 1.5rem;
-      font-weight: 600;
-      letter-spacing: -0.2px;
-      color: #1e3a8a;
-      margin-bottom: 0.85rem;
+      align-items: center;
+      margin-bottom: 0.8rem;
     }
 
     .header-logo {
-      height: 42px;
+      height: 60px;
       width: auto;
       display: block;
-      margin: 0 auto;
+      object-fit: contain;
     }
 
-    /* Login Overlay Styles */
-    .login-overlay {
+    .header-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      color: #1e3a8a;
+      margin-bottom: 0.3rem;
+    }
+
+    .header-sub {
+      font-size: 0.7rem;
+      color: #3b82f6;
+      font-weight: 500;
+    }
+
+    .data-form {
+      padding: 1.5rem 1rem;
+      background: #ffffff;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.875rem;
+    }
+
+    .card-wrapper {
+      position: relative;
+    }
+
+    .card-link {
+      text-decoration: none;
+      display: block;
+      cursor: pointer;
+    }
+
+    .card {
+      border-radius: 1rem;
+      padding: 1rem 0.5rem;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .card:active {
+      transform: scale(0.97);
+    }
+
+    .lock-icon {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(2px);
+    }
+
+    .lock-icon svg {
+      width: 14px;
+      height: 14px;
+      stroke: white;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      margin: 0 auto 0.5rem auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-icon svg {
+      width: 32px;
+      height: 32px;
+      stroke-width: 1.7;
+      fill: none;
+    }
+
+    .card-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    /* Card color schemes */
+    .card-registration {
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      border: 1px solid #f59e0b;
+    }
+    .card-registration .card-icon svg { stroke: #d97706; }
+    .card-registration .card-title { color: #b45309; }
+
+    .card-distribution {
+      background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+      border: 1px solid #10b981;
+    }
+    .card-distribution .card-icon svg { stroke: #059669; }
+    .card-distribution .card-title { color: #065f46; }
+
+    .card-dashboard {
+      background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+      border: 1px solid #8b5cf6;
+    }
+    .card-dashboard .card-icon svg { stroke: #7c3aed; }
+    .card-dashboard .card-title { color: #5b21b6; }
+
+    .card-stock {
+      background: linear-gradient(135deg, #fce7f3, #fbcfe8);
+      border: 1px solid #ec4899;
+    }
+    .card-stock .card-icon svg { stroke: #db2777; }
+    .card-stock .card-title { color: #be185d; }
+
+    .card-attendance {
+      background: linear-gradient(135deg, #ccfbf1, #99f6e4);
+      border: 1px solid #14b8a6;
+    }
+    .card-attendance .card-icon svg { stroke: #0f766e; }
+    .card-attendance .card-title { color: #115e59; }
+
+    .card-monitoring {
+      background: linear-gradient(135deg, #fee2e2, #fecaca);
+      border: 1px solid #ef4444;
+    }
+    .card-monitoring .card-icon svg { stroke: #dc2626; }
+    .card-monitoring .card-title { color: #b91c1c; }
+
+    .light-footer {
+      background: linear-gradient(105deg, #dbeafe, #eff6ff);
+      border-top: 1px solid #bfdbfe;
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.75rem;
+      color: #1e3a8a;
+      font-weight: 500;
+      text-align: center;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .footer-text {
+      font-family: system-ui, sans-serif;
+      letter-spacing: 0.3px;
+    }
+
+    .footer-motto {
+      font-size: 0.65rem;
+      color: #3b82f6;
+      font-style: italic;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      z-index: 2000;
-      display: flex;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
       justify-content: center;
       align-items: center;
     }
 
-    .login-box {
+    .modal-content {
       background: white;
       border-radius: 1.5rem;
-      padding: 2rem 1.5rem;
+      padding: 1.5rem;
       width: 300px;
       max-width: 85%;
       text-align: center;
       box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
     }
 
-    .login-box h3 {
+    .modal-content h3 {
       color: #1e3a8a;
       margin-bottom: 1rem;
       font-size: 1.2rem;
     }
 
-    .login-box input {
+    .modal-content input {
       width: 100%;
       padding: 0.75rem;
       margin: 0.5rem 0;
@@ -122,309 +263,107 @@
       outline: none;
     }
 
-    .login-box input:focus {
+    .modal-content input:focus {
       border-color: #3b82f6;
     }
 
-    .login-box button {
-      width: 100%;
-      padding: 0.75rem;
+    .modal-buttons {
+      display: flex;
+      gap: 0.75rem;
       margin-top: 1rem;
-      background: #3b82f6;
-      color: white;
+    }
+
+    .modal-buttons button {
+      flex: 1;
+      padding: 0.75rem;
       border: none;
       border-radius: 2rem;
       font-weight: 600;
       cursor: pointer;
     }
 
-    .login-error {
+    .login-btn {
+      background: #3b82f6;
+      color: white;
+    }
+
+    .cancel-btn {
+      background: #e2e8f0;
+      color: #1e3a8a;
+    }
+
+    .error-msg {
       color: #dc2626;
       font-size: 0.75rem;
       margin-top: 0.5rem;
       display: none;
     }
 
-    .main-content {
+    /* Iframe Container */
+    .iframe-container {
       display: none;
-    }
-
-    .main-content.visible {
-      display: block;
-    }
-
-    .progress-bar {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 1.5rem;
-      padding: 0 0.5rem;
-    }
-
-    .progress-step {
-      flex: 1;
-      text-align: center;
-      font-size: 0.7rem;
-      color: #94a3b8;
-      position: relative;
-      padding-top: 1.5rem;
-    }
-
-    .progress-step.active {
-      color: #3b82f6;
-      font-weight: 600;
-    }
-
-    .progress-step::before {
-      content: '';
-      position: absolute;
+      position: fixed;
       top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: #e2e8f0;
-      border: 2px solid #cbd5e1;
-    }
-
-    .progress-step.active::before {
-      background: #3b82f6;
-      border-color: #3b82f6;
-    }
-
-    .progress-step.completed::before {
-      background: #10b981;
-      border-color: #10b981;
-    }
-
-    .registration-form {
-      padding: 1.5rem 1rem;
-      background: #ffffff;
-    }
-
-    .form-section {
-      display: none;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .form-section.active-section {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateX(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    .form-group {
-      display: flex;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      z-index: 2000;
       flex-direction: column;
-      gap: 0.4rem;
-      margin-bottom: 1rem;
     }
 
-    .form-group label {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #1e3a8a;
-      letter-spacing: 0.3px;
-    }
-
-    .form-group input, .form-group select {
-      padding: 0.75rem;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 0.75rem;
-      font-size: 0.9rem;
-      font-family: inherit;
-      background: #f8fafc;
-      transition: all 0.2s;
-      outline: none;
-    }
-
-    .form-group input:focus, .form-group select:focus {
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
-      background: #ffffff;
-    }
-
-    .form-group input.error-input, .form-group select.error-input {
-      border-color: #dc2626;
-    }
-
-    .readonly-input {
-      background: #f1f5f9;
-      color: #334155;
-      cursor: not-allowed;
-    }
-
-    .error-message {
-      color: #dc2626;
-      font-size: 0.7rem;
-      margin-top: 0.25rem;
-      display: none;
-    }
-
-    .error-message.show {
-      display: block;
-    }
-
-    .gps-row {
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-    }
-
-    .gps-row input {
-      flex: 1;
-    }
-
-    .gps-btn {
-      background: #3b82f6;
-      border: none;
+    .iframe-header {
+      background: linear-gradient(105deg, #dbeafe, #eff6ff);
       padding: 0.75rem 1rem;
-      border-radius: 0.75rem;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: white;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-
-    .token-row {
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-    }
-
-    .token-row input {
-      flex: 1;
-    }
-
-    .token-btn {
-      background: #10b981;
-      border: none;
-      padding: 0.75rem 1rem;
-      border-radius: 0.75rem;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: white;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-
-    .summary-card {
-      background: #f8fafc;
-      border-radius: 1rem;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      border: 1px solid #e2e8f0;
-    }
-
-    .summary-row {
       display: flex;
       justify-content: space-between;
-      padding: 0.5rem 0;
-      border-bottom: 1px solid #e2e8f0;
-      font-size: 0.85rem;
-    }
-
-    .summary-row:last-child {
-      border-bottom: none;
-    }
-
-    .summary-label {
-      font-weight: 600;
-      color: #1e3a8a;
-    }
-
-    .summary-value {
-      color: #334155;
-    }
-
-    .bednet-message {
-      background: #dbeafe;
-      padding: 0.75rem;
-      border-radius: 0.75rem;
-      margin-top: 1rem;
-      text-align: center;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #1e3a8a;
-    }
-
-    .nav-buttons {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1.5rem;
-    }
-
-    .nav-btn {
-      flex: 1;
-      background: #e2e8f0;
-      border: none;
-      padding: 0.85rem;
-      border-radius: 2rem;
-      font-weight: 600;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .nav-btn.next {
-      background: linear-gradient(105deg, #3b82f6, #2563eb);
-      color: white;
-    }
-
-    .nav-btn.prev {
-      background: #f1f5f9;
-      color: #1e3a8a;
-    }
-
-    .nav-btn.submit {
-      background: linear-gradient(105deg, #10b981, #059669);
-      color: white;
-    }
-
-    .light-footer {
-      background: linear-gradient(105deg, #dbeafe, #eff6ff);
-      border-top: 1px solid #bfdbfe;
-      padding: 1rem;
-      display: flex;
-      justify-content: center;
       align-items: center;
-      font-size: 0.8rem;
-      color: #1e3a8a;
-      font-weight: 500;
+      border-bottom: 1px solid #bfdbfe;
     }
 
-    .footer-text {
-      font-family: system-ui, sans-serif;
-      letter-spacing: 0.3px;
+    .iframe-header h4 {
+      color: #1e3a8a;
+      font-size: 1rem;
+    }
+
+    .close-iframe {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #1e3a8a;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .close-iframe:hover {
+      background: rgba(59, 130, 246, 0.1);
+    }
+
+    iframe {
+      flex: 1;
+      width: 100%;
+      border: none;
     }
 
     @media (max-width: 400px) {
-      .phone-wrapper {
-        padding: 0.5rem;
-      }
-      .header-title {
-        font-size: 1.35rem;
-      }
-      .header-logo {
-        height: 38px;
-      }
-      .registration-form {
-        padding: 1.25rem 0.75rem;
-      }
-      .gps-btn, .token-btn {
-        padding: 0.75rem 0.75rem;
-        font-size: 0.7rem;
-      }
+      .phone-wrapper { padding: 0.5rem; }
+      .header-logo { height: 50px; }
+      .header-title { font-size: 0.95rem; }
+      .header-sub { font-size: 0.65rem; }
+      .data-form { padding: 1.25rem 0.75rem; }
+      .cards-grid { gap: 0.7rem; }
+      .card { padding: 0.85rem 0.3rem; }
+      .card-icon { width: 36px; height: 36px; }
+      .card-icon svg { width: 28px; height: 28px; }
+      .card-title { font-size: 0.75rem; }
+      .lock-icon { width: 20px; height: 20px; }
+      .lock-icon svg { width: 12px; height: 12px; }
+      .footer-motto { font-size: 0.6rem; }
     }
   </style>
 </head>
@@ -432,190 +371,203 @@
 <div class="phone-wrapper">
   <div class="form-container">
     <header class="light-header">
-      <a href="index.html" class="back-button">←</a>
-      <div class="header-title">Registration</div>
-      <img src="logo.png" alt="logo" class="header-logo" onerror="this.style.display='none'">
+      <div class="logo-container">
+        <img src="icf.png" alt="ICF-SL Logo" class="header-logo" onerror="this.style.display='none'">
+      </div>
+      <div class="header-title">INFORMATICS CONSULTANCY FIRM-SL (ICF-SL)</div>
+      <div class="header-sub">Driving Data-Driven Solution for Health and Development</div>
     </header>
 
-    <!-- Main Content (hidden until login) -->
-    <div id="mainContent" class="main-content">
-      <div class="registration-form">
-        <!-- Progress Bar -->
-        <div class="progress-bar">
-          <div class="progress-step" id="step1Indicator">Demographic Info</div>
-          <div class="progress-step" id="step2Indicator">Household Details</div>
-          <div class="progress-step" id="step3Indicator">Review</div>
-          <div class="progress-step" id="step4Indicator">Complete</div>
+    <div class="data-form">
+      <div class="cards-grid">
+        <!-- Registration Card -->
+        <div class="card-wrapper">
+          <div class="card-link" data-module="registration" data-page="reg.html">
+            <div class="card card-registration">
+              <div class="lock-icon">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </div>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                  <path d="M22 21v-2a4 4 0 0 0-3-3.85" />
+                </svg>
+              </div>
+              <div class="card-title">Registration</div>
+            </div>
+          </div>
         </div>
 
-        <form id="registrationForm">
-          <!-- Section 1: Demographic Information -->
-          <div class="form-section active-section" id="section1">
-            <div class="form-group">
-              <label>Date</label>
-              <input type="text" id="currentDate" class="readonly-input" readonly>
-            </div>
-
-            <div class="form-group">
-              <label>District</label>
-              <select id="district">
-                <option value="">Select District</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label>Chiefdom</label>
-              <select id="chiefdom" disabled>
-                <option value="">Select Chiefdom first</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label>PHU</label>
-              <select id="phu" disabled>
-                <option value="">Select PHU first</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label>Community</label>
-              <select id="community" disabled>
-                <option value="">Select Community first</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label>HHR Name</label>
-              <select id="hhr" disabled>
-                <option value="">Select HHR first</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Section 2: Household Details -->
-          <div class="form-section" id="section2">
-            <div class="form-group">
-              <label>Household Head Name</label>
-              <input type="text" id="householdHead" placeholder="Enter full name">
-            </div>
-
-            <div class="form-group">
-              <label>Telephone</label>
-              <input type="tel" id="telephone" placeholder="0XXXXXXXX" maxlength="9">
-              <div class="error-message" id="phoneError">Phone number must be exactly 9 digits and start with 0</div>
-            </div>
-
-            <div class="form-group">
-              <label>Number of People in Household</label>
-              <input type="number" id="totalPeople" min="0" step="1" value="0">
-            </div>
-
-            <div class="form-group">
-              <label>Number of Under Five</label>
-              <input type="number" id="underFive" min="0" step="1" value="0">
-              <div class="error-message" id="underFiveError">Under five children cannot exceed total household members</div>
-            </div>
-
-            <div class="form-group">
-              <label>Number of Pregnant Women</label>
-              <input type="number" id="pregnantWomen" min="0" step="1" value="0">
-              <div class="error-message" id="pregnantError">Pregnant women cannot exceed total household members</div>
-            </div>
-
-            <div class="form-group">
-              <label>Total Family Member (Auto-calculated)</label>
-              <input type="text" id="totalFamily" class="readonly-input" readonly>
-            </div>
-
-            <div class="form-group">
-              <label>GPS Coordinates</label>
-              <div class="gps-row">
-                <input type="text" id="gps" placeholder="Click 'Get GPS' to capture location" readonly class="readonly-input">
-                <button type="button" id="getGpsBtn" class="gps-btn">Get GPS</button>
+        <!-- Distribution Card (Disabled - Coming Soon) -->
+        <div class="card-wrapper">
+          <div class="card-link disabled" data-module="distribution" data-page="dist.html">
+            <div class="card card-distribution" style="opacity:0.6;">
+              <div class="lock-icon">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
               </div>
-              <div class="error-message" id="gpsError">Unable to get GPS location. Please check permissions.</div>
-            </div>
-
-            <div class="form-group">
-              <label>Registration Token</label>
-              <div class="token-row">
-                <input type="text" id="token" placeholder="Click 'Generate Token'" readonly class="readonly-input">
-                <button type="button" id="generateTokenBtn" class="token-btn">Generate Token</button>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 4h16v16H4z" />
+                  <path d="M8 8h8v8H8z" />
+                  <path d="M12 4v4" />
+                  <path d="M12 12v4" />
+                  <path d="M4 12h4" />
+                  <path d="M16 12h4" />
+                </svg>
               </div>
+              <div class="card-title">Distribution</div>
             </div>
           </div>
+        </div>
 
-          <!-- Section 3: Review -->
-          <div class="form-section" id="section3">
-            <div class="summary-card">
-              <div class="summary-row"><span class="summary-label">Date:</span><span class="summary-value" id="summaryDate">-</span></div>
-              <div class="summary-row"><span class="summary-label">District:</span><span class="summary-value" id="summaryDistrict">-</span></div>
-              <div class="summary-row"><span class="summary-label">Chiefdom:</span><span class="summary-value" id="summaryChiefdom">-</span></div>
-              <div class="summary-row"><span class="summary-label">PHU:</span><span class="summary-value" id="summaryPhu">-</span></div>
-              <div class="summary-row"><span class="summary-label">Community:</span><span class="summary-value" id="summaryCommunity">-</span></div>
-              <div class="summary-row"><span class="summary-label">HHR Name:</span><span class="summary-value" id="summaryHhr">-</span></div>
-              <div class="summary-row"><span class="summary-label">Household Head:</span><span class="summary-value" id="summaryHead">-</span></div>
-              <div class="summary-row"><span class="summary-label">Telephone:</span><span class="summary-value" id="summaryPhone">-</span></div>
-              <div class="summary-row"><span class="summary-label">Total People:</span><span class="summary-value" id="summaryTotalPeople">-</span></div>
-              <div class="summary-row"><span class="summary-label">Under Five:</span><span class="summary-value" id="summaryUnderFive">-</span></div>
-              <div class="summary-row"><span class="summary-label">Pregnant Women:</span><span class="summary-value" id="summaryPregnant">-</span></div>
-              <div class="summary-row"><span class="summary-label">Total Family:</span><span class="summary-value" id="summaryTotalFamily">-</span></div>
-              <div class="summary-row"><span class="summary-label">GPS:</span><span class="summary-value" id="summaryGps">-</span></div>
-              <div class="summary-row"><span class="summary-label">Token:</span><span class="summary-value" id="summaryToken">-</span></div>
+        <!-- Dashboard Card (Disabled - Coming Soon) -->
+        <div class="card-wrapper">
+          <div class="card-link disabled" data-module="dashboard" data-page="dash.html">
+            <div class="card card-dashboard" style="opacity:0.6;">
+              <div class="lock-icon">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </div>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 20V10" />
+                  <path d="M18 20V4" />
+                  <path d="M6 20v-4" />
+                  <rect x="2" y="2" width="20" height="20" rx="2" />
+                </svg>
+              </div>
+              <div class="card-title">Dashboard</div>
             </div>
           </div>
+        </div>
 
-          <!-- Section 4: Complete -->
-          <div class="form-section" id="section4">
-            <div class="summary-card">
-              <div class="summary-row"><span class="summary-label">Household Head:</span><span class="summary-value" id="completeHead">-</span></div>
-              <div class="summary-row"><span class="summary-label">Total Family Size:</span><span class="summary-value" id="completeTotalFamily">-</span></div>
-              <div class="summary-row"><span class="summary-label">Token:</span><span class="summary-value" id="completeToken">-</span></div>
+        <!-- Stock Card (Disabled - Coming Soon) -->
+        <div class="card-wrapper">
+          <div class="card-link disabled" data-module="stock" data-page="stock.html">
+            <div class="card card-stock" style="opacity:0.6;">
+              <div class="lock-icon">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </div>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="7" width="20" height="14" rx="2" />
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                  <path d="M9 11h6" />
+                  <path d="M9 15h4" />
+                </svg>
+              </div>
+              <div class="card-title">Stock</div>
             </div>
-            <div class="bednet-message" id="bednetMessage"></div>
           </div>
+        </div>
 
-          <div class="nav-buttons">
-            <button type="button" class="nav-btn prev" id="prevBtn" style="display: none;">Previous</button>
-            <button type="button" class="nav-btn next" id="nextBtn">Next</button>
-            <button type="button" class="nav-btn submit" id="submitBtn" style="display: none;">Complete</button>
+        <!-- Attendance Card (Disabled - Coming Soon) -->
+        <div class="card-wrapper">
+          <div class="card-link disabled" data-module="attendance" data-page="attend.html">
+            <div class="card card-attendance" style="opacity:0.6;">
+              <div class="lock-icon">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </div>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                  <path d="M22 21v-2a4 4 0 0 0-3-3.85" />
+                </svg>
+              </div>
+              <div class="card-title">Attendance</div>
+            </div>
           </div>
-        </form>
+        </div>
+
+        <!-- Monitoring Card (Disabled - Coming Soon) -->
+        <div class="card-wrapper">
+          <div class="card-link disabled" data-module="monitoring" data-page="monit.html">
+            <div class="card card-monitoring" style="opacity:0.6;">
+              <div class="lock-icon">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </div>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="3" />
+                  <path d="M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0z" />
+                  <path d="M12 2v2" />
+                  <path d="M12 20v2" />
+                  <path d="M2 12h2" />
+                  <path d="M20 12h2" />
+                </svg>
+              </div>
+              <div class="card-title">Monitoring</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
     <footer class="light-footer">
-      <span class="footer-text">ICF-SL @2026</span>
+      <span class="footer-text">INFORMATICS CONSULTANCY FIRM-SL (ICF-SL)</span>
+      <span class="footer-motto">Driving Data-Driven Solution for Health and Development</span>
+      <span class="footer-text">© 2026 ICF-SL. All rights reserved.</span>
     </footer>
   </div>
 </div>
 
-<!-- Login Overlay -->
-<div id="loginOverlay" class="login-overlay">
-  <div class="login-box">
-    <h3>Registration Access</h3>
-    <input type="text" id="loginUsername" placeholder="Username" autocomplete="off">
+<!-- Login Modal -->
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+    <h3 id="modalTitle">Login Required</h3>
+    <input type="text" id="loginUsername" placeholder="Username / PIN" autocomplete="off">
     <input type="password" id="loginPassword" placeholder="Password">
-    <div id="loginError" class="login-error">Invalid username or password</div>
-    <button onclick="attemptLogin()">Login to Continue</button>
+    <div id="loginError" class="error-msg">Invalid username or password</div>
+    <div class="modal-buttons">
+      <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+      <button class="login-btn" onclick="attemptLogin()">Login</button>
+    </div>
   </div>
 </div>
 
+<!-- Iframe Container -->
+<div id="iframeContainer" class="iframe-container">
+  <div class="iframe-header">
+    <h4 id="iframeTitle">Registration Module</h4>
+    <button class="close-iframe" onclick="closeIframe()">✕</button>
+  </div>
+  <iframe id="contentFrame" src="about:blank"></iframe>
+</div>
+
 <script>
-  let currentSection = 1;
-  const totalSections = 4;
   let validUsername = null;
   let validPassword = null;
-  let isLoggedIn = false;
+  let pendingPage = null;
 
-  // Auto-capture date
-  const today = new Date();
-  const formattedDate = today.toLocaleDateString('en-GB', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric'
-  });
-  document.getElementById('currentDate').value = formattedDate;
+  const modal = document.getElementById('loginModal');
+  const loginUsername = document.getElementById('loginUsername');
+  const loginPassword = document.getElementById('loginPassword');
+  const loginError = document.getElementById('loginError');
+  const modalTitle = document.getElementById('modalTitle');
+  const iframeContainer = document.getElementById('iframeContainer');
+  const contentFrame = document.getElementById('contentFrame');
+  const iframeTitle = document.getElementById('iframeTitle');
 
   // Load credentials from pin.csv file
   async function loadCredentials() {
@@ -625,14 +577,16 @@
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const csvText = await response.text();
+      console.log('CSV Content loaded successfully');
       
       const lines = csvText.trim().split('\n');
       
+      // Find the first valid credential line (skip headers)
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i].trim();
         if (line === '') continue;
         
-        // Skip header row
+        // Skip header row if it contains common header words
         const lowerLine = line.toLowerCase();
         if (lowerLine.includes('username') && lowerLine.includes('password')) {
           continue;
@@ -641,297 +595,119 @@
           continue;
         }
         
-        // Parse CSV line
+        // Parse CSV line - split by comma
         const parts = line.split(',');
         if (parts.length >= 2) {
+          // Clean up the values (remove quotes, trim whitespace)
           let username = parts[0].replace(/^["']|["']$/g, '').trim();
           let password = parts[1].replace(/^["']|["']$/g, '').trim();
           
-          if (username && password) {
+          // Also handle case where first column might be index/number
+          if (username && password && !username.match(/^\d+$/) && username.length > 1) {
             validUsername = username;
             validPassword = password;
-            console.log('Credentials loaded from pin.csv');
+            console.log('Credentials loaded from pin.csv:', validUsername);
             return;
           }
         }
       }
       
-      // Fallback credentials
+      // If no credentials found, set fallback demo credentials
       if (!validUsername) {
+        console.warn('No valid credentials found in pin.csv, using fallback');
         validUsername = "admin";
         validPassword = "admin123";
-        console.log('Using fallback credentials');
       }
     } catch (error) {
       console.error('Error loading pin.csv:', error);
+      // Fallback demo credentials if file not found
       validUsername = "admin";
       validPassword = "admin123";
+      console.log('Using fallback credentials: admin / admin123');
     }
   }
 
+  // Show login modal for Registration
+  function showLogin(pageName) {
+    pendingPage = pageName;
+    modalTitle.textContent = `Registration - Login Required`;
+    loginUsername.value = '';
+    loginPassword.value = '';
+    loginError.style.display = 'none';
+    modal.style.display = 'flex';
+  }
+
+  // Close modal
+  function closeModal() {
+    modal.style.display = 'none';
+    pendingPage = null;
+  }
+
+  // Open iframe with the page
+  function openIframe(pageUrl, title) {
+    contentFrame.src = pageUrl;
+    iframeTitle.textContent = title;
+    iframeContainer.style.display = 'flex';
+  }
+
+  // Close iframe
+  function closeIframe() {
+    iframeContainer.style.display = 'none';
+    contentFrame.src = 'about:blank';
+  }
+
   // Attempt login
-  async function attemptLogin() {
-    const username = document.getElementById('loginUsername').value.trim();
-    const password = document.getElementById('loginPassword').value;
-    const loginError = document.getElementById('loginError');
+  function attemptLogin() {
+    if (!pendingPage) return;
     
-    if (username === validUsername && password === validPassword) {
+    const username = loginUsername.value.trim();
+    const password = loginPassword.value;
+    
+    console.log('Login attempt - Username:', username);
+    
+    if (validUsername && username === validUsername && password === validPassword) {
       loginError.style.display = 'none';
-      isLoggedIn = true;
-      document.getElementById('loginOverlay').style.display = 'none';
-      document.getElementById('mainContent').classList.add('visible');
-      
-      // Initialize form after login
-      initializeForm();
+      closeModal();
+      openIframe(pendingPage, 'Registration Module');
     } else {
       loginError.style.display = 'block';
     }
   }
 
-  // Load cascading data from cascading.csv
-  let cascadingData = [];
-
-  async function loadCascadingData() {
-    try {
-      const response = await fetch('cascading.csv');
-      const csvText = await response.text();
-      
-      const lines = csvText.trim().split('\n');
-      for (let i = 1; i < lines.length; i++) {
-        const values = lines[i].split(',').map(v => v.trim());
-        if (values.length >= 5) {
-          cascadingData.push({
-            District: values[0],
-            Chiefdom: values[1],
-            PHU: values[2],
-            Community: values[3],
-            HHR: values[4]
-          });
-        }
+  // Attach click event only to Registration card
+  const registrationCard = document.querySelector('.card-link[data-module="registration"]');
+  if (registrationCard) {
+    registrationCard.addEventListener('click', (e) => {
+      e.preventDefault();
+      const page = registrationCard.getAttribute('data-page');
+      if (page) {
+        showLogin(page);
       }
-      populateDistricts();
-    } catch (error) {
-      console.error('Error loading cascading.csv:', error);
+    });
+  }
+
+  // Disable other cards
+  const disabledCards = document.querySelectorAll('.card-link.disabled');
+  disabledCards.forEach(card => {
+    card.addEventListener('click', (e) => {
+      e.preventDefault();
+      alert('This module is coming soon. Only Registration is available at this time.');
+    });
+  });
+
+  // Close modal when clicking outside
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeModal();
     }
-  }
+  });
 
-  const districtSelect = document.getElementById('district');
-  const chiefdomSelect = document.getElementById('chiefdom');
-  const phuSelect = document.getElementById('phu');
-  const communitySelect = document.getElementById('community');
-  const hhrSelect = document.getElementById('hhr');
-  const telephoneInput = document.getElementById('telephone');
-  const phoneError = document.getElementById('phoneError');
-  const householdHeadInput = document.getElementById('householdHead');
-  const totalPeopleInput = document.getElementById('totalPeople');
-  const underFiveInput = document.getElementById('underFive');
-  const pregnantWomenInput = document.getElementById('pregnantWomen');
-  const totalFamilyInput = document.getElementById('totalFamily');
-  const underFiveError = document.getElementById('underFiveError');
-  const pregnantError = document.getElementById('pregnantError');
-  const gpsInput = document.getElementById('gps');
-  const getGpsBtn = document.getElementById('getGpsBtn');
-  const gpsError = document.getElementById('gpsError');
-  const tokenInput = document.getElementById('token');
-  const generateTokenBtn = document.getElementById('generateTokenBtn');
-
-  function updateSection() {
-    for (let i = 1; i <= totalSections; i++) {
-      const section = document.getElementById(`section${i}`);
-      if (section) section.classList.remove('active-section');
-      const indicator = document.getElementById(`step${i}Indicator`);
-      if (indicator) {
-        indicator.classList.remove('active', 'completed');
-        if (i === currentSection) indicator.classList.add('active');
-        else if (i < currentSection) indicator.classList.add('completed');
-      }
+  // Allow Enter key in password field
+  loginPassword.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      attemptLogin();
     }
-    document.getElementById(`section${currentSection}`).classList.add('active-section');
-    
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const submitBtn = document.getElementById('submitBtn');
-    
-    if (currentSection === 1) { prevBtn.style.display = 'none'; nextBtn.style.display = 'block'; submitBtn.style.display = 'none'; }
-    else if (currentSection === totalSections) { prevBtn.style.display = 'block'; nextBtn.style.display = 'none'; submitBtn.style.display = 'block'; updateCompleteSection(); }
-    else { prevBtn.style.display = 'block'; nextBtn.style.display = 'block'; submitBtn.style.display = 'none'; }
-    
-    if (currentSection === 3) updateReviewSummary();
-  }
-
-  function updateReviewSummary() {
-    document.getElementById('summaryDate').textContent = formattedDate;
-    document.getElementById('summaryDistrict').textContent = districtSelect.value || '-';
-    document.getElementById('summaryChiefdom').textContent = chiefdomSelect.value || '-';
-    document.getElementById('summaryPhu').textContent = phuSelect.value || '-';
-    document.getElementById('summaryCommunity').textContent = communitySelect.value || '-';
-    document.getElementById('summaryHhr').textContent = hhrSelect.value || '-';
-    document.getElementById('summaryHead').textContent = householdHeadInput.value.trim() || '-';
-    document.getElementById('summaryPhone').textContent = telephoneInput.value || '-';
-    document.getElementById('summaryTotalPeople').textContent = totalPeopleInput.value || '0';
-    document.getElementById('summaryUnderFive').textContent = underFiveInput.value || '0';
-    document.getElementById('summaryPregnant').textContent = pregnantWomenInput.value || '0';
-    document.getElementById('summaryTotalFamily').textContent = totalFamilyInput.value || '0';
-    document.getElementById('summaryGps').textContent = gpsInput.value || '-';
-    document.getElementById('summaryToken').textContent = tokenInput.value || '-';
-  }
-
-  function updateCompleteSection() {
-    const totalPeople = parseInt(totalPeopleInput.value) || 0;
-    let bednetCount = 0;
-    let bednetMessage = '';
-    
-    if (totalPeople === 1 || totalPeople === 2) { bednetCount = 1; bednetMessage = 'Based on household size of ' + totalPeople + ' people, this household should receive 1 bednet.'; }
-    else if (totalPeople === 3 || totalPeople === 4) { bednetCount = 2; bednetMessage = 'Based on household size of ' + totalPeople + ' people, this household should receive 2 bednets.'; }
-    else if (totalPeople >= 5) { bednetCount = 3; bednetMessage = 'Based on household size of ' + totalPeople + ' people, this household should receive 3 bednets.'; }
-    else { bednetMessage = 'Please enter number of people in household to see bednet recommendation.'; }
-    
-    document.getElementById('completeHead').textContent = householdHeadInput.value.trim() || '-';
-    document.getElementById('completeTotalFamily').textContent = totalFamilyInput.value || '0';
-    document.getElementById('completeToken').textContent = tokenInput.value || '-';
-    document.getElementById('bednetMessage').innerHTML = 'Bednet Recommendation: ' + bednetMessage;
-  }
-
-  function nextSection() { if (currentSection < totalSections) { currentSection++; updateSection(); } }
-  function prevSection() { if (currentSection > 1) { currentSection--; updateSection(); } }
-
-  function completeRegistration() {
-    const phone = telephoneInput.value;
-    if (phone && !validateTelephone(phone)) {
-      phoneError.classList.add('show');
-      telephoneInput.classList.add('error-input');
-      alert('Please enter a valid phone number (9 digits starting with 0)');
-      return;
-    }
-    
-    if (!tokenInput.value) { tokenInput.value = generateToken(); }
-    
-    const totalPeople = parseInt(totalPeopleInput.value) || 0;
-    let bednetCount = totalPeople === 1 || totalPeople === 2 ? 1 : (totalPeople === 3 || totalPeople === 4 ? 2 : (totalPeople >= 5 ? 3 : 0));
-    
-    const registrationData = {
-      date: formattedDate, district: districtSelect.value, chiefdom: chiefdomSelect.value,
-      phu: phuSelect.value, community: communitySelect.value, hhr: hhrSelect.value,
-      householdHead: householdHeadInput.value.trim(), telephone: phone || '',
-      totalPeople: totalPeople, underFive: parseInt(underFiveInput.value),
-      pregnantWomen: parseInt(pregnantWomenInput.value), totalFamily: parseInt(totalFamilyInput.value),
-      gps: gpsInput.value || '', token: tokenInput.value || '', bednetRecommended: bednetCount
-    };
-    
-    let allRegistrations = JSON.parse(localStorage.getItem('householdRegistrations') || '[]');
-    allRegistrations.push(registrationData);
-    localStorage.setItem('householdRegistrations', JSON.stringify(allRegistrations));
-    
-    alert('Registration Completed!\nHousehold: ' + (registrationData.householdHead || 'Not provided') + '\nFamily Size: ' + registrationData.totalFamily + '\nBednets: ' + bednetCount + '\nToken: ' + registrationData.token);
-    if (confirm('Register another household?')) resetForm();
-  }
-
-  function resetForm() {
-    districtSelect.value = ''; chiefdomSelect.innerHTML = '<option value="">Select Chiefdom first</option>'; chiefdomSelect.disabled = true;
-    phuSelect.innerHTML = '<option value="">Select PHU first</option>'; phuSelect.disabled = true;
-    communitySelect.innerHTML = '<option value="">Select Community first</option>'; communitySelect.disabled = true;
-    hhrSelect.innerHTML = '<option value="">Select HHR first</option>'; hhrSelect.disabled = true;
-    householdHeadInput.value = ''; telephoneInput.value = ''; totalPeopleInput.value = '0';
-    underFiveInput.value = '0'; pregnantWomenInput.value = '0'; gpsInput.value = ''; tokenInput.value = '';
-    calculateTotalFamily(); currentSection = 1; updateSection();
-  }
-
-  function calculateTotalFamily() {
-    const total = (parseInt(totalPeopleInput.value) || 0) + (parseInt(underFiveInput.value) || 0) + (parseInt(pregnantWomenInput.value) || 0);
-    totalFamilyInput.value = total;
-  }
-
-  function validateHouseholdNumbers() {
-    const totalPeople = parseInt(totalPeopleInput.value) || 0;
-    const underFive = parseInt(underFiveInput.value) || 0;
-    const pregnantWomen = parseInt(pregnantWomenInput.value) || 0;
-    let valid = true;
-    if (underFive > totalPeople && totalPeople > 0) { underFiveError.classList.add('show'); underFiveInput.classList.add('error-input'); valid = false; }
-    else { underFiveError.classList.remove('show'); underFiveInput.classList.remove('error-input'); }
-    if (pregnantWomen > totalPeople && totalPeople > 0) { pregnantError.classList.add('show'); pregnantWomenInput.classList.add('error-input'); valid = false; }
-    else { pregnantError.classList.remove('show'); pregnantWomenInput.classList.remove('error-input'); }
-    return valid;
-  }
-
-  function generateToken() {
-    const householdHead = householdHeadInput.value.trim();
-    let phone = telephoneInput.value.trim();
-    let cleanName = householdHead ? householdHead.replace(/[^a-zA-Z0-9]/g, '_').replace(/_+/g, '_') : 'noName';
-    const randomSuffix = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
-    return `${cleanName}_${phone || 'noPhone'}_${randomSuffix}`;
-  }
-
-  generateTokenBtn.addEventListener('click', () => { tokenInput.value = generateToken(); if (currentSection === 3) updateReviewSummary(); if (currentSection === 4) updateCompleteSection(); });
-  householdHeadInput.addEventListener('input', () => { if (tokenInput.value) tokenInput.value = generateToken(); });
-  telephoneInput.addEventListener('input', (e) => { let v = e.target.value.slice(0,9).replace(/[^0-9]/g, ''); e.target.value = v; if (v && !/^0[0-9]{8}$/.test(v)) phoneError.classList.add('show'); else phoneError.classList.remove('show'); if (tokenInput.value) tokenInput.value = generateToken(); });
-  
-  getGpsBtn.addEventListener('click', () => {
-    if (!navigator.geolocation) { gpsError.style.display = 'block'; return; }
-    getGpsBtn.textContent = 'Getting...'; getGpsBtn.disabled = true;
-    navigator.geolocation.getCurrentPosition(
-      (p) => { gpsInput.value = `${p.coords.latitude.toFixed(6)}, ${p.coords.longitude.toFixed(6)}`; getGpsBtn.textContent = 'Get GPS'; getGpsBtn.disabled = false; },
-      () => { gpsError.style.display = 'block'; getGpsBtn.textContent = 'Get GPS'; getGpsBtn.disabled = false; }
-    );
   });
-
-  totalPeopleInput.addEventListener('input', () => { calculateTotalFamily(); validateHouseholdNumbers(); if (currentSection === 3) updateReviewSummary(); if (currentSection === 4) updateCompleteSection(); });
-  underFiveInput.addEventListener('input', () => { calculateTotalFamily(); validateHouseholdNumbers(); if (currentSection === 3) updateReviewSummary(); });
-  pregnantWomenInput.addEventListener('input', () => { calculateTotalFamily(); validateHouseholdNumbers(); if (currentSection === 3) updateReviewSummary(); });
-
-  function populateDistricts() {
-    const districts = [...new Set(cascadingData.map(item => item.District))];
-    districts.forEach(district => { const opt = document.createElement('option'); opt.value = district; opt.textContent = district; districtSelect.appendChild(opt); });
-  }
-
-  function getUniqueValues(field, filters) {
-    let filtered = [...cascadingData];
-    if (filters.District) filtered = filtered.filter(i => i.District === filters.District);
-    if (filters.Chiefdom) filtered = filtered.filter(i => i.Chiefdom === filters.Chiefdom);
-    if (filters.PHU) filtered = filtered.filter(i => i.PHU === filters.PHU);
-    if (filters.Community) filtered = filtered.filter(i => i.Community === filters.Community);
-    return [...new Set(filtered.map(i => i[field]))];
-  }
-
-  function resetSelect(select, placeholder, disabled) { select.innerHTML = `<option value="">${placeholder}</option>`; select.disabled = disabled; }
-
-  districtSelect.addEventListener('change', () => {
-    const d = districtSelect.value;
-    resetSelect(chiefdomSelect, 'Select Chiefdom first', true); resetSelect(phuSelect, 'Select PHU first', true);
-    resetSelect(communitySelect, 'Select Community first', true); resetSelect(hhrSelect, 'Select HHR first', true);
-    if (d) { const ch = getUniqueValues('Chiefdom', { District: d }); chiefdomSelect.disabled = false; chiefdomSelect.innerHTML = '<option value="">Select Chiefdom</option>'; ch.forEach(c => { const opt = document.createElement('option'); opt.value = c; opt.textContent = c; chiefdomSelect.appendChild(opt); }); }
-  });
-
-  chiefdomSelect.addEventListener('change', () => {
-    const d = districtSelect.value, c = chiefdomSelect.value;
-    resetSelect(phuSelect, 'Select PHU first', true); resetSelect(communitySelect, 'Select Community first', true); resetSelect(hhrSelect, 'Select HHR first', true);
-    if (c) { const ph = getUniqueValues('PHU', { District: d, Chiefdom: c }); phuSelect.disabled = false; phuSelect.innerHTML = '<option value="">Select PHU</option>'; ph.forEach(p => { const opt = document.createElement('option'); opt.value = p; opt.textContent = p; phuSelect.appendChild(opt); }); }
-  });
-
-  phuSelect.addEventListener('change', () => {
-    const d = districtSelect.value, c = chiefdomSelect.value, p = phuSelect.value;
-    resetSelect(communitySelect, 'Select Community first', true); resetSelect(hhrSelect, 'Select HHR first', true);
-    if (p) { const comm = getUniqueValues('Community', { District: d, Chiefdom: c, PHU: p }); communitySelect.disabled = false; communitySelect.innerHTML = '<option value="">Select Community</option>'; comm.forEach(cm => { const opt = document.createElement('option'); opt.value = cm; opt.textContent = cm; communitySelect.appendChild(opt); }); }
-  });
-
-  communitySelect.addEventListener('change', () => {
-    const d = districtSelect.value, c = chiefdomSelect.value, p = phuSelect.value, comm = communitySelect.value;
-    resetSelect(hhrSelect, 'Select HHR first', true);
-    if (comm) { const hhrs = getUniqueValues('HHR', { District: d, Chiefdom: c, PHU: p, Community: comm }); hhrSelect.disabled = false; hhrSelect.innerHTML = '<option value="">Select HHR</option>'; hhrs.forEach(h => { const opt = document.createElement('option'); opt.value = h; opt.textContent = h; hhrSelect.appendChild(opt); }); }
-  });
-
-  function validateTelephone(phone) { return !phone || /^0[0-9]{8}$/.test(phone); }
-  telephoneInput.addEventListener('blur', () => { const p = telephoneInput.value; if (p && !/^0[0-9]{8}$/.test(p)) { phoneError.classList.add('show'); telephoneInput.classList.add('error-input'); } else { phoneError.classList.remove('show'); telephoneInput.classList.remove('error-input'); } });
-
-  document.getElementById('nextBtn').addEventListener('click', nextSection);
-  document.getElementById('prevBtn').addEventListener('click', prevSection);
-  document.getElementById('submitBtn').addEventListener('click', completeRegistration);
-  document.getElementById('registrationForm').addEventListener('submit', (e) => e.preventDefault());
-
-  function initializeForm() {
-    calculateTotalFamily();
-    updateSection();
-    loadCascadingData();
-  }
 
   // Load credentials on page load
   loadCredentials();
