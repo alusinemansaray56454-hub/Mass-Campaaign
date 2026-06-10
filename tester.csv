@@ -1,5 +1,5 @@
-USERNAME,PASSWORD
-reg2026,12345
-dist2026,12345
-monitor2026,12345
+MODULE,USERNAME,PASSWORD
+registration,reg2026,12345
+distribution,dist2026,12345
+monitoring,monitor2026,12345
 
