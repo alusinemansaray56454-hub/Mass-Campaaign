@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>Data Collection Form</title>
+  <title>Data Collection Portal</title>
   <style>
     * {
       margin: 0;
@@ -21,7 +21,6 @@
       padding: 0;
     }
 
-    /* Phone view container — simulates mobile screen */
     .phone-wrapper {
       width: 100%;
       max-width: 390px;
@@ -34,17 +33,14 @@
       padding: 0.75rem;
     }
 
-    /* Main card container — light blue and white theme */
     .form-container {
       width: 100%;
       background: #ffffff;
       border-radius: 1.5rem;
       box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(59, 130, 246, 0.1);
       overflow: hidden;
-      transition: all 0.2s ease;
     }
 
-    /* ========= HEADER (light blue) ========= */
     .light-header {
       background: linear-gradient(105deg, #dbeafe, #eff6ff);
       padding: 1.5rem 1rem 1.2rem 1rem;
@@ -67,7 +63,6 @@
       margin: 0 auto;
     }
 
-    /* ========= FORM BODY — 6 cards, 2 columns ========= */
     .data-form {
       padding: 1.5rem 1rem;
       background: #ffffff;
@@ -79,9 +74,14 @@
       gap: 0.875rem;
     }
 
+    .card-wrapper {
+      position: relative;
+    }
+
     .card-link {
       text-decoration: none;
       display: block;
+      cursor: pointer;
     }
 
     .card {
@@ -90,11 +90,33 @@
       text-align: center;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
       transition: all 0.2s ease;
-      cursor: pointer;
+      position: relative;
     }
 
     .card:active {
       transform: scale(0.97);
+    }
+
+    .lock-icon {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(2px);
+    }
+
+    .lock-icon svg {
+      width: 14px;
+      height: 14px;
+      stroke: white;
+      stroke-width: 2;
+      fill: none;
     }
 
     .card-icon {
@@ -119,247 +141,441 @@
       letter-spacing: 0.3px;
     }
 
-    /* Registration Card */
+    /* Card color schemes */
     .card-registration {
       background: linear-gradient(135deg, #fef3c7, #fde68a);
       border: 1px solid #f59e0b;
     }
-    .card-registration .card-icon svg {
-      stroke: #d97706;
-    }
-    .card-registration .card-title {
-      color: #b45309;
-    }
+    .card-registration .card-icon svg { stroke: #d97706; }
+    .card-registration .card-title { color: #b45309; }
 
-    /* Distribution Card */
     .card-distribution {
       background: linear-gradient(135deg, #d1fae5, #a7f3d0);
       border: 1px solid #10b981;
     }
-    .card-distribution .card-icon svg {
-      stroke: #059669;
-    }
-    .card-distribution .card-title {
-      color: #065f46;
-    }
+    .card-distribution .card-icon svg { stroke: #059669; }
+    .card-distribution .card-title { color: #065f46; }
 
-    /* Dashboard Card */
     .card-dashboard {
       background: linear-gradient(135deg, #ede9fe, #ddd6fe);
       border: 1px solid #8b5cf6;
     }
-    .card-dashboard .card-icon svg {
-      stroke: #7c3aed;
-    }
-    .card-dashboard .card-title {
-      color: #5b21b6;
-    }
+    .card-dashboard .card-icon svg { stroke: #7c3aed; }
+    .card-dashboard .card-title { color: #5b21b6; }
 
-    /* Stock Card */
     .card-stock {
       background: linear-gradient(135deg, #fce7f3, #fbcfe8);
       border: 1px solid #ec4899;
     }
-    .card-stock .card-icon svg {
-      stroke: #db2777;
-    }
-    .card-stock .card-title {
-      color: #be185d;
-    }
+    .card-stock .card-icon svg { stroke: #db2777; }
+    .card-stock .card-title { color: #be185d; }
 
-    /* Attendance Card */
     .card-attendance {
       background: linear-gradient(135deg, #ccfbf1, #99f6e4);
       border: 1px solid #14b8a6;
     }
-    .card-attendance .card-icon svg {
-      stroke: #0f766e;
-    }
-    .card-attendance .card-title {
-      color: #115e59;
-    }
+    .card-attendance .card-icon svg { stroke: #0f766e; }
+    .card-attendance .card-title { color: #115e59; }
 
-    /* Monitoring Card */
     .card-monitoring {
       background: linear-gradient(135deg, #fee2e2, #fecaca);
       border: 1px solid #ef4444;
     }
-    .card-monitoring .card-icon svg {
-      stroke: #dc2626;
-    }
-    .card-monitoring .card-title {
-      color: #b91c1c;
-    }
+    .card-monitoring .card-icon svg { stroke: #dc2626; }
+    .card-monitoring .card-title { color: #b91c1c; }
 
-    /* ========= FOOTER (same light blue as header) ========= */
     .light-footer {
       background: linear-gradient(105deg, #dbeafe, #eff6ff);
       border-top: 1px solid #bfdbfe;
-      padding: 1rem 1rem;
+      padding: 1rem;
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 1rem;
       font-size: 0.8rem;
       color: #1e3a8a;
       font-weight: 500;
     }
 
     .footer-text {
-      font-family: system-ui, 'Segoe UI', sans-serif;
+      font-family: system-ui, sans-serif;
       letter-spacing: 0.3px;
     }
 
-    hr {
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      width: 300px;
+      max-width: 85%;
+      text-align: center;
+      box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-content h3 {
+      color: #1e3a8a;
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+    }
+
+    .modal-content input {
+      width: 100%;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 0.75rem;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .modal-content input:focus {
+      border-color: #3b82f6;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .modal-buttons button {
+      flex: 1;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 2rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .login-btn {
+      background: #3b82f6;
+      color: white;
+    }
+
+    .cancel-btn {
+      background: #e2e8f0;
+      color: #1e3a8a;
+    }
+
+    .error-msg {
+      color: #dc2626;
+      font-size: 0.75rem;
+      margin-top: 0.5rem;
       display: none;
     }
 
-    /* Extra small adjustments */
     @media (max-width: 400px) {
-      .phone-wrapper {
-        padding: 0.5rem;
-      }
-      .header-title {
-        font-size: 1.35rem;
-      }
-      .header-logo {
-        height: 38px;
-      }
-      .data-form {
-        padding: 1.25rem 0.75rem;
-      }
-      .cards-grid {
-        gap: 0.7rem;
-      }
-      .card {
-        padding: 0.85rem 0.3rem;
-      }
-      .card-icon {
-        width: 36px;
-        height: 36px;
-      }
-      .card-icon svg {
-        width: 28px;
-        height: 28px;
-      }
-      .card-title {
-        font-size: 0.75rem;
-      }
-      .light-footer {
-        padding: 0.85rem;
-        font-size: 0.75rem;
-      }
+      .phone-wrapper { padding: 0.5rem; }
+      .header-title { font-size: 1.35rem; }
+      .header-logo { height: 38px; }
+      .data-form { padding: 1.25rem 0.75rem; }
+      .cards-grid { gap: 0.7rem; }
+      .card { padding: 0.85rem 0.3rem; }
+      .card-icon { width: 36px; height: 36px; }
+      .card-icon svg { width: 28px; height: 28px; }
+      .card-title { font-size: 0.75rem; }
+      .lock-icon { width: 20px; height: 20px; }
+      .lock-icon svg { width: 12px; height: 12px; }
     }
   </style>
 </head>
 <body>
 <div class="phone-wrapper">
   <div class="form-container">
-    <!-- HEADER section - light blue, title with logo below -->
     <header class="light-header">
       <div class="header-title">Data Collection</div>
-      <img src="logo.png" alt="logo" class="header-logo">
+      <img src="logo.png" alt="logo" class="header-logo" onerror="this.style.display='none'">
     </header>
 
-    <!-- BODY — 6 linked cards in 2 columns with SVG icons -->
     <div class="data-form">
       <div class="cards-grid">
-        <!-- 1. Registration → reg.html -->
-        <a href="reg.html" class="card-link">
-          <div class="card card-registration">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                <circle cx="12" cy="7" r="4" />
-                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                <path d="M22 21v-2a4 4 0 0 0-3-3.85" />
-              </svg>
+        <!-- Registration Card -->
+        <div class="card-wrapper">
+          <div class="card-link" data-module="registration">
+            <div class="card card-registration">
+              <div class="lock-icon">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </div>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                  <path d="M22 21v-2a4 4 0 0 0-3-3.85" />
+                </svg>
+              </div>
+              <div class="card-title">Registration</div>
             </div>
-            <div class="card-title">Registration</div>
           </div>
-        </a>
-        <!-- 2. Distribution → dist.html -->
-        <a href="dist.html" class="card-link">
-          <div class="card card-distribution">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 4h16v16H4z" />
-                <path d="M8 8h8v8H8z" />
-                <path d="M12 4v4" />
-                <path d="M12 12v4" />
-                <path d="M4 12h4" />
-                <path d="M16 12h4" />
-              </svg>
+        </div>
+
+        <!-- Distribution Card -->
+        <div class="card-wrapper">
+          <div class="card-link" data-module="distribution">
+            <div class="card card-distribution">
+              <div class="lock-icon">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </div>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 4h16v16H4z" />
+                  <path d="M8 8h8v8H8z" />
+                  <path d="M12 4v4" />
+                  <path d="M12 12v4" />
+                  <path d="M4 12h4" />
+                  <path d="M16 12h4" />
+                </svg>
+              </div>
+              <div class="card-title">Distribution</div>
             </div>
-            <div class="card-title">Distribution</div>
           </div>
-        </a>
-        <!-- 3. Dashboard → dash.html -->
-        <a href="dash.html" class="card-link">
-          <div class="card card-dashboard">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 20V10" />
-                <path d="M18 20V4" />
-                <path d="M6 20v-4" />
-                <rect x="2" y="2" width="20" height="20" rx="2" />
-              </svg>
+        </div>
+
+        <!-- Dashboard Card -->
+        <div class="card-wrapper">
+          <div class="card-link" data-module="dashboard">
+            <div class="card card-dashboard">
+              <div class="lock-icon">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </div>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 20V10" />
+                  <path d="M18 20V4" />
+                  <path d="M6 20v-4" />
+                  <rect x="2" y="2" width="20" height="20" rx="2" />
+                </svg>
+              </div>
+              <div class="card-title">Dashboard</div>
             </div>
-            <div class="card-title">Dashboard</div>
           </div>
-        </a>
-        <!-- 4. Stock → stock.html -->
-        <a href="stock.html" class="card-link">
-          <div class="card card-stock">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="7" width="20" height="14" rx="2" />
-                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
-                <path d="M9 11h6" />
-                <path d="M9 15h4" />
-              </svg>
+        </div>
+
+        <!-- Stock Card -->
+        <div class="card-wrapper">
+          <div class="card-link" data-module="stock">
+            <div class="card card-stock">
+              <div class="lock-icon">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </div>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="7" width="20" height="14" rx="2" />
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                  <path d="M9 11h6" />
+                  <path d="M9 15h4" />
+                </svg>
+              </div>
+              <div class="card-title">Stock</div>
             </div>
-            <div class="card-title">Stock</div>
           </div>
-        </a>
-        <!-- 5. Attendance → attend.html -->
-        <a href="attend.html" class="card-link">
-          <div class="card card-attendance">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                <circle cx="12" cy="7" r="4" />
-                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                <path d="M22 21v-2a4 4 0 0 0-3-3.85" />
-              </svg>
+        </div>
+
+        <!-- Attendance Card -->
+        <div class="card-wrapper">
+          <div class="card-link" data-module="attendance">
+            <div class="card card-attendance">
+              <div class="lock-icon">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </div>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                  <path d="M22 21v-2a4 4 0 0 0-3-3.85" />
+                </svg>
+              </div>
+              <div class="card-title">Attendance</div>
             </div>
-            <div class="card-title">Attendance</div>
           </div>
-        </a>
-        <!-- 6. Monitoring → monit.html -->
-        <a href="monit.html" class="card-link">
-          <div class="card card-monitoring">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="3" />
-                <path d="M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0z" />
-                <path d="M12 2v2" />
-                <path d="M12 20v2" />
-                <path d="M2 12h2" />
-                <path d="M20 12h2" />
-              </svg>
+        </div>
+
+        <!-- Monitoring Card -->
+        <div class="card-wrapper">
+          <div class="card-link" data-module="monitoring">
+            <div class="card card-monitoring">
+              <div class="lock-icon">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </div>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="3" />
+                  <path d="M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0z" />
+                  <path d="M12 2v2" />
+                  <path d="M12 20v2" />
+                  <path d="M2 12h2" />
+                  <path d="M20 12h2" />
+                </svg>
+              </div>
+              <div class="card-title">Monitoring</div>
             </div>
-            <div class="card-title">Monitoring</div>
           </div>
-        </a>
+        </div>
       </div>
     </div>
 
-    <!-- FOOTER - same light blue as header, text: ICF-SL @2026 -->
     <footer class="light-footer">
       <span class="footer-text">ICF-SL @2026</span>
     </footer>
   </div>
 </div>
+
+<!-- Login Modal -->
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+    <h3 id="modalTitle">Login Required</h3>
+    <input type="text" id="loginUsername" placeholder="Username" autocomplete="off">
+    <input type="password" id="loginPassword" placeholder="Password">
+    <div id="loginError" class="error-msg">Invalid username or password</div>
+    <div class="modal-buttons">
+      <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+      <button class="login-btn" onclick="attemptLogin()">Login</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Credentials for each module
+  const credentials = {
+    registration: { username: "reg_user", password: "reg@2026" },
+    distribution: { username: "dist_user", password: "dist@2026" },
+    dashboard: { username: "dash_user", password: "dash@2026" },
+    stock: { username: "stock_user", password: "stock@2026" },
+    attendance: { username: "attend_user", password: "attend@2026" },
+    monitoring: { username: "monitor_user", password: "monitor@2026" }
+  };
+
+  let pendingModule = null;
+
+  // Get all card links
+  const cardLinks = document.querySelectorAll('.card-link');
+  const modal = document.getElementById('loginModal');
+  const loginUsername = document.getElementById('loginUsername');
+  const loginPassword = document.getElementById('loginPassword');
+  const loginError = document.getElementById('loginError');
+  const modalTitle = document.getElementById('modalTitle');
+
+  // Function to show login modal
+  function showLogin(moduleName) {
+    pendingModule = moduleName;
+    const moduleDisplay = moduleName.charAt(0).toUpperCase() + moduleName.slice(1);
+    modalTitle.textContent = `${moduleDisplay} - Login Required`;
+    loginUsername.value = '';
+    loginPassword.value = '';
+    loginError.style.display = 'none';
+    modal.style.display = 'flex';
+  }
+
+  // Function to close modal
+  function closeModal() {
+    modal.style.display = 'none';
+    pendingModule = null;
+  }
+
+  // Function to attempt login
+  function attemptLogin() {
+    if (!pendingModule) return;
+    
+    const username = loginUsername.value.trim();
+    const password = loginPassword.value;
+    const cred = credentials[pendingModule];
+    
+    if (cred && username === cred.username && password === cred.password) {
+      // Login successful - redirect to the corresponding page
+      loginError.style.display = 'none';
+      closeModal();
+      
+      // Redirect to the respective HTML page
+      let redirectUrl = '';
+      switch(pendingModule) {
+        case 'registration':
+          redirectUrl = 'reg.html';
+          break;
+        case 'distribution':
+          redirectUrl = 'dist.html';
+          break;
+        case 'dashboard':
+          redirectUrl = 'dash.html';
+          break;
+        case 'stock':
+          redirectUrl = 'stock.html';
+          break;
+        case 'attendance':
+          redirectUrl = 'attend.html';
+          break;
+        case 'monitoring':
+          redirectUrl = 'monit.html';
+          break;
+        default:
+          redirectUrl = '#';
+      }
+      
+      if (redirectUrl !== '#') {
+        window.location.href = redirectUrl;
+      } else {
+        alert('Page not configured yet');
+      }
+    } else {
+      loginError.style.display = 'block';
+    }
+  }
+
+  // Attach click event to each card
+  cardLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const module = link.getAttribute('data-module');
+      if (module) {
+        showLogin(module);
+      }
+    });
+  });
+
+  // Close modal when clicking outside
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
+
+  // Allow Enter key in password field
+  loginPassword.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      attemptLogin();
+    }
+  });
+</script>
 </body>
 </html>
