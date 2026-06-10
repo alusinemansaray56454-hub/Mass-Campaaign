@@ -277,6 +277,57 @@
       display: none;
     }
 
+    /* Iframe Container */
+    .iframe-container {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      z-index: 2000;
+      flex-direction: column;
+    }
+
+    .iframe-header {
+      background: linear-gradient(105deg, #dbeafe, #eff6ff);
+      padding: 0.75rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #bfdbfe;
+    }
+
+    .iframe-header h4 {
+      color: #1e3a8a;
+      font-size: 1rem;
+    }
+
+    .close-iframe {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #1e3a8a;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .close-iframe:hover {
+      background: rgba(59, 130, 246, 0.1);
+    }
+
+    iframe {
+      flex: 1;
+      width: 100%;
+      border: none;
+    }
+
     @media (max-width: 400px) {
       .phone-wrapper { padding: 0.5rem; }
       .header-title { font-size: 1.35rem; }
@@ -304,7 +355,7 @@
       <div class="cards-grid">
         <!-- Registration Card -->
         <div class="card-wrapper">
-          <div class="card-link" data-module="registration">
+          <div class="card-link" data-module="registration" data-page="reg.html">
             <div class="card card-registration">
               <div class="lock-icon">
                 <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -327,7 +378,7 @@
 
         <!-- Distribution Card -->
         <div class="card-wrapper">
-          <div class="card-link" data-module="distribution">
+          <div class="card-link" data-module="distribution" data-page="dist.html">
             <div class="card card-distribution">
               <div class="lock-icon">
                 <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -352,7 +403,7 @@
 
         <!-- Dashboard Card -->
         <div class="card-wrapper">
-          <div class="card-link" data-module="dashboard">
+          <div class="card-link" data-module="dashboard" data-page="dash.html">
             <div class="card card-dashboard">
               <div class="lock-icon">
                 <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -375,7 +426,7 @@
 
         <!-- Stock Card -->
         <div class="card-wrapper">
-          <div class="card-link" data-module="stock">
+          <div class="card-link" data-module="stock" data-page="stock.html">
             <div class="card card-stock">
               <div class="lock-icon">
                 <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -398,7 +449,7 @@
 
         <!-- Attendance Card -->
         <div class="card-wrapper">
-          <div class="card-link" data-module="attendance">
+          <div class="card-link" data-module="attendance" data-page="attend.html">
             <div class="card card-attendance">
               <div class="lock-icon">
                 <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -421,7 +472,7 @@
 
         <!-- Monitoring Card -->
         <div class="card-wrapper">
-          <div class="card-link" data-module="monitoring">
+          <div class="card-link" data-module="monitoring" data-page="monit.html">
             <div class="card card-monitoring">
               <div class="lock-icon">
                 <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -466,30 +517,97 @@
   </div>
 </div>
 
+<!-- Iframe Container -->
+<div id="iframeContainer" class="iframe-container">
+  <div class="iframe-header">
+    <h4 id="iframeTitle">Registration</h4>
+    <button class="close-iframe" onclick="closeIframe()">✕</button>
+  </div>
+  <iframe id="contentFrame" src="about:blank"></iframe>
+</div>
+
 <script>
-  // Credentials for each module
-  const credentials = {
-    registration: { username: "reg_user", password: "reg@2026" },
-    distribution: { username: "dist_user", password: "dist@2026" },
-    dashboard: { username: "dash_user", password: "dash@2026" },
-    stock: { username: "stock_user", password: "stock@2026" },
-    attendance: { username: "attend_user", password: "attend@2026" },
-    monitoring: { username: "monitor_user", password: "monitor@2026" }
-  };
-
+  let credentials = {};
   let pendingModule = null;
+  let pendingPage = null;
 
-  // Get all card links
-  const cardLinks = document.querySelectorAll('.card-link');
   const modal = document.getElementById('loginModal');
   const loginUsername = document.getElementById('loginUsername');
   const loginPassword = document.getElementById('loginPassword');
   const loginError = document.getElementById('loginError');
   const modalTitle = document.getElementById('modalTitle');
+  const iframeContainer = document.getElementById('iframeContainer');
+  const contentFrame = document.getElementById('contentFrame');
+  const iframeTitle = document.getElementById('iframeTitle');
 
-  // Function to show login modal
-  function showLogin(moduleName) {
+  // Load credentials from test.csv file
+  async function loadCredentials() {
+    try {
+      const response = await fetch('test.csv');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const csvText = await response.text();
+      
+      const lines = csvText.trim().split('\n');
+      
+      // First line might be header, check if first line contains 'module' or similar
+      let startIndex = 0;
+      const firstLine = lines[0].toLowerCase();
+      if (firstLine.includes('module') || firstLine.includes('username') || firstLine.includes('password')) {
+        startIndex = 1; // Skip header row
+      }
+      
+      for (let i = startIndex; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (line === '') continue;
+        
+        // Handle CSV with possible quotes
+        let parts = [];
+        let inQuotes = false;
+        let currentPart = '';
+        
+        for (let j = 0; j < line.length; j++) {
+          const char = line[j];
+          if (char === '"') {
+            inQuotes = !inQuotes;
+          } else if (char === ',' && !inQuotes) {
+            parts.push(currentPart.trim());
+            currentPart = '';
+          } else {
+            currentPart += char;
+          }
+        }
+        parts.push(currentPart.trim());
+        
+        if (parts.length >= 3) {
+          const module = parts[0].replace(/^["']|["']$/g, '').toLowerCase();
+          const username = parts[1].replace(/^["']|["']$/g, '');
+          const password = parts[2].replace(/^["']|["']$/g, '');
+          credentials[module] = { username, password };
+        }
+      }
+      
+      console.log('Credentials loaded from test.csv:', Object.keys(credentials));
+      
+      if (Object.keys(credentials).length === 0) {
+        console.warn('No credentials found in test.csv. Please check file format.');
+      }
+    } catch (error) {
+      console.error('Error loading test.csv:', error);
+      credentials = {};
+    }
+  }
+
+  // Show login modal
+  function showLogin(moduleName, pageName) {
+    if (Object.keys(credentials).length === 0) {
+      alert('Please ensure test.csv file exists with valid credentials.\n\nFormat: module,username,password\nExample: registration,admin,pass123');
+      return;
+    }
+    
     pendingModule = moduleName;
+    pendingPage = pageName;
     const moduleDisplay = moduleName.charAt(0).toUpperCase() + moduleName.slice(1);
     modalTitle.textContent = `${moduleDisplay} - Login Required`;
     loginUsername.value = '';
@@ -498,13 +616,27 @@
     modal.style.display = 'flex';
   }
 
-  // Function to close modal
+  // Close modal
   function closeModal() {
     modal.style.display = 'none';
     pendingModule = null;
+    pendingPage = null;
   }
 
-  // Function to attempt login
+  // Open iframe with the page
+  function openIframe(pageUrl, title) {
+    contentFrame.src = pageUrl;
+    iframeTitle.textContent = title;
+    iframeContainer.style.display = 'flex';
+  }
+
+  // Close iframe
+  function closeIframe() {
+    iframeContainer.style.display = 'none';
+    contentFrame.src = 'about:blank';
+  }
+
+  // Attempt login
   function attemptLogin() {
     if (!pendingModule) return;
     
@@ -513,52 +645,25 @@
     const cred = credentials[pendingModule];
     
     if (cred && username === cred.username && password === cred.password) {
-      // Login successful - redirect to the corresponding page
       loginError.style.display = 'none';
       closeModal();
       
-      // Redirect to the respective HTML page
-      let redirectUrl = '';
-      switch(pendingModule) {
-        case 'registration':
-          redirectUrl = 'reg.html';
-          break;
-        case 'distribution':
-          redirectUrl = 'dist.html';
-          break;
-        case 'dashboard':
-          redirectUrl = 'dash.html';
-          break;
-        case 'stock':
-          redirectUrl = 'stock.html';
-          break;
-        case 'attendance':
-          redirectUrl = 'attend.html';
-          break;
-        case 'monitoring':
-          redirectUrl = 'monit.html';
-          break;
-        default:
-          redirectUrl = '#';
-      }
-      
-      if (redirectUrl !== '#') {
-        window.location.href = redirectUrl;
-      } else {
-        alert('Page not configured yet');
-      }
+      const moduleDisplay = pendingModule.charAt(0).toUpperCase() + pendingModule.slice(1);
+      openIframe(pendingPage, moduleDisplay);
     } else {
       loginError.style.display = 'block';
     }
   }
 
   // Attach click event to each card
+  const cardLinks = document.querySelectorAll('.card-link');
   cardLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
       const module = link.getAttribute('data-module');
-      if (module) {
-        showLogin(module);
+      const page = link.getAttribute('data-page');
+      if (module && page) {
+        showLogin(module, page);
       }
     });
   });
@@ -576,6 +681,9 @@
       attemptLogin();
     }
   });
+
+  // Load credentials on page load
+  loadCredentials();
 </script>
 </body>
 </html>
