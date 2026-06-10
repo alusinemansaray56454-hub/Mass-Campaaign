@@ -203,6 +203,17 @@
       display: block;
     }
 
+    .name-row {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    
+    .name-row .form-group {
+      flex: 1;
+      min-width: 100px;
+    }
+
     .gps-row {
       display: flex;
       gap: 0.5rem;
@@ -362,6 +373,9 @@
       .registration-form {
         padding: 1.25rem 0.75rem;
       }
+      .name-row .form-group {
+        min-width: 100%;
+      }
       .gps-btn, .token-btn {
         padding: 0.75rem 0.75rem;
         font-size: 0.7rem;
@@ -433,9 +447,29 @@
 
         <!-- Section 2: Household Details -->
         <div class="form-section" id="section2">
+          <div class="name-row">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" id="firstName" placeholder="Enter first name">
+            </div>
+            <div class="form-group">
+              <label>Middle Name</label>
+              <input type="text" id="middleName" placeholder="Enter middle name">
+            </div>
+            <div class="form-group">
+              <label>Surname</label>
+              <input type="text" id="surname" placeholder="Enter surname">
+            </div>
+          </div>
+
           <div class="form-group">
-            <label>Household Head Name</label>
-            <input type="text" id="householdHead" placeholder="Enter full name">
+            <label>Gender</label>
+            <select id="gender">
+              <option value="">Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
           </div>
 
           <div class="form-group">
@@ -512,8 +546,24 @@
               <span class="summary-value" id="summaryHhr">-</span>
             </div>
             <div class="summary-row">
-              <span class="summary-label">Household Head:</span>
-              <span class="summary-value" id="summaryHead">-</span>
+              <span class="summary-label">First Name:</span>
+              <span class="summary-value" id="summaryFirstName">-</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Middle Name:</span>
+              <span class="summary-value" id="summaryMiddleName">-</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Surname:</span>
+              <span class="summary-value" id="summarySurname">-</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Full Name:</span>
+              <span class="summary-value" id="summaryFullName">-</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Gender:</span>
+              <span class="summary-value" id="summaryGender">-</span>
             </div>
             <div class="summary-row">
               <span class="summary-label">Telephone:</span>
@@ -550,8 +600,8 @@
         <div class="form-section" id="section4">
           <div class="summary-card">
             <div class="summary-row">
-              <span class="summary-label">Household Head:</span>
-              <span class="summary-value" id="completeHead">-</span>
+              <span class="summary-label">Full Name:</span>
+              <span class="summary-value" id="completeFullName">-</span>
             </div>
             <div class="summary-row">
               <span class="summary-label">Total Family Size:</span>
@@ -630,9 +680,12 @@
   const phuSelect = document.getElementById('phu');
   const communitySelect = document.getElementById('community');
   const hhrSelect = document.getElementById('hhr');
+  const firstNameInput = document.getElementById('firstName');
+  const middleNameInput = document.getElementById('middleName');
+  const surnameInput = document.getElementById('surname');
+  const genderSelect = document.getElementById('gender');
   const telephoneInput = document.getElementById('telephone');
   const phoneError = document.getElementById('phoneError');
-  const householdHeadInput = document.getElementById('householdHead');
   const totalPeopleInput = document.getElementById('totalPeople');
   const underFiveInput = document.getElementById('underFive');
   const pregnantWomenInput = document.getElementById('pregnantWomen');
@@ -644,6 +697,18 @@
   const gpsError = document.getElementById('gpsError');
   const tokenInput = document.getElementById('token');
   const generateTokenBtn = document.getElementById('generateTokenBtn');
+
+  // Get full name
+  function getFullName() {
+    const firstName = firstNameInput.value.trim();
+    const middleName = middleNameInput.value.trim();
+    const surname = surnameInput.value.trim();
+    let fullName = '';
+    if (firstName) fullName += firstName;
+    if (middleName) fullName += ' ' + middleName;
+    if (surname) fullName += ' ' + surname;
+    return fullName.trim() || '';
+  }
 
   // Navigation functions
   function updateSection() {
@@ -702,7 +767,11 @@
     document.getElementById('summaryPhu').textContent = phuSelect.value || '-';
     document.getElementById('summaryCommunity').textContent = communitySelect.value || '-';
     document.getElementById('summaryHhr').textContent = hhrSelect.value || '-';
-    document.getElementById('summaryHead').textContent = householdHeadInput.value.trim() || '-';
+    document.getElementById('summaryFirstName').textContent = firstNameInput.value.trim() || '-';
+    document.getElementById('summaryMiddleName').textContent = middleNameInput.value.trim() || '-';
+    document.getElementById('summarySurname').textContent = surnameInput.value.trim() || '-';
+    document.getElementById('summaryFullName').textContent = getFullName() || '-';
+    document.getElementById('summaryGender').textContent = genderSelect.value || '-';
     document.getElementById('summaryPhone').textContent = telephoneInput.value || '-';
     document.getElementById('summaryTotalPeople').textContent = totalPeopleInput.value || '0';
     document.getElementById('summaryUnderFive').textContent = underFiveInput.value || '0';
@@ -730,7 +799,7 @@
       bednetMessage = 'Please enter number of people in household to see bednet recommendation.';
     }
     
-    document.getElementById('completeHead').textContent = householdHeadInput.value.trim() || '-';
+    document.getElementById('completeFullName').textContent = getFullName() || '-';
     document.getElementById('completeTotalFamily').textContent = totalFamilyInput.value || '0';
     document.getElementById('completeToken').textContent = tokenInput.value || '-';
     document.getElementById('bednetMessage').innerHTML = 'Bednet Recommendation: ' + bednetMessage;
@@ -780,7 +849,11 @@
       phu: phuSelect.value,
       community: communitySelect.value,
       hhr: hhrSelect.value,
-      householdHead: householdHeadInput.value.trim(),
+      firstName: firstNameInput.value.trim(),
+      middleName: middleNameInput.value.trim(),
+      surname: surnameInput.value.trim(),
+      fullName: getFullName(),
+      gender: genderSelect.value,
       telephone: phone || '',
       totalPeople: totalPeople,
       underFive: parseInt(underFiveInput.value),
@@ -799,7 +872,8 @@
     localStorage.setItem('householdRegistrations', JSON.stringify(allRegistrations));
     
     let message = 'Registration Completed Successfully!\n\n';
-    message += 'Household Head: ' + (registrationData.householdHead || 'Not provided') + '\n';
+    message += 'Full Name: ' + (registrationData.fullName || 'Not provided') + '\n';
+    message += 'Gender: ' + (registrationData.gender || 'Not provided') + '\n';
     message += 'Total Family Members: ' + registrationData.totalFamily + '\n';
     message += 'Bednets to distribute: ' + bednetCount + '\n';
     message += 'Token: ' + registrationData.token;
@@ -822,7 +896,10 @@
     communitySelect.disabled = true;
     hhrSelect.innerHTML = '<option value="">Select HHR first</option>';
     hhrSelect.disabled = true;
-    householdHeadInput.value = '';
+    firstNameInput.value = '';
+    middleNameInput.value = '';
+    surnameInput.value = '';
+    genderSelect.value = '';
     telephoneInput.value = '';
     totalPeopleInput.value = '0';
     underFiveInput.value = '0';
@@ -872,12 +949,12 @@
     return isValid;
   }
 
-  // Generate Token based on Household Head Name and Telephone
+  // Generate Token based on Full Name and Telephone
   function generateToken() {
-    const householdHead = householdHeadInput.value.trim();
+    const fullName = getFullName();
     let phone = telephoneInput.value.trim();
     
-    let cleanName = householdHead ? householdHead.replace(/[^a-zA-Z0-9]/g, '_').replace(/_+/g, '_') : 'noName';
+    let cleanName = fullName ? fullName.replace(/[^a-zA-Z0-9]/g, '_').replace(/_+/g, '_') : 'noName';
     const phonePart = phone || 'noPhone';
     const randomSuffix = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
     
@@ -909,9 +986,9 @@
     }
   }
 
-  householdHeadInput.addEventListener('input', () => {
-    autoUpdateToken();
-  });
+  firstNameInput.addEventListener('input', () => autoUpdateToken());
+  middleNameInput.addEventListener('input', () => autoUpdateToken());
+  surnameInput.addEventListener('input', () => autoUpdateToken());
 
   telephoneInput.addEventListener('input', (e) => {
     let value = e.target.value;
