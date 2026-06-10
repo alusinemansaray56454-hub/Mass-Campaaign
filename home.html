@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>ICF-SL Data Collection Portal</title>
+  <title>Data Collection Form</title>
   <style>
     * {
       margin: 0;
@@ -21,6 +21,7 @@
       padding: 0;
     }
 
+    /* Phone view container — simulates mobile screen */
     .phone-wrapper {
       width: 100%;
       max-width: 390px;
@@ -33,14 +34,17 @@
       padding: 0.75rem;
     }
 
+    /* Main card container — light blue and white theme */
     .form-container {
       width: 100%;
       background: #ffffff;
       border-radius: 1.5rem;
       box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(59, 130, 246, 0.1);
       overflow: hidden;
+      transition: all 0.2s ease;
     }
 
+    /* ========= HEADER (light blue) ========= */
     .light-header {
       background: linear-gradient(105deg, #dbeafe, #eff6ff);
       padding: 1.5rem 1rem 1.2rem 1rem;
@@ -48,34 +52,22 @@
       border-bottom: 1px solid #bfdbfe;
     }
 
-    .logo-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 0.8rem;
+    .header-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+      color: #1e3a8a;
+      margin-bottom: 0.85rem;
     }
 
     .header-logo {
-      height: 60px;
+      height: 42px;
       width: auto;
       display: block;
-      object-fit: contain;
+      margin: 0 auto;
     }
 
-    .header-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      letter-spacing: -0.2px;
-      color: #1e3a8a;
-      margin-bottom: 0.3rem;
-    }
-
-    .header-sub {
-      font-size: 0.7rem;
-      color: #3b82f6;
-      font-weight: 500;
-    }
-
+    /* ========= FORM BODY — 6 cards, 2 columns ========= */
     .data-form {
       padding: 1.5rem 1rem;
       background: #ffffff;
@@ -93,16 +85,19 @@
     }
 
     .card {
+      background: #f8fafc;
       border-radius: 1rem;
       padding: 1rem 0.5rem;
       text-align: center;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+      border: 1px solid #e2e8f0;
       transition: all 0.2s ease;
       cursor: pointer;
     }
 
     .card:active {
       transform: scale(0.97);
+      background: #f1f5f9;
     }
 
     .card-icon {
@@ -117,6 +112,7 @@
     .card-icon svg {
       width: 32px;
       height: 32px;
+      stroke: #3b82f6;
       stroke-width: 1.7;
       fill: none;
     }
@@ -124,103 +120,78 @@
     .card-title {
       font-size: 0.85rem;
       font-weight: 600;
+      color: #1e3a8a;
       letter-spacing: 0.3px;
     }
 
-    /* Card color schemes */
-    .card-registration {
-      background: linear-gradient(135deg, #fef3c7, #fde68a);
-      border: 1px solid #f59e0b;
-    }
-    .card-registration .card-icon svg { stroke: #d97706; }
-    .card-registration .card-title { color: #b45309; }
-
-    .card-distribution {
-      background: linear-gradient(135deg, #d1fae5, #a7f3d0);
-      border: 1px solid #10b981;
-    }
-    .card-distribution .card-icon svg { stroke: #059669; }
-    .card-distribution .card-title { color: #065f46; }
-
-    .card-dashboard {
-      background: linear-gradient(135deg, #ede9fe, #ddd6fe);
-      border: 1px solid #8b5cf6;
-    }
-    .card-dashboard .card-icon svg { stroke: #7c3aed; }
-    .card-dashboard .card-title { color: #5b21b6; }
-
-    .card-stock {
-      background: linear-gradient(135deg, #fce7f3, #fbcfe8);
-      border: 1px solid #ec4899;
-    }
-    .card-stock .card-icon svg { stroke: #db2777; }
-    .card-stock .card-title { color: #be185d; }
-
-    .card-attendance {
-      background: linear-gradient(135deg, #ccfbf1, #99f6e4);
-      border: 1px solid #14b8a6;
-    }
-    .card-attendance .card-icon svg { stroke: #0f766e; }
-    .card-attendance .card-title { color: #115e59; }
-
-    .card-monitoring {
-      background: linear-gradient(135deg, #fee2e2, #fecaca);
-      border: 1px solid #ef4444;
-    }
-    .card-monitoring .card-icon svg { stroke: #dc2626; }
-    .card-monitoring .card-title { color: #b91c1c; }
-
+    /* ========= FOOTER (same light blue as header) ========= */
     .light-footer {
       background: linear-gradient(105deg, #dbeafe, #eff6ff);
       border-top: 1px solid #bfdbfe;
-      padding: 1rem;
+      padding: 1rem 1rem;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 0.75rem;
+      gap: 1rem;
+      font-size: 0.8rem;
       color: #1e3a8a;
       font-weight: 500;
-      text-align: center;
-      flex-direction: column;
-      gap: 0.3rem;
     }
 
     .footer-text {
-      font-family: system-ui, sans-serif;
+      font-family: system-ui, 'Segoe UI', sans-serif;
       letter-spacing: 0.3px;
     }
 
-    .footer-motto {
-      font-size: 0.65rem;
-      color: #3b82f6;
-      font-style: italic;
+    hr {
+      display: none;
     }
 
+    /* Extra small adjustments */
     @media (max-width: 400px) {
-      .phone-wrapper { padding: 0.5rem; }
-      .header-logo { height: 50px; }
-      .header-title { font-size: 0.95rem; }
-      .header-sub { font-size: 0.65rem; }
-      .data-form { padding: 1.25rem 0.75rem; }
-      .cards-grid { gap: 0.7rem; }
-      .card { padding: 0.85rem 0.3rem; }
-      .card-icon { width: 36px; height: 36px; }
-      .card-icon svg { width: 28px; height: 28px; }
-      .card-title { font-size: 0.75rem; }
-      .footer-motto { font-size: 0.6rem; }
+      .phone-wrapper {
+        padding: 0.5rem;
+      }
+      .header-title {
+        font-size: 1.35rem;
+      }
+      .header-logo {
+        height: 38px;
+      }
+      .data-form {
+        padding: 1.25rem 0.75rem;
+      }
+      .cards-grid {
+        gap: 0.7rem;
+      }
+      .card {
+        padding: 0.85rem 0.3rem;
+      }
+      .card-icon {
+        width: 36px;
+        height: 36px;
+      }
+      .card-icon svg {
+        width: 28px;
+        height: 28px;
+      }
+      .card-title {
+        font-size: 0.75rem;
+      }
+      .light-footer {
+        padding: 0.85rem;
+        font-size: 0.75rem;
+      }
     }
   </style>
 </head>
 <body>
 <div class="phone-wrapper">
   <div class="form-container">
-    <!-- HEADER section with ICF-SL logo -->
+    <!-- HEADER section - light blue, title with logo below -->
     <header class="light-header">
-      <div class="logo-container">
-        <img src="icf.png" alt="ICF-SL Logo" class="header-logo" onerror="this.style.display='none'">
-      </div>
-      <div class="header-title">INFORMATICS CONSULTANCY FIRM-SL (ICF-SL)</div>
-      <div class="header-sub">Driving Data-Driven Solution for Health and Development</div>
+      <div class="header-title">Data Collection</div>
+      <img src="logo.png" alt="logo" class="header-logo">
     </header>
 
     <!-- BODY — 6 linked cards in 2 columns with SVG icons -->
@@ -228,7 +199,7 @@
       <div class="cards-grid">
         <!-- 1. Registration → reg.html -->
         <a href="reg.html" class="card-link">
-          <div class="card card-registration">
+          <div class="card">
             <div class="card-icon">
               <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
@@ -240,10 +211,9 @@
             <div class="card-title">Registration</div>
           </div>
         </a>
-
         <!-- 2. Distribution → dist.html -->
         <a href="dist.html" class="card-link">
-          <div class="card card-distribution">
+          <div class="card">
             <div class="card-icon">
               <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M4 4h16v16H4z" />
@@ -257,10 +227,9 @@
             <div class="card-title">Distribution</div>
           </div>
         </a>
-
         <!-- 3. Dashboard → dash.html -->
         <a href="dash.html" class="card-link">
-          <div class="card card-dashboard">
+          <div class="card">
             <div class="card-icon">
               <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M12 20V10" />
@@ -272,10 +241,9 @@
             <div class="card-title">Dashboard</div>
           </div>
         </a>
-
         <!-- 4. Stock → stock.html -->
         <a href="stock.html" class="card-link">
-          <div class="card card-stock">
+          <div class="card">
             <div class="card-icon">
               <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="2" y="7" width="20" height="14" rx="2" />
@@ -287,10 +255,9 @@
             <div class="card-title">Stock</div>
           </div>
         </a>
-
         <!-- 5. Attendance → attend.html -->
         <a href="attend.html" class="card-link">
-          <div class="card card-attendance">
+          <div class="card">
             <div class="card-icon">
               <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
@@ -302,10 +269,9 @@
             <div class="card-title">Attendance</div>
           </div>
         </a>
-
         <!-- 6. Monitoring → monit.html -->
         <a href="monit.html" class="card-link">
-          <div class="card card-monitoring">
+          <div class="card">
             <div class="card-icon">
               <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="3" />
@@ -322,11 +288,9 @@
       </div>
     </div>
 
-    <!-- FOOTER with company info -->
+    <!-- FOOTER - same light blue as header, text: ICF-SL @2026 -->
     <footer class="light-footer">
-      <span class="footer-text">INFORMATICS CONSULTANCY FIRM-SL (ICF-SL)</span>
-      <span class="footer-motto">Driving Data-Driven Solution for Health and Development</span>
-      <span class="footer-text">© 2026 ICF-SL. All rights reserved.</span>
+      <span class="footer-text">ICF-SL @2026</span>
     </footer>
   </div>
 </div>
