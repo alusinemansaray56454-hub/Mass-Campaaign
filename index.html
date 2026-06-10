@@ -587,14 +587,14 @@
   <!-- INFOGRAPHICS SECTION -->
   <div class="infographics-section">
     <div class="infographics-title">CAMPAIGN INFOGRAPHICS</div>
-    <img src="infographics.png" alt="Campaign Infographics" class="infographics-img" id="infographicsImg" onclick="showMessage('📊 ITN Campaign infographics displayed')">
+    <img src="infographics.png" alt="Campaign Infographics" class="infographics-img" id="infographicsImg">
   </div>
   
-  <!-- MAIN CONTENT -->
+  <!-- MAIN CONTENT - LOGIN FORM -->
   <div class="card-inner">
     <div class="input-group">
-      <label>username</label>
-      <input type="text" class="input-field" id="usernameInput" placeholder="Username" autocomplete="username" inputmode="text">
+      <label>Username</label>
+      <input type="text" class="input-field" id="usernameInput" placeholder="Enter your username" autocomplete="username" inputmode="text">
     </div>
     <div class="input-group">
       <label>Password</label>
@@ -642,7 +642,7 @@
   </div>
 </div>
 
-<!-- IFRAME OVERLAY -->
+<!-- IFRAME OVERLAY for home.html -->
 <div id="iframeOverlay" class="iframe-overlay">
   <div class="iframe-container">
     <div class="iframe-header">
@@ -669,12 +669,16 @@
     }, 2000);
   }
 
+  // Store credentials from password.csv
   let credentialsMap = new Map();
 
+  // Load and parse password.csv file
   async function loadCredentials() {
     try {
       const response = await fetch('password.csv');
       if (!response.ok) {
+        console.warn('password.csv not found, using demo mode with default credentials');
+        // Demo fallback credentials for testing
         credentialsMap.set('admin', 'admin123');
         credentialsMap.set('user', 'password');
         credentialsMap.set('demo', 'demo');
@@ -687,34 +691,54 @@
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i].trim();
         if (line === '') continue;
+        
+        // Split by comma - supports "username,password" format
         const parts = line.split(',');
         if (parts.length >= 2) {
+          // Skip header row if it contains 'username' or 'user' (case insensitive)
           const firstPartLower = parts[0].toLowerCase();
-          if (i === 0 && (firstPartLower === 'username' || firstPartLower === 'user')) continue;
+          if (i === 0 && (firstPartLower === 'username' || firstPartLower === 'user' || firstPartLower === 'user name')) {
+            continue;
+          }
           const username = parts[0].trim();
           const password = parts[1].trim();
-          if (username && password) credentialsMap.set(username, password);
+          if (username && password) {
+            credentialsMap.set(username, password);
+          }
         }
       }
       
+      console.log(`✅ Loaded ${credentialsMap.size} credential(s) from password.csv`);
+      
+      // If no credentials loaded, add demo fallback
       if (credentialsMap.size === 0) {
         credentialsMap.set('admin', 'admin123');
         credentialsMap.set('demo', 'demo');
+        console.log('⚠️ No valid credentials found in CSV, using demo fallback');
       }
+      
       return true;
     } catch (error) {
+      console.error('Error loading CSV:', error);
+      // Demo fallback
       credentialsMap.set('admin', 'admin123');
       credentialsMap.set('demo', 'demo');
       return true;
     }
   }
 
+  // Validate username and password against loaded credentials
   function validateCredentials(username, password) {
     const storedPassword = credentialsMap.get(username);
-    return storedPassword && storedPassword === password;
+    if (storedPassword && storedPassword === password) {
+      return true;
+    }
+    return false;
   }
 
+  // Open iframe with home.html
   function openHomeIframe() {
+    // Reload iframe to ensure fresh content
     homeIframe.src = homeIframe.src;
     iframeOverlay.style.display = 'flex';
   }
@@ -723,6 +747,7 @@
     iframeOverlay.style.display = 'none';
   }
 
+  // Login logic with CSV validation
   const loginBtn = document.getElementById('loginBtn');
   const usernameField = document.getElementById('usernameInput');
   const passwordField = document.getElementById('passwordInput');
@@ -736,11 +761,17 @@
       return;
     }
     
-    if (credentialsMap.size === 0) await loadCredentials();
+    // Ensure credentials are loaded
+    if (credentialsMap.size === 0) {
+      await loadCredentials();
+    }
     
     if (validateCredentials(username, password)) {
       showMessage(`✅ Welcome, ${username}! Access granted. Loading ITN Campaign Portal...`);
-      setTimeout(() => openHomeIframe(), 500);
+      // Open home.html in iframe after successful login
+      setTimeout(() => {
+        openHomeIframe();
+      }, 500);
     } else {
       showMessage("❌ Invalid username or password. Please try again.", true);
       passwordField.value = '';
@@ -748,6 +779,7 @@
     }
   }
   
+  // Load credentials when page loads
   loadCredentials();
   
   loginBtn.addEventListener('click', (e) => {
@@ -755,6 +787,7 @@
     performLogin();
   });
   
+  // Allow Enter key to submit
   [usernameField, passwordField].forEach(inp => {
     inp.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') {
@@ -764,15 +797,28 @@
     });
   });
   
+  // Close iframe when clicking close button or overlay background
   document.getElementById('closeIframeBtn').addEventListener('click', closeIframe);
   iframeOverlay.addEventListener('click', (e) => {
     if (e.target === iframeOverlay) closeIframe();
   });
   
-  document.getElementById('scanBadgeBtn').addEventListener('click', () => showMessage("📸 Badge scanned successfully."));
-  document.getElementById('backupSdBtn').addEventListener('click', () => showMessage("💾 Backup to SD card initiated."));
-  document.getElementById('languageBtn').addEventListener('click', () => showMessage("🌍 Language: English (default)."));
-  document.getElementById('aboutBtn').addEventListener('click', () => showMessage("ℹ️ ITN Mass Campaign 2026/2027 | Secure Portal for Registration & Distribution"));
+  // Other button handlers (demo functionality)
+  document.getElementById('scanBadgeBtn').addEventListener('click', () => {
+    showMessage("📸 Badge scanned successfully (demo).");
+  });
+  document.getElementById('backupSdBtn').addEventListener('click', () => {
+    showMessage("💾 Backup to SD card initiated.");
+  });
+  document.getElementById('languageBtn').addEventListener('click', () => {
+    showMessage("🌍 Language: English (default).");
+  });
+  document.getElementById('aboutBtn').addEventListener('click', () => {
+    showMessage("ℹ️ ITN Mass Campaign 2026/2027 | Secure Portal for Registration & Distribution");
+  });
+  document.getElementById('infographicsImg').addEventListener('click', () => {
+    showMessage("📊 ITN Campaign infographics displayed");
+  });
 </script>
 </body>
 </html>
