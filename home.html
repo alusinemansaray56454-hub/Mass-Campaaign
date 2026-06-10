@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>Stock - ITN Campaign</title>
+  <title>ICF-SL Data Collection Portal</title>
   <style>
     * {
       margin: 0;
@@ -29,6 +29,7 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      justify-content: center;
       padding: 0.75rem;
     }
 
@@ -45,31 +46,25 @@
       padding: 1.5rem 1rem 1.2rem 1rem;
       text-align: center;
       border-bottom: 1px solid #bfdbfe;
-      position: relative;
     }
 
-    .back-button {
-      position: absolute;
-      left: 1rem;
-      top: 1.5rem;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: #1e3a8a;
-      text-decoration: none;
+    .logo-container {
       display: flex;
-      align-items: center;
       justify-content: center;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: rgba(59, 130, 246, 0.1);
+      align-items: center;
+      margin-bottom: 0.8rem;
+    }
+
+    .header-logo {
+      height: 60px;
+      width: auto;
+      display: block;
+      object-fit: contain;
     }
 
     .header-title {
-      font-size: 1.3rem;
-      font-weight: 600;
+      font-size: 1.1rem;
+      font-weight: 700;
       letter-spacing: -0.2px;
       color: #1e3a8a;
       margin-bottom: 0.3rem;
@@ -78,303 +73,102 @@
     .header-sub {
       font-size: 0.7rem;
       color: #3b82f6;
-    }
-
-    .header-logo {
-      height: 42px;
-      width: auto;
-      display: block;
-      margin: 0 auto;
-    }
-
-    .progress-bar {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 1.5rem;
-      padding: 0 0.5rem;
-      background: #ffffff;
-    }
-
-    .progress-step {
-      flex: 1;
-      text-align: center;
-      font-size: 0.65rem;
-      color: #94a3b8;
-      position: relative;
-      padding-top: 1.5rem;
       font-weight: 500;
     }
 
-    .progress-step.active {
-      color: #3b82f6;
-      font-weight: 700;
-    }
-
-    .progress-step::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: #e2e8f0;
-      border: 2px solid #cbd5e1;
-    }
-
-    .progress-step.active::before {
-      background: #3b82f6;
-      border-color: #3b82f6;
-    }
-
-    .progress-step.completed::before {
-      background: #10b981;
-      border-color: #10b981;
-    }
-
-    .stock-form {
+    .data-form {
       padding: 1.5rem 1rem;
       background: #ffffff;
     }
 
-    .form-section {
-      display: none;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .form-section.active-section {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateX(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    .section {
-      background: #f8fafc;
-      border-radius: 1rem;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      border: 1px solid #e2e8f0;
-    }
-
-    .section-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: #1e3a8a;
-      margin-bottom: 1rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 2px solid #bfdbfe;
-    }
-
-    .form-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-      margin-bottom: 0.8rem;
-      align-items: flex-start;
-    }
-
-    .form-field {
-      flex: 1;
-      min-width: 140px;
-    }
-
-    .form-field label {
-      display: block;
-      font-size: 0.7rem;
-      font-weight: 600;
-      color: #1e3a8a;
-      margin-bottom: 0.2rem;
-    }
-
-    .form-field input, .form-field select, .form-field textarea {
-      width: 100%;
-      padding: 0.6rem;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 0.7rem;
-      font-size: 0.8rem;
-      font-family: inherit;
-      background: #ffffff;
-      transition: all 0.2s;
-      outline: none;
-    }
-
-    .form-field input:focus, .form-field select:focus, .form-field textarea:focus {
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
-    }
-
-    .readonly-input {
-      background: #f1f5f9;
-      color: #334155;
-    }
-
-    .checkbox-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-      margin-top: 0.3rem;
-    }
-
-    .checkbox-item {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.75rem;
-      min-width: 180px;
-    }
-
-    .checkbox-item input {
-      width: 18px;
-      height: 18px;
-    }
-
-    .radio-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin-top: 0.3rem;
-    }
-
-    .radio-item {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.75rem;
-    }
-
-    .stock-table {
-      width: 100%;
-      font-size: 0.7rem;
-      border-collapse: collapse;
-      margin-top: 0.5rem;
-      overflow-x: auto;
-      display: block;
-    }
-
-    .stock-table th, .stock-table td {
-      border: 1px solid #cbd5e1;
-      padding: 0.5rem;
-      text-align: left;
-    }
-
-    .stock-table th {
-      background: #dbeafe;
-      color: #1e3a8a;
-      font-weight: 600;
-    }
-
-    .stock-table input {
-      width: 100%;
-      padding: 0.3rem;
-      border: 1px solid #cbd5e1;
-      border-radius: 0.4rem;
-      font-size: 0.7rem;
-    }
-
-    .accountability-grid {
+    .cards-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 0.8rem;
-      margin-top: 0.5rem;
+      gap: 0.875rem;
     }
 
-    .accountability-item {
-      background: #ffffff;
-      padding: 0.5rem;
-      border-radius: 0.7rem;
-      text-align: center;
-      border: 1px solid #e2e8f0;
-    }
-
-    .accountability-item label {
-      font-size: 0.7rem;
-      font-weight: 600;
-      color: #1e3a8a;
+    .card-link {
+      text-decoration: none;
       display: block;
     }
 
-    .accountability-item input {
-      width: 100%;
+    .card {
+      border-radius: 1rem;
+      padding: 1rem 0.5rem;
       text-align: center;
-      font-weight: 700;
-      padding: 0.4rem;
-    }
-
-    .formula-check {
-      background: #dbeafe;
-      padding: 0.5rem;
-      border-radius: 0.7rem;
-      text-align: center;
-      font-size: 0.7rem;
-      margin-top: 0.5rem;
-    }
-
-    .storage-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-
-    .storage-item {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .storage-item span {
-      width: 180px;
-      font-size: 0.75rem;
-      font-weight: 500;
-      color: #1e3a8a;
-    }
-
-    .nav-buttons {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-
-    .nav-btn {
-      flex: 1;
-      background: #e2e8f0;
-      border: none;
-      padding: 0.85rem;
-      border-radius: 2rem;
-      font-weight: 600;
-      font-size: 1rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+      transition: all 0.2s ease;
       cursor: pointer;
-      transition: 0.2s;
     }
 
-    .nav-btn.next {
-      background: linear-gradient(105deg, #3b82f6, #2563eb);
-      color: white;
+    .card:active {
+      transform: scale(0.97);
     }
 
-    .nav-btn.prev {
-      background: #f1f5f9;
-      color: #1e3a8a;
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      margin: 0 auto 0.5rem auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .nav-btn.submit {
-      background: linear-gradient(105deg, #10b981, #059669);
-      color: white;
+    .card-icon svg {
+      width: 32px;
+      height: 32px;
+      stroke-width: 1.7;
+      fill: none;
     }
 
-    .nav-btn:active {
-      transform: scale(0.98);
+    .card-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
     }
+
+    /* Card color schemes */
+    .card-registration {
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      border: 1px solid #f59e0b;
+    }
+    .card-registration .card-icon svg { stroke: #d97706; }
+    .card-registration .card-title { color: #b45309; }
+
+    .card-distribution {
+      background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+      border: 1px solid #10b981;
+    }
+    .card-distribution .card-icon svg { stroke: #059669; }
+    .card-distribution .card-title { color: #065f46; }
+
+    .card-dashboard {
+      background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+      border: 1px solid #8b5cf6;
+    }
+    .card-dashboard .card-icon svg { stroke: #7c3aed; }
+    .card-dashboard .card-title { color: #5b21b6; }
+
+    .card-stock {
+      background: linear-gradient(135deg, #fce7f3, #fbcfe8);
+      border: 1px solid #ec4899;
+    }
+    .card-stock .card-icon svg { stroke: #db2777; }
+    .card-stock .card-title { color: #be185d; }
+
+    .card-attendance {
+      background: linear-gradient(135deg, #ccfbf1, #99f6e4);
+      border: 1px solid #14b8a6;
+    }
+    .card-attendance .card-icon svg { stroke: #0f766e; }
+    .card-attendance .card-title { color: #115e59; }
+
+    .card-monitoring {
+      background: linear-gradient(135deg, #fee2e2, #fecaca);
+      border: 1px solid #ef4444;
+    }
+    .card-monitoring .card-icon svg { stroke: #dc2626; }
+    .card-monitoring .card-title { color: #b91c1c; }
 
     .light-footer {
       background: linear-gradient(105deg, #dbeafe, #eff6ff);
@@ -383,9 +177,12 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: #1e3a8a;
       font-weight: 500;
+      text-align: center;
+      flex-direction: column;
+      gap: 0.3rem;
     }
 
     .footer-text {
@@ -393,360 +190,145 @@
       letter-spacing: 0.3px;
     }
 
+    .footer-motto {
+      font-size: 0.65rem;
+      color: #3b82f6;
+      font-style: italic;
+    }
+
     @media (max-width: 400px) {
       .phone-wrapper { padding: 0.5rem; }
-      .header-title { font-size: 1.2rem; }
-      .header-logo { height: 38px; }
-      .stock-form { padding: 1.25rem 0.75rem; }
-      .form-field { min-width: 100%; }
-      .accountability-grid { grid-template-columns: 1fr; }
-      .storage-item span { width: 100%; }
+      .header-logo { height: 50px; }
+      .header-title { font-size: 0.95rem; }
+      .header-sub { font-size: 0.65rem; }
+      .data-form { padding: 1.25rem 0.75rem; }
+      .cards-grid { gap: 0.7rem; }
+      .card { padding: 0.85rem 0.3rem; }
+      .card-icon { width: 36px; height: 36px; }
+      .card-icon svg { width: 28px; height: 28px; }
+      .card-title { font-size: 0.75rem; }
+      .footer-motto { font-size: 0.6rem; }
     }
   </style>
 </head>
 <body>
 <div class="phone-wrapper">
   <div class="form-container">
+    <!-- HEADER section with ICF-SL logo -->
     <header class="light-header">
-      <a href="index.html" class="back-button">←</a>
-      <div class="header-title">ITN Mass Campaign</div>
-      <div class="header-sub">Sampling Stock Management Checklist</div>
-      <img src="logo.png" alt="logo" class="header-logo" onerror="this.style.display='none'">
+      <div class="logo-container">
+        <img src="icf.png" alt="ICF-SL Logo" class="header-logo" onerror="this.style.display='none'">
+      </div>
+      <div class="header-title">INFORMATICS CONSULTANCY FIRM-SL (ICF-SL)</div>
+      <div class="header-sub">Driving Data-Driven Solution for Health and Development</div>
     </header>
 
-    <div class="stock-form">
-      <div class="progress-bar">
-        <div class="progress-step" id="step1Indicator">General Info</div>
-        <div class="progress-step" id="step2Indicator">Stock Verification</div>
-        <div class="progress-step" id="step3Indicator">Accountability</div>
-        <div class="progress-step" id="step4Indicator">Findings</div>
+    <!-- BODY — 6 linked cards in 2 columns with SVG icons -->
+    <div class="data-form">
+      <div class="cards-grid">
+        <!-- 1. Registration → reg.html -->
+        <a href="reg.html" class="card-link">
+          <div class="card card-registration">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                <path d="M22 21v-2a4 4 0 0 0-3-3.85" />
+              </svg>
+            </div>
+            <div class="card-title">Registration</div>
+          </div>
+        </a>
+
+        <!-- 2. Distribution → dist.html -->
+        <a href="dist.html" class="card-link">
+          <div class="card card-distribution">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16v16H4z" />
+                <path d="M8 8h8v8H8z" />
+                <path d="M12 4v4" />
+                <path d="M12 12v4" />
+                <path d="M4 12h4" />
+                <path d="M16 12h4" />
+              </svg>
+            </div>
+            <div class="card-title">Distribution</div>
+          </div>
+        </a>
+
+        <!-- 3. Dashboard → dash.html -->
+        <a href="dash.html" class="card-link">
+          <div class="card card-dashboard">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20V10" />
+                <path d="M18 20V4" />
+                <path d="M6 20v-4" />
+                <rect x="2" y="2" width="20" height="20" rx="2" />
+              </svg>
+            </div>
+            <div class="card-title">Dashboard</div>
+          </div>
+        </a>
+
+        <!-- 4. Stock → stock.html -->
+        <a href="stock.html" class="card-link">
+          <div class="card card-stock">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" />
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                <path d="M9 11h6" />
+                <path d="M9 15h4" />
+              </svg>
+            </div>
+            <div class="card-title">Stock</div>
+          </div>
+        </a>
+
+        <!-- 5. Attendance → attend.html -->
+        <a href="attend.html" class="card-link">
+          <div class="card card-attendance">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                <path d="M22 21v-2a4 4 0 0 0-3-3.85" />
+              </svg>
+            </div>
+            <div class="card-title">Attendance</div>
+          </div>
+        </a>
+
+        <!-- 6. Monitoring → monit.html -->
+        <a href="monit.html" class="card-link">
+          <div class="card card-monitoring">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3" />
+                <path d="M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0z" />
+                <path d="M12 2v2" />
+                <path d="M12 20v2" />
+                <path d="M2 12h2" />
+                <path d="M20 12h2" />
+              </svg>
+            </div>
+            <div class="card-title">Monitoring</div>
+          </div>
+        </a>
       </div>
-
-      <form id="stockForm">
-        <!-- Section 1: General Information -->
-        <div class="form-section active-section" id="section1">
-          <div class="section">
-            <div class="section-title">1. General Information</div>
-            <div class="form-row">
-              <div class="form-field"><label>District</label><select id="district"><option value="">Select District</option></select></div>
-              <div class="form-field"><label>Chiefdom/Ward</label><select id="chiefdom" disabled><option value="">Select District first</option></select></div>
-            </div>
-            <div class="form-row">
-              <div class="form-field"><label>Health Facility / Community</label><select id="facility" disabled><option value="">Select Chiefdom first</option></select></div>
-              <div class="form-field"><label>Distribution Point (DP) / Store</label><select id="dp" disabled><option value="">Select Facility first</option></select></div>
-            </div>
-            <div class="form-row">
-              <div class="form-field"><label>Campaign Phase</label><select id="campaignPhase"><option value="">Select</option><option value="Registration">Registration</option><option value="Distribution">Distribution</option><option value="Reconciliation">Reconciliation</option></select></div>
-              <div class="form-field"><label>Date of Visit</label><input type="text" id="visitDate" class="readonly-input" readonly></div>
-            </div>
-            <div class="form-row">
-              <div class="form-field"><label>Supervisor / Monitor Name</label><input type="text" id="supervisorName" placeholder="Enter supervisor name"></div>
-              <div class="form-field"><label>Team Number</label><input type="text" id="teamNumber" placeholder="Enter team number"></div>
-            </div>
-            <div class="form-row">
-              <div class="form-field"><label>Time In</label><input type="time" id="timeIn"></div>
-              <div class="form-field"><label>Time Out</label><input type="time" id="timeOut"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Section 2: Stock Sampling Verification + Sample Physical Stock Verification -->
-        <div class="form-section" id="section2">
-          <div class="section">
-            <div class="section-title">2. Stock Sampling Verification</div>
-            <div id="stockVerificationChecklist"></div>
-          </div>
-          <div class="section">
-            <div class="section-title">3. Sample Physical Stock Verification</div>
-            <div class="form-field"><label>Sample Size Checked: ______ bundles/bales/cartons</label><input type="number" id="sampleSize" placeholder="Number checked"></div>
-            <table class="stock-table" id="physicalStockTable">
-              <thead><tr><th>Stock Item</th><th>Batch/Lot No.</th><th>Quantity on Register</th><th>Physical Count</th><th>Variance (+/-)</th><th>Remarks</th></tr></thead>
-              <tbody>
-                <tr><td><input type="text" placeholder="ITN Bale/Bundle"></td><td><input type="text" placeholder="Batch No"></td><td><input type="number" placeholder="Qty"></td><td><input type="number" placeholder="Count"></td><td><input type="text" placeholder="Variance"></td><td><input type="text" placeholder="Remarks"></td></tr>
-                <tr><td><input type="text" placeholder="ITN Bale/Bundle"></td><td><input type="text" placeholder="Batch No"></td><td><input type="number" placeholder="Qty"></td><td><input type="number" placeholder="Count"></td><td><input type="text" placeholder="Variance"></td><td><input type="text" placeholder="Remarks"></td></tr>
-                <tr><td><input type="text" placeholder="ITN Bale/Bundle"></td><td><input type="text" placeholder="Batch No"></td><td><input type="number" placeholder="Qty"></td><td><input type="number" placeholder="Count"></td><td><input type="text" placeholder="Variance"></td><td><input type="text" placeholder="Remarks"></td></tr>
-                <tr><td><input type="text" placeholder="ITN Bale/Bundle"></td><td><input type="text" placeholder="Batch No"></td><td><input type="number" placeholder="Qty"></td><td><input type="number" placeholder="Count"></td><td><input type="text" placeholder="Variance"></td><td><input type="text" placeholder="Remarks"></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- Section 3: Daily Stock Accountability + Storage Conditions + Sampling Reconciliation -->
-        <div class="form-section" id="section3">
-          <div class="section">
-            <div class="section-title">4. Daily Stock Accountability</div>
-            <div class="accountability-grid">
-              <div class="accountability-item"><label>Opening Stock</label><input type="number" id="openingStock" value="0"></div>
-              <div class="accountability-item"><label>Stock Received</label><input type="number" id="stockReceived" value="0"></div>
-              <div class="accountability-item"><label>Total Available</label><input type="number" id="totalAvailable" class="readonly-input" readonly></div>
-              <div class="accountability-item"><label>Stock Distributed</label><input type="number" id="stockDistributed" value="0"></div>
-              <div class="accountability-item"><label>Damaged/Lost</label><input type="number" id="damagedStock" value="0"></div>
-              <div class="accountability-item"><label>Returned Stock</label><input type="number" id="returnedStock" value="0"></div>
-              <div class="accountability-item"><label>Closing Balance</label><input type="number" id="closingBalance" class="readonly-input" readonly></div>
-            </div>
-            <div class="formula-check" id="formulaCheck"></div>
-          </div>
-
-          <div class="section">
-            <div class="section-title">5. Storage Conditions Assessment</div>
-            <div id="storageConditions"></div>
-          </div>
-
-          <div class="section">
-            <div class="section-title">6. Sampling Reconciliation Check</div>
-            <div id="reconciliationChecklist"></div>
-          </div>
-        </div>
-
-        <!-- Section 4: Key Findings & Signatures -->
-        <div class="form-section" id="section4">
-          <div class="section">
-            <div class="section-title">7. Key Findings</div>
-            <div class="form-field"><label>Strengths</label><textarea id="strengths" rows="2" placeholder="List strengths..."></textarea></div>
-            <div class="form-field" style="margin-top:0.5rem;"><label>Gaps/Issues</label><textarea id="gaps" rows="2" placeholder="List gaps/issues..."></textarea></div>
-            <div class="form-field" style="margin-top:0.5rem;"><label>Corrective Actions</label><textarea id="actions" rows="2" placeholder="List corrective actions..."></textarea></div>
-          </div>
-          <div class="section">
-            <div class="section-title">Supervisor Sign-off</div>
-            <div class="form-row">
-              <div class="form-field"><label>Supervisor Name</label><input type="text" id="signSupervisorName" placeholder="Full name"></div>
-              <div class="form-field"><label>Signature</label><input type="text" id="signature" placeholder="Signature / e-signature"></div>
-              <div class="form-field"><label>Date</label><input type="text" id="signDate" class="readonly-input" readonly></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="nav-buttons">
-          <button type="button" class="nav-btn prev" id="prevBtn" style="display: none;">Previous</button>
-          <button type="button" class="nav-btn next" id="nextBtn">Next</button>
-          <button type="button" class="nav-btn submit" id="submitBtn" style="display: none;">Save Report</button>
-        </div>
-      </form>
     </div>
 
+    <!-- FOOTER with company info -->
     <footer class="light-footer">
-      <span class="footer-text">ICF-SL @2026</span>
+      <span class="footer-text">INFORMATICS CONSULTANCY FIRM-SL (ICF-SL)</span>
+      <span class="footer-motto">Driving Data-Driven Solution for Health and Development</span>
+      <span class="footer-text">© 2026 ICF-SL. All rights reserved.</span>
     </footer>
   </div>
 </div>
-
-<script>
-  let currentSection = 1;
-  const totalSections = 4;
-
-  const today = new Date();
-  const formattedDate = today.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
-  document.getElementById('visitDate').value = formattedDate;
-  document.getElementById('signDate').value = formattedDate;
-
-  // Cascading Location Data
-  const locationData = [
-    { District: "Bo", Chiefdom: "Bo Central", Facility: "Bo Government Hospital", DP: "Central Store" },
-    { District: "Bo", Chiefdom: "Bo Central", Facility: "New London Clinic", DP: "New London DP" },
-    { District: "Bo", Chiefdom: "Bo Central", Facility: "Kissi Town CHC", DP: "Kissi Town Store" },
-    { District: "Kenema", Chiefdom: "Dama", Facility: "Dama Clinic", DP: "Dama Store" },
-    { District: "Kenema", Chiefdom: "Nongowa", Facility: "Nongowa CHC", DP: "Tongo Fields Store" },
-    { District: "Western Urban", Chiefdom: "Freetown", Facility: "Central PHU", DP: "Brookfields Store" },
-    { District: "Western Urban", Chiefdom: "Freetown", Facility: "East PHU", DP: "Kissi Road DP" },
-    { District: "Western Rural", Chiefdom: "Koya", Facility: "Koya CHC", DP: "Newton Store" },
-    { District: "Western Rural", Chiefdom: "Waterloo", Facility: "Waterloo Hospital", DP: "Waterloo Main Store" }
-  ];
-
-  const districtSelect = document.getElementById('district');
-  const chiefdomSelect = document.getElementById('chiefdom');
-  const facilitySelect = document.getElementById('facility');
-  const dpSelect = document.getElementById('dp');
-
-  function populateDistricts() {
-    const districts = [...new Set(locationData.map(item => item.District))];
-    districts.forEach(district => {
-      const option = document.createElement('option');
-      option.value = district;
-      option.textContent = district;
-      districtSelect.appendChild(option);
-    });
-  }
-
-  function getUniqueValues(field, parentFilters = {}) {
-    let filtered = [...locationData];
-    if (parentFilters.District) filtered = filtered.filter(item => item.District === parentFilters.District);
-    if (parentFilters.Chiefdom) filtered = filtered.filter(item => item.Chiefdom === parentFilters.Chiefdom);
-    if (parentFilters.Facility) filtered = filtered.filter(item => item.Facility === parentFilters.Facility);
-    return [...new Set(filtered.map(item => item[field]))];
-  }
-
-  function resetSelect(select, placeholder, disabled) {
-    select.innerHTML = `<option value="">${placeholder}</option>`;
-    select.disabled = disabled;
-  }
-
-  districtSelect.addEventListener('change', () => {
-    const selectedDistrict = districtSelect.value;
-    resetSelect(chiefdomSelect, 'Select Chiefdom first', true);
-    resetSelect(facilitySelect, 'Select Facility first', true);
-    resetSelect(dpSelect, 'Select DP first', true);
-    if (selectedDistrict) {
-      const chiefdoms = getUniqueValues('Chiefdom', { District: selectedDistrict });
-      chiefdomSelect.disabled = false;
-      chiefdomSelect.innerHTML = '<option value="">Select Chiefdom</option>';
-      chiefdoms.forEach(chiefdom => {
-        const option = document.createElement('option');
-        option.value = chiefdom;
-        option.textContent = chiefdom;
-        chiefdomSelect.appendChild(option);
-      });
-    }
-  });
-
-  chiefdomSelect.addEventListener('change', () => {
-    const selectedDistrict = districtSelect.value;
-    const selectedChiefdom = chiefdomSelect.value;
-    resetSelect(facilitySelect, 'Select Facility first', true);
-    resetSelect(dpSelect, 'Select DP first', true);
-    if (selectedChiefdom) {
-      const facilities = getUniqueValues('Facility', { District: selectedDistrict, Chiefdom: selectedChiefdom });
-      facilitySelect.disabled = false;
-      facilitySelect.innerHTML = '<option value="">Select Facility</option>';
-      facilities.forEach(facility => {
-        const option = document.createElement('option');
-        option.value = facility;
-        option.textContent = facility;
-        facilitySelect.appendChild(option);
-      });
-    }
-  });
-
-  facilitySelect.addEventListener('change', () => {
-    const selectedDistrict = districtSelect.value;
-    const selectedChiefdom = chiefdomSelect.value;
-    const selectedFacility = facilitySelect.value;
-    resetSelect(dpSelect, 'Select DP first', true);
-    if (selectedFacility) {
-      const dps = getUniqueValues('DP', { District: selectedDistrict, Chiefdom: selectedChiefdom, Facility: selectedFacility });
-      dpSelect.disabled = false;
-      dpSelect.innerHTML = '<option value="">Select DP/Store</option>';
-      dps.forEach(dp => {
-        const option = document.createElement('option');
-        option.value = dp;
-        option.textContent = dp;
-        dpSelect.appendChild(option);
-      });
-    }
-  });
-
-  // Stock Verification Checklist
-  const stockItems = [
-    "Stock register available at site", "Stock cards updated correctly", "Opening balance recorded",
-    "Daily stock movement documented", "Physical stock count matches records", "Damaged/lost nets recorded",
-    "Buffer stock available", "Unauthorized stock movement prevented", "Secure storage maintained", "Stock reconciled at end of day"
-  ];
-  const verificationContainer = document.getElementById('stockVerificationChecklist');
-  stockItems.forEach(item => {
-    const div = document.createElement('div');
-    div.className = 'checkbox-item';
-    div.innerHTML = `<input type="checkbox"> <span>${item}</span> <input type="text" placeholder="Comments" style="flex:1; margin-left:0.5rem;">`;
-    verificationContainer.appendChild(div);
-  });
-
-  // Storage Conditions
-  const storageItems = ["Store clean and organized", "ITNs protected from rain/water", "Proper stacking arrangement", "Restricted access/security", "Fire safety measures available"];
-  const storageContainer = document.getElementById('storageConditions');
-  storageItems.forEach(item => {
-    const div = document.createElement('div');
-    div.className = 'storage-item';
-    div.innerHTML = `<span>${item}</span><div class="radio-group"><label class="radio-item"><input type="radio" name="storage_${item.replace(/\s/g,'_')}" value="Good"> Good</label><label class="radio-item"><input type="radio" name="storage_${item.replace(/\s/g,'_')}" value="Fair"> Fair</label><label class="radio-item"><input type="radio" name="storage_${item.replace(/\s/g,'_')}" value="Poor"> Poor</label></div><input type="text" placeholder="Comments" style="flex:1; min-width:100px;">`;
-    storageContainer.appendChild(div);
-  });
-
-  // Reconciliation Checklist
-  const reconItems = ["Stock issued matches beneficiary records", "Stock balance matches reconciliation sheet", "Discrepancies explained", "Supervisor verified stock physically"];
-  const reconContainer = document.getElementById('reconciliationChecklist');
-  reconItems.forEach(item => {
-    const div = document.createElement('div');
-    div.className = 'checkbox-item';
-    div.innerHTML = `<input type="checkbox"> <span>${item}</span> <input type="text" placeholder="Comments" style="flex:1; margin-left:0.5rem;">`;
-    reconContainer.appendChild(div);
-  });
-
-  // Accountability Calculations
-  function updateTotalAvailable() {
-    const opening = parseFloat(document.getElementById('openingStock').value) || 0;
-    const received = parseFloat(document.getElementById('stockReceived').value) || 0;
-    document.getElementById('totalAvailable').value = opening + received;
-  }
-  function updateClosingBalance() {
-    const totalAvail = parseFloat(document.getElementById('totalAvailable').value) || 0;
-    const distributed = parseFloat(document.getElementById('stockDistributed').value) || 0;
-    const damaged = parseFloat(document.getElementById('damagedStock').value) || 0;
-    const returned = parseFloat(document.getElementById('returnedStock').value) || 0;
-    const closing = totalAvail - distributed - damaged + returned;
-    document.getElementById('closingBalance').value = closing >= 0 ? closing : 0;
-    
-    const calculatedClosing = closing >= 0 ? closing : 0;
-    const formulaMsg = `Formula Check: ${totalAvail} - ${distributed} - ${damaged} + ${returned} = ${calculatedClosing}`;
-    document.getElementById('formulaCheck').innerHTML = formulaMsg;
-  }
-  document.getElementById('openingStock').addEventListener('input', () => { updateTotalAvailable(); updateClosingBalance(); });
-  document.getElementById('stockReceived').addEventListener('input', () => { updateTotalAvailable(); updateClosingBalance(); });
-  document.getElementById('stockDistributed').addEventListener('input', updateClosingBalance);
-  document.getElementById('damagedStock').addEventListener('input', updateClosingBalance);
-  document.getElementById('returnedStock').addEventListener('input', updateClosingBalance);
-  updateTotalAvailable(); updateClosingBalance();
-
-  // Navigation
-  function updateSection() {
-    for (let i = 1; i <= totalSections; i++) {
-      const section = document.getElementById(`section${i}`);
-      if (section) section.classList.remove('active-section');
-      const indicator = document.getElementById(`step${i}Indicator`);
-      if (indicator) {
-        indicator.classList.remove('active', 'completed');
-        if (i === currentSection) indicator.classList.add('active');
-        else if (i < currentSection) indicator.classList.add('completed');
-      }
-    }
-    document.getElementById(`section${currentSection}`).classList.add('active-section');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const submitBtn = document.getElementById('submitBtn');
-    if (currentSection === 1) { prevBtn.style.display = 'none'; nextBtn.style.display = 'block'; submitBtn.style.display = 'none'; }
-    else if (currentSection === totalSections) { prevBtn.style.display = 'block'; nextBtn.style.display = 'none'; submitBtn.style.display = 'block'; }
-    else { prevBtn.style.display = 'block'; nextBtn.style.display = 'block'; submitBtn.style.display = 'none'; }
-  }
-  function nextSection() { if (currentSection < totalSections) { currentSection++; updateSection(); } }
-  function prevSection() { if (currentSection > 1) { currentSection--; updateSection(); } }
-  document.getElementById('nextBtn').addEventListener('click', nextSection);
-  document.getElementById('prevBtn').addEventListener('click', prevSection);
-
-  // Save Report
-  document.getElementById('submitBtn').addEventListener('click', () => {
-    const stockData = {
-      timestamp: new Date().toISOString(),
-      general: {
-        district: districtSelect.value, chiefdom: chiefdomSelect.value, facility: facilitySelect.value, dp: dpSelect.value,
-        campaignPhase: document.getElementById('campaignPhase').value, visitDate: document.getElementById('visitDate').value,
-        supervisorName: document.getElementById('supervisorName').value, teamNumber: document.getElementById('teamNumber').value,
-        timeIn: document.getElementById('timeIn').value, timeOut: document.getElementById('timeOut').value
-      },
-      openingStock: document.getElementById('openingStock').value,
-      stockReceived: document.getElementById('stockReceived').value,
-      stockDistributed: document.getElementById('stockDistributed').value,
-      damagedStock: document.getElementById('damagedStock').value,
-      returnedStock: document.getElementById('returnedStock').value,
-      closingBalance: document.getElementById('closingBalance').value,
-      strengths: document.getElementById('strengths').value,
-      gaps: document.getElementById('gaps').value,
-      actions: document.getElementById('actions').value,
-      signoff: { name: document.getElementById('signSupervisorName').value, signature: document.getElementById('signature').value, date: document.getElementById('signDate').value }
-    };
-    let allReports = JSON.parse(localStorage.getItem('itnStockReports') || '[]');
-    allReports.push(stockData);
-    localStorage.setItem('itnStockReports', JSON.stringify(allReports));
-    alert('Stock report saved successfully!\nDistrict: ' + stockData.general.district + '\nClosing Balance: ' + stockData.closingBalance);
-  });
-
-  populateDistricts();
-  updateSection();
-</script>
 </body>
 </html>
