@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>Data Collection Portal</title>
+  <title>ICF-SL Data Collection Portal</title>
   <style>
     * {
       margin: 0;
@@ -48,19 +48,32 @@
       border-bottom: 1px solid #bfdbfe;
     }
 
-    .header-title {
-      font-size: 1.5rem;
-      font-weight: 600;
-      letter-spacing: -0.2px;
-      color: #1e3a8a;
-      margin-bottom: 0.85rem;
+    .logo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 0.8rem;
     }
 
     .header-logo {
-      height: 42px;
+      height: 60px;
       width: auto;
       display: block;
-      margin: 0 auto;
+      object-fit: contain;
+    }
+
+    .header-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      color: #1e3a8a;
+      margin-bottom: 0.3rem;
+    }
+
+    .header-sub {
+      font-size: 0.7rem;
+      color: #3b82f6;
+      font-weight: 500;
     }
 
     .data-form {
@@ -191,14 +204,23 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: #1e3a8a;
       font-weight: 500;
+      text-align: center;
+      flex-direction: column;
+      gap: 0.3rem;
     }
 
     .footer-text {
       font-family: system-ui, sans-serif;
       letter-spacing: 0.3px;
+    }
+
+    .footer-motto {
+      font-size: 0.65rem;
+      color: #3b82f6;
+      font-style: italic;
     }
 
     /* Modal Styles */
@@ -330,8 +352,9 @@
 
     @media (max-width: 400px) {
       .phone-wrapper { padding: 0.5rem; }
-      .header-title { font-size: 1.35rem; }
-      .header-logo { height: 38px; }
+      .header-logo { height: 50px; }
+      .header-title { font-size: 0.95rem; }
+      .header-sub { font-size: 0.65rem; }
       .data-form { padding: 1.25rem 0.75rem; }
       .cards-grid { gap: 0.7rem; }
       .card { padding: 0.85rem 0.3rem; }
@@ -340,6 +363,7 @@
       .card-title { font-size: 0.75rem; }
       .lock-icon { width: 20px; height: 20px; }
       .lock-icon svg { width: 12px; height: 12px; }
+      .footer-motto { font-size: 0.6rem; }
     }
   </style>
 </head>
@@ -347,8 +371,11 @@
 <div class="phone-wrapper">
   <div class="form-container">
     <header class="light-header">
-      <div class="header-title">Data Collection</div>
-      <img src="logo.png" alt="logo" class="header-logo" onerror="this.style.display='none'">
+      <div class="logo-container">
+        <img src="icf.png" alt="ICF-SL Logo" class="header-logo" onerror="this.style.display='none'">
+      </div>
+      <div class="header-title">INFORMATICS CONSULTANCY FIRM-SL (ICF-SL)</div>
+      <div class="header-sub">Driving Data-Driven Solution for Health and Development</div>
     </header>
 
     <div class="data-form">
@@ -498,7 +525,9 @@
     </div>
 
     <footer class="light-footer">
-      <span class="footer-text">ICF-SL @2026</span>
+      <span class="footer-text">INFORMATICS CONSULTANCY FIRM-SL (ICF-SL)</span>
+      <span class="footer-motto">Driving Data-Driven Solution for Health and Development</span>
+      <span class="footer-text">© 2026 ICF-SL. All rights reserved.</span>
     </footer>
   </div>
 </div>
@@ -540,10 +569,10 @@
   const contentFrame = document.getElementById('contentFrame');
   const iframeTitle = document.getElementById('iframeTitle');
 
-  // Load credentials from test.csv file
+  // Load credentials from tester.csv file
   async function loadCredentials() {
     try {
-      const response = await fetch('test.csv');
+      const response = await fetch('tester.csv');
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -551,18 +580,18 @@
       
       const lines = csvText.trim().split('\n');
       
-      // First line might be header, check if first line contains 'module' or similar
+      // Check if first line is header and skip if needed
       let startIndex = 0;
       const firstLine = lines[0].toLowerCase();
-      if (firstLine.includes('module') || firstLine.includes('username') || firstLine.includes('password')) {
-        startIndex = 1; // Skip header row
+      if (firstLine.includes('module') || firstLine.includes('username') || firstLine.includes('password') || firstLine.includes('user')) {
+        startIndex = 1;
       }
       
       for (let i = startIndex; i < lines.length; i++) {
         const line = lines[i].trim();
         if (line === '') continue;
         
-        // Handle CSV with possible quotes
+        // Parse CSV line (handles quotes and simple commas)
         let parts = [];
         let inQuotes = false;
         let currentPart = '';
@@ -580,29 +609,42 @@
         }
         parts.push(currentPart.trim());
         
-        if (parts.length >= 3) {
-          const module = parts[0].replace(/^["']|["']$/g, '').toLowerCase();
-          const username = parts[1].replace(/^["']|["']$/g, '');
-          const password = parts[2].replace(/^["']|["']$/g, '');
-          credentials[module] = { username, password };
+        if (parts.length >= 2) {
+          // Check if first column is the registration module
+          const possibleModule = parts[0].toLowerCase();
+          if (possibleModule === 'registration') {
+            // Format: registration, username, password
+            const username = parts[1].replace(/^["']|["']$/g, '');
+            const password = parts[2] ? parts[2].replace(/^["']|["']$/g, '') : '';
+            credentials['registration'] = { username, password };
+          } else if (parts.length >= 2 && !credentials['registration']) {
+            // Format: username, password (apply to registration)
+            const username = parts[0].replace(/^["']|["']$/g, '');
+            const password = parts[1].replace(/^["']|["']$/g, '');
+            credentials['registration'] = { username, password };
+          }
         }
       }
       
-      console.log('Credentials loaded from test.csv:', Object.keys(credentials));
+      console.log('Credentials loaded from tester.csv:', Object.keys(credentials));
       
+      // If no credentials found, set fallback demo credentials
       if (Object.keys(credentials).length === 0) {
-        console.warn('No credentials found in test.csv. Please check file format.');
+        console.warn('No credentials found in tester.csv, using fallback');
+        credentials['registration'] = { username: "admin", password: "admin123" };
       }
     } catch (error) {
-      console.error('Error loading test.csv:', error);
-      credentials = {};
+      console.error('Error loading tester.csv:', error);
+      // Fallback demo credentials if file not found
+      credentials['registration'] = { username: "admin", password: "admin123" };
     }
   }
 
   // Show login modal
   function showLogin(moduleName, pageName) {
-    if (Object.keys(credentials).length === 0) {
-      alert('Please ensure test.csv file exists with valid credentials.\n\nFormat: module,username,password\nExample: registration,admin,pass123');
+    // Only allow registration module to login
+    if (moduleName !== 'registration') {
+      alert('Access restricted. Only Registration module is available.');
       return;
     }
     
@@ -655,7 +697,7 @@
     }
   }
 
-  // Attach click event to each card
+  // Attach click event to each card - only registration will work
   const cardLinks = document.querySelectorAll('.card-link');
   cardLinks.forEach(link => {
     link.addEventListener('click', (e) => {
@@ -663,7 +705,11 @@
       const module = link.getAttribute('data-module');
       const page = link.getAttribute('data-page');
       if (module && page) {
-        showLogin(module, page);
+        if (module === 'registration') {
+          showLogin(module, page);
+        } else {
+          alert('Access restricted. Please use the Registration module.');
+        }
       }
     });
   });
