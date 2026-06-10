@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>Registration - ICF-SL</title>
+  <title>ICF-SL Data Collection Portal</title>
   <style>
     * {
       margin: 0;
@@ -29,6 +29,7 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      justify-content: center;
       padding: 0.75rem;
     }
 
@@ -45,303 +46,124 @@
       padding: 1.5rem 1rem 1.2rem 1rem;
       text-align: center;
       border-bottom: 1px solid #bfdbfe;
-      position: relative;
-    }
-
-    .back-button {
-      position: absolute;
-      left: 1rem;
-      top: 1.5rem;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: #1e3a8a;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: rgba(59, 130, 246, 0.1);
     }
 
     .header-title {
-      font-size: 1.5rem;
-      font-weight: 600;
+      font-size: 1.2rem;
+      font-weight: 700;
       letter-spacing: -0.2px;
       color: #1e3a8a;
-      margin-bottom: 0.85rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .header-sub {
+      font-size: 0.7rem;
+      color: #3b82f6;
+      font-weight: 500;
+      margin-bottom: 0.8rem;
     }
 
     .header-logo {
-      height: 42px;
+      height: 50px;
       width: auto;
       display: block;
       margin: 0 auto;
+      object-fit: contain;
     }
 
-    .progress-bar {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 1.5rem;
-      padding: 0 0.5rem;
-    }
-
-    .progress-step {
-      flex: 1;
-      text-align: center;
-      font-size: 0.7rem;
-      color: #94a3b8;
-      position: relative;
-      padding-top: 1.5rem;
-    }
-
-    .progress-step.active {
-      color: #3b82f6;
-      font-weight: 600;
-    }
-
-    .progress-step::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: #e2e8f0;
-      border: 2px solid #cbd5e1;
-    }
-
-    .progress-step.active::before {
-      background: #3b82f6;
-      border-color: #3b82f6;
-    }
-
-    .progress-step.completed::before {
-      background: #10b981;
-      border-color: #10b981;
-    }
-
-    .registration-form {
+    .data-form {
       padding: 1.5rem 1rem;
       background: #ffffff;
     }
 
-    .form-section {
-      display: none;
-      animation: fadeIn 0.3s ease;
+    .cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.875rem;
     }
 
-    .form-section.active-section {
+    .card-link {
+      text-decoration: none;
       display: block;
     }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateX(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
+    .card {
+      border-radius: 1rem;
+      padding: 1rem 0.5rem;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+      transition: all 0.2s ease;
+      cursor: pointer;
     }
 
-    .form-group {
+    .card:active {
+      transform: scale(0.97);
+    }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      margin: 0 auto 0.5rem auto;
       display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-      margin-bottom: 1rem;
+      align-items: center;
+      justify-content: center;
     }
 
-    .form-group label {
-      font-size: 0.8rem;
+    .card-icon svg {
+      width: 32px;
+      height: 32px;
+      stroke-width: 1.7;
+      fill: none;
+    }
+
+    .card-title {
+      font-size: 0.85rem;
       font-weight: 600;
-      color: #1e3a8a;
       letter-spacing: 0.3px;
     }
 
-    .form-group input, .form-group select {
-      padding: 0.75rem;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 0.75rem;
-      font-size: 0.9rem;
-      font-family: inherit;
-      background: #f8fafc;
-      transition: all 0.2s;
-      outline: none;
+    /* Card color schemes */
+    .card-registration {
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      border: 1px solid #f59e0b;
     }
+    .card-registration .card-icon svg { stroke: #d97706; }
+    .card-registration .card-title { color: #b45309; }
 
-    .form-group input:focus, .form-group select:focus {
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
-      background: #ffffff;
+    .card-distribution {
+      background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+      border: 1px solid #10b981;
     }
+    .card-distribution .card-icon svg { stroke: #059669; }
+    .card-distribution .card-title { color: #065f46; }
 
-    .form-group input.error-input, .form-group select.error-input {
-      border-color: #dc2626;
+    .card-dashboard {
+      background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+      border: 1px solid #8b5cf6;
     }
+    .card-dashboard .card-icon svg { stroke: #7c3aed; }
+    .card-dashboard .card-title { color: #5b21b6; }
 
-    .readonly-input {
-      background: #f1f5f9;
-      color: #334155;
-      cursor: not-allowed;
+    .card-stock {
+      background: linear-gradient(135deg, #fce7f3, #fbcfe8);
+      border: 1px solid #ec4899;
     }
+    .card-stock .card-icon svg { stroke: #db2777; }
+    .card-stock .card-title { color: #be185d; }
 
-    .error-message {
-      color: #dc2626;
-      font-size: 0.7rem;
-      margin-top: 0.25rem;
-      display: none;
+    .card-attendance {
+      background: linear-gradient(135deg, #ccfbf1, #99f6e4);
+      border: 1px solid #14b8a6;
     }
+    .card-attendance .card-icon svg { stroke: #0f766e; }
+    .card-attendance .card-title { color: #115e59; }
 
-    .error-message.show {
-      display: block;
+    .card-monitoring {
+      background: linear-gradient(135deg, #fee2e2, #fecaca);
+      border: 1px solid #ef4444;
     }
-
-    .name-row {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-    }
-    
-    .name-row .form-group {
-      flex: 1;
-      min-width: 100px;
-    }
-
-    .gps-row {
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-    }
-
-    .gps-row input {
-      flex: 1;
-    }
-
-    .gps-btn {
-      background: #3b82f6;
-      border: none;
-      padding: 0.75rem 1rem;
-      border-radius: 0.75rem;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: white;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-
-    .gps-btn:active {
-      transform: scale(0.97);
-    }
-
-    .token-row {
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-    }
-
-    .token-row input {
-      flex: 1;
-    }
-
-    .token-btn {
-      background: #10b981;
-      border: none;
-      padding: 0.75rem 1rem;
-      border-radius: 0.75rem;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: white;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-
-    .token-btn:active {
-      transform: scale(0.97);
-    }
-
-    .summary-card {
-      background: #f8fafc;
-      border-radius: 1rem;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      border: 1px solid #e2e8f0;
-    }
-
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 0.5rem 0;
-      border-bottom: 1px solid #e2e8f0;
-      font-size: 0.85rem;
-    }
-
-    .summary-row:last-child {
-      border-bottom: none;
-    }
-
-    .summary-label {
-      font-weight: 600;
-      color: #1e3a8a;
-    }
-
-    .summary-value {
-      color: #334155;
-    }
-
-    .bednet-message {
-      background: #dbeafe;
-      padding: 0.75rem;
-      border-radius: 0.75rem;
-      margin-top: 1rem;
-      text-align: center;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #1e3a8a;
-    }
-
-    .nav-buttons {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1.5rem;
-    }
-
-    .nav-btn {
-      flex: 1;
-      background: #e2e8f0;
-      border: none;
-      padding: 0.85rem;
-      border-radius: 2rem;
-      font-weight: 600;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .nav-btn.next {
-      background: linear-gradient(105deg, #3b82f6, #2563eb);
-      color: white;
-    }
-
-    .nav-btn.prev {
-      background: #f1f5f9;
-      color: #1e3a8a;
-    }
-
-    .nav-btn.submit {
-      background: linear-gradient(105deg, #10b981, #059669);
-      color: white;
-    }
-
-    .nav-btn:active {
-      transform: scale(0.98);
-    }
+    .card-monitoring .card-icon svg { stroke: #dc2626; }
+    .card-monitoring .card-title { color: #b91c1c; }
 
     .light-footer {
       background: linear-gradient(105deg, #dbeafe, #eff6ff);
@@ -350,9 +172,12 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: #1e3a8a;
       font-weight: 500;
+      text-align: center;
+      flex-direction: column;
+      gap: 0.3rem;
     }
 
     .footer-text {
@@ -360,910 +185,142 @@
       letter-spacing: 0.3px;
     }
 
+    .footer-motto {
+      font-size: 0.65rem;
+      color: #3b82f6;
+      font-style: italic;
+    }
+
     @media (max-width: 400px) {
-      .phone-wrapper {
-        padding: 0.5rem;
-      }
-      .header-title {
-        font-size: 1.35rem;
-      }
-      .header-logo {
-        height: 38px;
-      }
-      .registration-form {
-        padding: 1.25rem 0.75rem;
-      }
-      .name-row .form-group {
-        min-width: 100%;
-      }
-      .gps-btn, .token-btn {
-        padding: 0.75rem 0.75rem;
-        font-size: 0.7rem;
-      }
+      .phone-wrapper { padding: 0.5rem; }
+      .header-title { font-size: 1rem; }
+      .header-logo { height: 42px; }
+      .data-form { padding: 1.25rem 0.75rem; }
+      .cards-grid { gap: 0.7rem; }
+      .card { padding: 0.85rem 0.3rem; }
+      .card-icon { width: 36px; height: 36px; }
+      .card-icon svg { width: 28px; height: 28px; }
+      .card-title { font-size: 0.75rem; }
+      .footer-motto { font-size: 0.6rem; }
     }
   </style>
 </head>
 <body>
 <div class="phone-wrapper">
   <div class="form-container">
+    <!-- HEADER section with logo and company info -->
     <header class="light-header">
-      <a href="index.html" class="back-button">←</a>
-      <div class="header-title">Registration</div>
-      <img src="logo.png" alt="logo" class="header-logo" onerror="this.style.display='none'">
+      <img src="logo.png" alt="ICF-SL Logo" class="header-logo" onerror="this.style.display='none'">
+      <div class="header-title">INFORMATICS CONSULTANCY FIRM-SL (ICF-SL)</div>
+      <div class="header-sub">Driving Data-Driven Solution for Health and Development</div>
     </header>
 
-    <div class="registration-form">
-      <!-- Progress Bar -->
-      <div class="progress-bar">
-        <div class="progress-step" id="step1Indicator">Demographic Info</div>
-        <div class="progress-step" id="step2Indicator">Household Details</div>
-        <div class="progress-step" id="step3Indicator">Review</div>
-        <div class="progress-step" id="step4Indicator">Complete</div>
+    <!-- BODY — 6 linked cards in 2 columns with SVG icons -->
+    <div class="data-form">
+      <div class="cards-grid">
+        <!-- 1. Registration → reg.html -->
+        <a href="reg.html" class="card-link">
+          <div class="card card-registration">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                <path d="M22 21v-2a4 4 0 0 0-3-3.85" />
+              </svg>
+            </div>
+            <div class="card-title">Registration</div>
+          </div>
+        </a>
+
+        <!-- 2. Distribution → dist.html -->
+        <a href="dist.html" class="card-link">
+          <div class="card card-distribution">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16v16H4z" />
+                <path d="M8 8h8v8H8z" />
+                <path d="M12 4v4" />
+                <path d="M12 12v4" />
+                <path d="M4 12h4" />
+                <path d="M16 12h4" />
+              </svg>
+            </div>
+            <div class="card-title">Distribution</div>
+          </div>
+        </a>
+
+        <!-- 3. Dashboard → dash.html -->
+        <a href="dash.html" class="card-link">
+          <div class="card card-dashboard">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20V10" />
+                <path d="M18 20V4" />
+                <path d="M6 20v-4" />
+                <rect x="2" y="2" width="20" height="20" rx="2" />
+              </svg>
+            </div>
+            <div class="card-title">Dashboard</div>
+          </div>
+        </a>
+
+        <!-- 4. Stock → stock.html -->
+        <a href="stock.html" class="card-link">
+          <div class="card card-stock">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" />
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                <path d="M9 11h6" />
+                <path d="M9 15h4" />
+              </svg>
+            </div>
+            <div class="card-title">Stock</div>
+          </div>
+        </a>
+
+        <!-- 5. Attendance → attend.html -->
+        <a href="attend.html" class="card-link">
+          <div class="card card-attendance">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                <path d="M22 21v-2a4 4 0 0 0-3-3.85" />
+              </svg>
+            </div>
+            <div class="card-title">Attendance</div>
+          </div>
+        </a>
+
+        <!-- 6. Monitoring → monit.html -->
+        <a href="monit.html" class="card-link">
+          <div class="card card-monitoring">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3" />
+                <path d="M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0z" />
+                <path d="M12 2v2" />
+                <path d="M12 20v2" />
+                <path d="M2 12h2" />
+                <path d="M20 12h2" />
+              </svg>
+            </div>
+            <div class="card-title">Monitoring</div>
+          </div>
+        </a>
       </div>
-
-      <form id="registrationForm">
-        <!-- Section 1: Demographic Information -->
-        <div class="form-section active-section" id="section1">
-          <div class="form-group">
-            <label>Date</label>
-            <input type="text" id="currentDate" class="readonly-input" readonly>
-          </div>
-
-          <div class="form-group">
-            <label>District</label>
-            <select id="district">
-              <option value="">Select District</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label>Chiefdom</label>
-            <select id="chiefdom" disabled>
-              <option value="">Select Chiefdom first</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label>PHU</label>
-            <select id="phu" disabled>
-              <option value="">Select PHU first</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label>Community</label>
-            <select id="community" disabled>
-              <option value="">Select Community first</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label>HHR Name</label>
-            <select id="hhr" disabled>
-              <option value="">Select HHR first</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Section 2: Household Details -->
-        <div class="form-section" id="section2">
-          <div class="name-row">
-            <div class="form-group">
-              <label>First Name</label>
-              <input type="text" id="firstName" placeholder="Enter first name">
-            </div>
-            <div class="form-group">
-              <label>Middle Name</label>
-              <input type="text" id="middleName" placeholder="Enter middle name">
-            </div>
-            <div class="form-group">
-              <label>Surname</label>
-              <input type="text" id="surname" placeholder="Enter surname">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Gender</label>
-            <select id="gender">
-              <option value="">Select Gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label>Telephone</label>
-            <input type="tel" id="telephone" placeholder="0XXXXXXXX" maxlength="9">
-            <div class="error-message" id="phoneError">Phone number must be exactly 9 digits and start with 0</div>
-          </div>
-
-          <div class="form-group">
-            <label>Number of People in Household</label>
-            <input type="number" id="totalPeople" min="0" step="1" value="0">
-          </div>
-
-          <div class="form-group">
-            <label>Number of Under Five</label>
-            <input type="number" id="underFive" min="0" step="1" value="0">
-            <div class="error-message" id="underFiveError">Under five children cannot exceed total household members</div>
-          </div>
-
-          <div class="form-group">
-            <label>Number of Pregnant Women</label>
-            <input type="number" id="pregnantWomen" min="0" step="1" value="0">
-            <div class="error-message" id="pregnantError">Pregnant women cannot exceed total household members</div>
-          </div>
-
-          <div class="form-group">
-            <label>Total Family Member (Auto-calculated)</label>
-            <input type="text" id="totalFamily" class="readonly-input" readonly>
-          </div>
-
-          <div class="form-group">
-            <label>GPS Coordinates</label>
-            <div class="gps-row">
-              <input type="text" id="gps" placeholder="Click 'Get GPS' to capture location" readonly class="readonly-input">
-              <button type="button" id="getGpsBtn" class="gps-btn">Get GPS</button>
-            </div>
-            <div class="error-message" id="gpsError">Unable to get GPS location. Please check permissions.</div>
-          </div>
-
-          <div class="form-group">
-            <label>Registration Token</label>
-            <div class="token-row">
-              <input type="text" id="token" placeholder="Click 'Generate Token'" readonly class="readonly-input">
-              <button type="button" id="generateTokenBtn" class="token-btn">Generate Token</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Section 3: Review -->
-        <div class="form-section" id="section3">
-          <div class="summary-card">
-            <div class="summary-row">
-              <span class="summary-label">Date:</span>
-              <span class="summary-value" id="summaryDate">-</span>
-            </div>
-            <div class="summary-row">
-              <span class="summary-label">District:</span>
-              <span class="summary-value" id="summaryDistrict">-</span>
-            </div>
-            <div class="summary-row">
-              <span class="summary-label">Chiefdom:</span>
-              <span class="summary-value" id="summaryChiefdom">-</span>
-            </div>
-            <div class="summary-row">
-              <span class="summary-label">PHU:</span>
-              <span class="summary-value" id="summaryPhu">-</span>
-            </div>
-            <div class="summary-row">
-              <span class="summary-label">Community:</span>
-              <span class="summary-value" id="summaryCommunity">-</span>
-            </div>
-            <div class="summary-row">
-              <span class="summary-label">HHR Name:</span>
-              <span class="summary-value" id="summaryHhr">-</span>
-            </div>
-            <div class="summary-row">
-              <span class="summary-label">First Name:</span>
-              <span class="summary-value" id="summaryFirstName">-</span>
-            </div>
-            <div class="summary-row">
-              <span class="summary-label">Middle Name:</span>
-              <span class="summary-value" id="summaryMiddleName">-</span>
-            </div>
-            <div class="summary-row">
-              <span class="summary-label">Surname:</span>
-              <span class="summary-value" id="summarySurname">-</span>
-            </div>
-            <div class="summary-row">
-              <span class="summary-label">Full Name:</span>
-              <span class="summary-value" id="summaryFullName">-</span>
-            </div>
-            <div class="summary-row">
-              <span class="summary-label">Gender:</span>
-              <span class="summary-value" id="summaryGender">-</span>
-            </div>
-            <div class="summary-row">
-              <span class="summary-label">Telephone:</span>
-              <span class="summary-value" id="summaryPhone">-</span>
-            </div>
-            <div class="summary-row">
-              <span class="summary-label">Total People:</span>
-              <span class="summary-value" id="summaryTotalPeople">-</span>
-            </div>
-            <div class="summary-row">
-              <span class="summary-label">Under Five:</span>
-              <span class="summary-value" id="summaryUnderFive">-</span>
-            </div>
-            <div class="summary-row">
-              <span class="summary-label">Pregnant Women:</span>
-              <span class="summary-value" id="summaryPregnant">-</span>
-            </div>
-            <div class="summary-row">
-              <span class="summary-label">Total Family:</span>
-              <span class="summary-value" id="summaryTotalFamily">-</span>
-            </div>
-            <div class="summary-row">
-              <span class="summary-label">GPS:</span>
-              <span class="summary-value" id="summaryGps">-</span>
-            </div>
-            <div class="summary-row">
-              <span class="summary-label">Token:</span>
-              <span class="summary-value" id="summaryToken">-</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Section 4: Complete -->
-        <div class="form-section" id="section4">
-          <div class="summary-card">
-            <div class="summary-row">
-              <span class="summary-label">Full Name:</span>
-              <span class="summary-value" id="completeFullName">-</span>
-            </div>
-            <div class="summary-row">
-              <span class="summary-label">Total Family Size:</span>
-              <span class="summary-value" id="completeTotalFamily">-</span>
-            </div>
-            <div class="summary-row">
-              <span class="summary-label">Token:</span>
-              <span class="summary-value" id="completeToken">-</span>
-            </div>
-          </div>
-
-          <div class="bednet-message" id="bednetMessage"></div>
-        </div>
-
-        <!-- Navigation Buttons -->
-        <div class="nav-buttons">
-          <button type="button" class="nav-btn prev" id="prevBtn" style="display: none;">Previous</button>
-          <button type="button" class="nav-btn next" id="nextBtn">Next</button>
-          <button type="button" class="nav-btn submit" id="submitBtn" style="display: none;">Complete</button>
-        </div>
-      </form>
     </div>
 
+    <!-- FOOTER with updated company info -->
     <footer class="light-footer">
-      <span class="footer-text">ICF-SL @2026</span>
+      <span class="footer-text">INFORMATICS CONSULTANCY FIRM-SL (ICF-SL)</span>
+      <span class="footer-motto">Driving Data-Driven Solution for Health and Development</span>
+      <span class="footer-text">© 2026 ICF-SL. All rights reserved.</span>
     </footer>
   </div>
 </div>
-
-<script>
-  let currentSection = 1;
-  const totalSections = 4;
-
-  // Auto-capture date
-  const today = new Date();
-  const formattedDate = today.toLocaleDateString('en-GB', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric'
-  });
-  document.getElementById('currentDate').value = formattedDate;
-
-  // Load cascading data from cascading.csv
-  let cascadingData = [];
-
-  async function loadCascadingData() {
-    try {
-      const response = await fetch('cascading.csv');
-      const csvText = await response.text();
-      
-      const lines = csvText.trim().split('\n');
-      const headers = lines[0].split(',').map(h => h.trim());
-      
-      for (let i = 1; i < lines.length; i++) {
-        const values = lines[i].split(',').map(v => v.trim());
-        if (values.length >= 5) {
-          cascadingData.push({
-            District: values[0],
-            Chiefdom: values[1],
-            PHU: values[2],
-            Community: values[3],
-            HHR: values[4]
-          });
-        }
-      }
-      
-      populateDistricts();
-    } catch (error) {
-      console.error('Error loading cascading.csv:', error);
-      alert('Could not load cascading.csv. Please ensure the file exists in the same directory.');
-    }
-  }
-
-  const districtSelect = document.getElementById('district');
-  const chiefdomSelect = document.getElementById('chiefdom');
-  const phuSelect = document.getElementById('phu');
-  const communitySelect = document.getElementById('community');
-  const hhrSelect = document.getElementById('hhr');
-  const firstNameInput = document.getElementById('firstName');
-  const middleNameInput = document.getElementById('middleName');
-  const surnameInput = document.getElementById('surname');
-  const genderSelect = document.getElementById('gender');
-  const telephoneInput = document.getElementById('telephone');
-  const phoneError = document.getElementById('phoneError');
-  const totalPeopleInput = document.getElementById('totalPeople');
-  const underFiveInput = document.getElementById('underFive');
-  const pregnantWomenInput = document.getElementById('pregnantWomen');
-  const totalFamilyInput = document.getElementById('totalFamily');
-  const underFiveError = document.getElementById('underFiveError');
-  const pregnantError = document.getElementById('pregnantError');
-  const gpsInput = document.getElementById('gps');
-  const getGpsBtn = document.getElementById('getGpsBtn');
-  const gpsError = document.getElementById('gpsError');
-  const tokenInput = document.getElementById('token');
-  const generateTokenBtn = document.getElementById('generateTokenBtn');
-
-  // Get full name
-  function getFullName() {
-    const firstName = firstNameInput.value.trim();
-    const middleName = middleNameInput.value.trim();
-    const surname = surnameInput.value.trim();
-    let fullName = '';
-    if (firstName) fullName += firstName;
-    if (middleName) fullName += ' ' + middleName;
-    if (surname) fullName += ' ' + surname;
-    return fullName.trim() || '';
-  }
-
-  // Navigation functions
-  function updateSection() {
-    for (let i = 1; i <= totalSections; i++) {
-      const section = document.getElementById(`section${i}`);
-      if (section) {
-        section.classList.remove('active-section');
-      }
-    }
-    
-    const currentSectionElement = document.getElementById(`section${currentSection}`);
-    if (currentSectionElement) {
-      currentSectionElement.classList.add('active-section');
-    }
-    
-    for (let i = 1; i <= totalSections; i++) {
-      const indicator = document.getElementById(`step${i}Indicator`);
-      if (indicator) {
-        indicator.classList.remove('active', 'completed');
-        if (i === currentSection) {
-          indicator.classList.add('active');
-        } else if (i < currentSection) {
-          indicator.classList.add('completed');
-        }
-      }
-    }
-    
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const submitBtn = document.getElementById('submitBtn');
-    
-    if (currentSection === 1) {
-      prevBtn.style.display = 'none';
-      nextBtn.style.display = 'block';
-      submitBtn.style.display = 'none';
-    } else if (currentSection === totalSections) {
-      prevBtn.style.display = 'block';
-      nextBtn.style.display = 'none';
-      submitBtn.style.display = 'block';
-      updateCompleteSection();
-    } else {
-      prevBtn.style.display = 'block';
-      nextBtn.style.display = 'block';
-      submitBtn.style.display = 'none';
-    }
-    
-    if (currentSection === 3) {
-      updateReviewSummary();
-    }
-  }
-
-  function updateReviewSummary() {
-    document.getElementById('summaryDate').textContent = formattedDate;
-    document.getElementById('summaryDistrict').textContent = districtSelect.value || '-';
-    document.getElementById('summaryChiefdom').textContent = chiefdomSelect.value || '-';
-    document.getElementById('summaryPhu').textContent = phuSelect.value || '-';
-    document.getElementById('summaryCommunity').textContent = communitySelect.value || '-';
-    document.getElementById('summaryHhr').textContent = hhrSelect.value || '-';
-    document.getElementById('summaryFirstName').textContent = firstNameInput.value.trim() || '-';
-    document.getElementById('summaryMiddleName').textContent = middleNameInput.value.trim() || '-';
-    document.getElementById('summarySurname').textContent = surnameInput.value.trim() || '-';
-    document.getElementById('summaryFullName').textContent = getFullName() || '-';
-    document.getElementById('summaryGender').textContent = genderSelect.value || '-';
-    document.getElementById('summaryPhone').textContent = telephoneInput.value || '-';
-    document.getElementById('summaryTotalPeople').textContent = totalPeopleInput.value || '0';
-    document.getElementById('summaryUnderFive').textContent = underFiveInput.value || '0';
-    document.getElementById('summaryPregnant').textContent = pregnantWomenInput.value || '0';
-    document.getElementById('summaryTotalFamily').textContent = totalFamilyInput.value || '0';
-    document.getElementById('summaryGps').textContent = gpsInput.value || '-';
-    document.getElementById('summaryToken').textContent = tokenInput.value || '-';
-  }
-
-  function updateCompleteSection() {
-    const totalPeople = parseInt(totalPeopleInput.value) || 0;
-    let bednetCount = 0;
-    let bednetMessage = '';
-    
-    if (totalPeople === 1 || totalPeople === 2) {
-      bednetCount = 1;
-      bednetMessage = 'Based on household size of ' + totalPeople + ' people, this household should receive 1 bednet.';
-    } else if (totalPeople === 3 || totalPeople === 4) {
-      bednetCount = 2;
-      bednetMessage = 'Based on household size of ' + totalPeople + ' people, this household should receive 2 bednets.';
-    } else if (totalPeople >= 5) {
-      bednetCount = 3;
-      bednetMessage = 'Based on household size of ' + totalPeople + ' people, this household should receive 3 bednets.';
-    } else {
-      bednetMessage = 'Please enter number of people in household to see bednet recommendation.';
-    }
-    
-    document.getElementById('completeFullName').textContent = getFullName() || '-';
-    document.getElementById('completeTotalFamily').textContent = totalFamilyInput.value || '0';
-    document.getElementById('completeToken').textContent = tokenInput.value || '-';
-    document.getElementById('bednetMessage').innerHTML = 'Bednet Recommendation: ' + bednetMessage;
-  }
-
-  function nextSection() {
-    if (currentSection < totalSections) {
-      currentSection++;
-      updateSection();
-    }
-  }
-
-  function prevSection() {
-    if (currentSection > 1) {
-      currentSection--;
-      updateSection();
-    }
-  }
-
-  function completeRegistration() {
-    const phone = telephoneInput.value;
-    if (phone && !validateTelephone(phone)) {
-      phoneError.classList.add('show');
-      telephoneInput.classList.add('error-input');
-      telephoneInput.focus();
-      alert('Please enter a valid phone number (9 digits starting with 0)');
-      return;
-    }
-    
-    if (!tokenInput.value) {
-      const newToken = generateToken();
-      if (newToken) {
-        tokenInput.value = newToken;
-      }
-    }
-    
-    const totalPeople = parseInt(totalPeopleInput.value) || 0;
-    let bednetCount = 0;
-    if (totalPeople === 1 || totalPeople === 2) bednetCount = 1;
-    else if (totalPeople === 3 || totalPeople === 4) bednetCount = 2;
-    else if (totalPeople >= 5) bednetCount = 3;
-    
-    const registrationData = {
-      date: formattedDate,
-      district: districtSelect.value,
-      chiefdom: chiefdomSelect.value,
-      phu: phuSelect.value,
-      community: communitySelect.value,
-      hhr: hhrSelect.value,
-      firstName: firstNameInput.value.trim(),
-      middleName: middleNameInput.value.trim(),
-      surname: surnameInput.value.trim(),
-      fullName: getFullName(),
-      gender: genderSelect.value,
-      telephone: phone || '',
-      totalPeople: totalPeople,
-      underFive: parseInt(underFiveInput.value),
-      pregnantWomen: parseInt(pregnantWomenInput.value),
-      totalFamily: parseInt(totalFamilyInput.value),
-      gps: gpsInput.value || '',
-      token: tokenInput.value || '',
-      bednetRecommended: bednetCount
-    };
-    
-    console.log('Registration Data:', registrationData);
-    
-    // Save to localStorage
-    let allRegistrations = JSON.parse(localStorage.getItem('householdRegistrations') || '[]');
-    allRegistrations.push(registrationData);
-    localStorage.setItem('householdRegistrations', JSON.stringify(allRegistrations));
-    
-    let message = 'Registration Completed Successfully!\n\n';
-    message += 'Full Name: ' + (registrationData.fullName || 'Not provided') + '\n';
-    message += 'Gender: ' + (registrationData.gender || 'Not provided') + '\n';
-    message += 'Total Family Members: ' + registrationData.totalFamily + '\n';
-    message += 'Bednets to distribute: ' + bednetCount + '\n';
-    message += 'Token: ' + registrationData.token;
-    
-    alert(message);
-    
-    // Optionally reset form or redirect
-    if (confirm('Do you want to register another household?')) {
-      resetForm();
-    }
-  }
-  
-  function resetForm() {
-    districtSelect.value = '';
-    chiefdomSelect.innerHTML = '<option value="">Select Chiefdom first</option>';
-    chiefdomSelect.disabled = true;
-    phuSelect.innerHTML = '<option value="">Select PHU first</option>';
-    phuSelect.disabled = true;
-    communitySelect.innerHTML = '<option value="">Select Community first</option>';
-    communitySelect.disabled = true;
-    hhrSelect.innerHTML = '<option value="">Select HHR first</option>';
-    hhrSelect.disabled = true;
-    firstNameInput.value = '';
-    middleNameInput.value = '';
-    surnameInput.value = '';
-    genderSelect.value = '';
-    telephoneInput.value = '';
-    totalPeopleInput.value = '0';
-    underFiveInput.value = '0';
-    pregnantWomenInput.value = '0';
-    gpsInput.value = '';
-    tokenInput.value = '';
-    calculateTotalFamily();
-    currentSection = 1;
-    updateSection();
-  }
-
-  // Auto-calculate total family member
-  function calculateTotalFamily() {
-    const totalPeople = parseInt(totalPeopleInput.value) || 0;
-    const underFive = parseInt(underFiveInput.value) || 0;
-    const pregnantWomen = parseInt(pregnantWomenInput.value) || 0;
-    const total = totalPeople + underFive + pregnantWomen;
-    totalFamilyInput.value = total;
-  }
-
-  // Validation for under five and pregnant women not exceeding total people
-  function validateHouseholdNumbers() {
-    const totalPeople = parseInt(totalPeopleInput.value) || 0;
-    const underFive = parseInt(underFiveInput.value) || 0;
-    const pregnantWomen = parseInt(pregnantWomenInput.value) || 0;
-    
-    let isValid = true;
-    
-    if (underFive > totalPeople && totalPeople > 0) {
-      underFiveError.classList.add('show');
-      underFiveInput.classList.add('error-input');
-      isValid = false;
-    } else {
-      underFiveError.classList.remove('show');
-      underFiveInput.classList.remove('error-input');
-    }
-    
-    if (pregnantWomen > totalPeople && totalPeople > 0) {
-      pregnantError.classList.add('show');
-      pregnantWomenInput.classList.add('error-input');
-      isValid = false;
-    } else {
-      pregnantError.classList.remove('show');
-      pregnantWomenInput.classList.remove('error-input');
-    }
-    
-    return isValid;
-  }
-
-  // Generate Token based on Full Name and Telephone
-  function generateToken() {
-    const fullName = getFullName();
-    let phone = telephoneInput.value.trim();
-    
-    let cleanName = fullName ? fullName.replace(/[^a-zA-Z0-9]/g, '_').replace(/_+/g, '_') : 'noName';
-    const phonePart = phone || 'noPhone';
-    const randomSuffix = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
-    
-    const token = `${cleanName}_${phonePart}_${randomSuffix}`;
-    return token;
-  }
-
-  generateTokenBtn.addEventListener('click', () => {
-    const newToken = generateToken();
-    tokenInput.value = newToken;
-    if (currentSection === 3) {
-      updateReviewSummary();
-    }
-    if (currentSection === 4) {
-      updateCompleteSection();
-    }
-  });
-
-  function autoUpdateToken() {
-    if (tokenInput.value && tokenInput.value !== '') {
-      const newToken = generateToken();
-      tokenInput.value = newToken;
-      if (currentSection === 3) {
-        updateReviewSummary();
-      }
-      if (currentSection === 4) {
-        updateCompleteSection();
-      }
-    }
-  }
-
-  firstNameInput.addEventListener('input', () => autoUpdateToken());
-  middleNameInput.addEventListener('input', () => autoUpdateToken());
-  surnameInput.addEventListener('input', () => autoUpdateToken());
-
-  telephoneInput.addEventListener('input', (e) => {
-    let value = e.target.value;
-    if (value.length > 9) {
-      value = value.slice(0, 9);
-    }
-    value = value.replace(/[^0-9]/g, '');
-    e.target.value = value;
-    
-    if (value && !validateTelephone(value)) {
-      phoneError.classList.add('show');
-      telephoneInput.classList.add('error-input');
-    } else {
-      phoneError.classList.remove('show');
-      telephoneInput.classList.remove('error-input');
-    }
-    autoUpdateToken();
-  });
-
-  getGpsBtn.addEventListener('click', () => {
-    if (!navigator.geolocation) {
-      gpsError.textContent = 'Geolocation is not supported by your browser';
-      gpsError.classList.add('show');
-      return;
-    }
-    
-    gpsError.classList.remove('show');
-    getGpsBtn.textContent = 'Getting GPS...';
-    getGpsBtn.disabled = true;
-    
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const latitude = position.coords.latitude.toFixed(6);
-        const longitude = position.coords.longitude.toFixed(6);
-        gpsInput.value = `${latitude}, ${longitude}`;
-        getGpsBtn.textContent = 'Get GPS';
-        getGpsBtn.disabled = false;
-        gpsError.classList.remove('show');
-        if (currentSection === 3) {
-          updateReviewSummary();
-        }
-        if (currentSection === 4) {
-          updateCompleteSection();
-        }
-      },
-      (error) => {
-        let errorMessage = 'Unable to get GPS location. ';
-        switch(error.code) {
-          case error.PERMISSION_DENIED:
-            errorMessage += 'Permission denied. Please allow location access.';
-            break;
-          case error.POSITION_UNAVAILABLE:
-            errorMessage += 'Location information is unavailable.';
-            break;
-          case error.TIMEOUT:
-            errorMessage += 'Request timed out.';
-            break;
-          default:
-            errorMessage += 'An unknown error occurred.';
-        }
-        gpsError.textContent = errorMessage;
-        gpsError.classList.add('show');
-        getGpsBtn.textContent = 'Get GPS';
-        getGpsBtn.disabled = false;
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 0
-      }
-    );
-  });
-
-  totalPeopleInput.addEventListener('input', () => {
-    let value = parseInt(totalPeopleInput.value);
-    if (isNaN(value) || value < 0) {
-      totalPeopleInput.value = 0;
-    }
-    calculateTotalFamily();
-    validateHouseholdNumbers();
-    if (currentSection === 3) {
-      updateReviewSummary();
-    }
-    if (currentSection === 4) {
-      updateCompleteSection();
-    }
-  });
-
-  underFiveInput.addEventListener('input', () => {
-    let value = parseInt(underFiveInput.value);
-    if (isNaN(value) || value < 0) {
-      underFiveInput.value = 0;
-    }
-    calculateTotalFamily();
-    validateHouseholdNumbers();
-    if (currentSection === 3) {
-      updateReviewSummary();
-    }
-    if (currentSection === 4) {
-      updateCompleteSection();
-    }
-  });
-
-  pregnantWomenInput.addEventListener('input', () => {
-    let value = parseInt(pregnantWomenInput.value);
-    if (isNaN(value) || value < 0) {
-      pregnantWomenInput.value = 0;
-    }
-    calculateTotalFamily();
-    validateHouseholdNumbers();
-    if (currentSection === 3) {
-      updateReviewSummary();
-    }
-    if (currentSection === 4) {
-      updateCompleteSection();
-    }
-  });
-
-  calculateTotalFamily();
-
-  function populateDistricts() {
-    const districts = [...new Set(cascadingData.map(item => item.District))];
-    districts.forEach(district => {
-      const option = document.createElement('option');
-      option.value = district;
-      option.textContent = district;
-      districtSelect.appendChild(option);
-    });
-  }
-
-  function getUniqueValues(field, parentFilters = {}) {
-    let filtered = [...cascadingData];
-    if (parentFilters.District) {
-      filtered = filtered.filter(item => item.District === parentFilters.District);
-    }
-    if (parentFilters.Chiefdom) {
-      filtered = filtered.filter(item => item.Chiefdom === parentFilters.Chiefdom);
-    }
-    if (parentFilters.PHU) {
-      filtered = filtered.filter(item => item.PHU === parentFilters.PHU);
-    }
-    if (parentFilters.Community) {
-      filtered = filtered.filter(item => item.Community === parentFilters.Community);
-    }
-    return [...new Set(filtered.map(item => item[field]))];
-  }
-
-  function resetSelect(select, placeholder, disabled) {
-    select.innerHTML = `<option value="">${placeholder}</option>`;
-    select.disabled = disabled;
-  }
-
-  function validateTelephone(phone) {
-    if (!phone || phone.length === 0) {
-      return true;
-    }
-    const phoneRegex = /^0[0-9]{8}$/;
-    return phoneRegex.test(phone);
-  }
-
-  telephoneInput.addEventListener('blur', () => {
-    const phone = telephoneInput.value;
-    if (phone && !validateTelephone(phone)) {
-      phoneError.classList.add('show');
-      telephoneInput.classList.add('error-input');
-    } else {
-      phoneError.classList.remove('show');
-      telephoneInput.classList.remove('error-input');
-    }
-  });
-
-  districtSelect.addEventListener('change', () => {
-    const selectedDistrict = districtSelect.value;
-    resetSelect(chiefdomSelect, 'Select Chiefdom first', true);
-    resetSelect(phuSelect, 'Select PHU first', true);
-    resetSelect(communitySelect, 'Select Community first', true);
-    resetSelect(hhrSelect, 'Select HHR first', true);
-    
-    if (selectedDistrict) {
-      const chiefdoms = getUniqueValues('Chiefdom', { District: selectedDistrict });
-      chiefdomSelect.disabled = false;
-      chiefdomSelect.innerHTML = '<option value="">Select Chiefdom</option>';
-      chiefdoms.forEach(chiefdom => {
-        const option = document.createElement('option');
-        option.value = chiefdom;
-        option.textContent = chiefdom;
-        chiefdomSelect.appendChild(option);
-      });
-    }
-  });
-
-  chiefdomSelect.addEventListener('change', () => {
-    const selectedDistrict = districtSelect.value;
-    const selectedChiefdom = chiefdomSelect.value;
-    
-    resetSelect(phuSelect, 'Select PHU first', true);
-    resetSelect(communitySelect, 'Select Community first', true);
-    resetSelect(hhrSelect, 'Select HHR first', true);
-    
-    if (selectedChiefdom) {
-      const phus = getUniqueValues('PHU', { District: selectedDistrict, Chiefdom: selectedChiefdom });
-      phuSelect.disabled = false;
-      phuSelect.innerHTML = '<option value="">Select PHU</option>';
-      phus.forEach(phu => {
-        const option = document.createElement('option');
-        option.value = phu;
-        option.textContent = phu;
-        phuSelect.appendChild(option);
-      });
-    }
-  });
-
-  phuSelect.addEventListener('change', () => {
-    const selectedDistrict = districtSelect.value;
-    const selectedChiefdom = chiefdomSelect.value;
-    const selectedPHU = phuSelect.value;
-    
-    resetSelect(communitySelect, 'Select Community first', true);
-    resetSelect(hhrSelect, 'Select HHR first', true);
-    
-    if (selectedPHU) {
-      const communities = getUniqueValues('Community', { 
-        District: selectedDistrict, 
-        Chiefdom: selectedChiefdom, 
-        PHU: selectedPHU 
-      });
-      communitySelect.disabled = false;
-      communitySelect.innerHTML = '<option value="">Select Community</option>';
-      communities.forEach(community => {
-        const option = document.createElement('option');
-        option.value = community;
-        option.textContent = community;
-        communitySelect.appendChild(option);
-      });
-    }
-  });
-
-  communitySelect.addEventListener('change', () => {
-    const selectedDistrict = districtSelect.value;
-    const selectedChiefdom = chiefdomSelect.value;
-    const selectedPHU = phuSelect.value;
-    const selectedCommunity = communitySelect.value;
-    
-    resetSelect(hhrSelect, 'Select HHR first', true);
-    
-    if (selectedCommunity) {
-      const hhrs = getUniqueValues('HHR', { 
-        District: selectedDistrict, 
-        Chiefdom: selectedChiefdom, 
-        PHU: selectedPHU,
-        Community: selectedCommunity
-      });
-      hhrSelect.disabled = false;
-      hhrSelect.innerHTML = '<option value="">Select HHR</option>';
-      hhrs.forEach(hhr => {
-        const option = document.createElement('option');
-        option.value = hhr;
-        option.textContent = hhr;
-        hhrSelect.appendChild(option);
-      });
-    }
-  });
-
-  const form = document.getElementById('registrationForm');
-  document.getElementById('nextBtn').addEventListener('click', nextSection);
-  document.getElementById('prevBtn').addEventListener('click', prevSection);
-  document.getElementById('submitBtn').addEventListener('click', completeRegistration);
-  
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-  });
-
-  // Initialize
-  updateSection();
-  loadCascadingData();
-</script>
 </body>
 </html>
