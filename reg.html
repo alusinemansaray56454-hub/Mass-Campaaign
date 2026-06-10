@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>Registration</title>
+  <title>Registration - ICF-SL</title>
   <style>
     * {
       margin: 0;
@@ -431,7 +431,7 @@
           </div>
         </div>
 
-        <!-- Section 2: Household Details (includes GPS and Registration Token) -->
+        <!-- Section 2: Household Details -->
         <div class="form-section" id="section2">
           <div class="form-group">
             <label>Household Head Name</label>
@@ -733,12 +733,7 @@
     document.getElementById('completeHead').textContent = householdHeadInput.value.trim() || '-';
     document.getElementById('completeTotalFamily').textContent = totalFamilyInput.value || '0';
     document.getElementById('completeToken').textContent = tokenInput.value || '-';
-    document.getElementById('bednetMessage').innerHTML = '🦟 Bednet Recommendation: ' + bednetMessage;
-  }
-
-  function validateSection(section) {
-    // No mandatory fields - always return true
-    return true;
+    document.getElementById('bednetMessage').innerHTML = 'Bednet Recommendation: ' + bednetMessage;
   }
 
   function nextSection() {
@@ -798,13 +793,45 @@
     
     console.log('Registration Data:', registrationData);
     
-    let message = '✓ Registration Completed Successfully!\n\n';
+    // Save to localStorage
+    let allRegistrations = JSON.parse(localStorage.getItem('householdRegistrations') || '[]');
+    allRegistrations.push(registrationData);
+    localStorage.setItem('householdRegistrations', JSON.stringify(allRegistrations));
+    
+    let message = 'Registration Completed Successfully!\n\n';
     message += 'Household Head: ' + (registrationData.householdHead || 'Not provided') + '\n';
     message += 'Total Family Members: ' + registrationData.totalFamily + '\n';
     message += 'Bednets to distribute: ' + bednetCount + '\n';
     message += 'Token: ' + registrationData.token;
     
     alert(message);
+    
+    // Optionally reset form or redirect
+    if (confirm('Do you want to register another household?')) {
+      resetForm();
+    }
+  }
+  
+  function resetForm() {
+    districtSelect.value = '';
+    chiefdomSelect.innerHTML = '<option value="">Select Chiefdom first</option>';
+    chiefdomSelect.disabled = true;
+    phuSelect.innerHTML = '<option value="">Select PHU first</option>';
+    phuSelect.disabled = true;
+    communitySelect.innerHTML = '<option value="">Select Community first</option>';
+    communitySelect.disabled = true;
+    hhrSelect.innerHTML = '<option value="">Select HHR first</option>';
+    hhrSelect.disabled = true;
+    householdHeadInput.value = '';
+    telephoneInput.value = '';
+    totalPeopleInput.value = '0';
+    underFiveInput.value = '0';
+    pregnantWomenInput.value = '0';
+    gpsInput.value = '';
+    tokenInput.value = '';
+    calculateTotalFamily();
+    currentSection = 1;
+    updateSection();
   }
 
   // Auto-calculate total family member
