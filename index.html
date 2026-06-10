@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>Informatics Portal | Secure Access</title>
+  <title>ITN Campaign | MOH Sierra Leone</title>
   <!-- Google Fonts & simple reset -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
   <style>
@@ -35,18 +35,18 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.55);
       backdrop-filter: blur(4px);
       z-index: 0;
     }
 
     /* main card */
     .login-container {
-      max-width: 400px;
+      max-width: 450px;
       width: 100%;
       background: #ffffff;
-      border-radius: 1.5rem;
-      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 1.8rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.1);
       overflow: hidden;
       transition: all 0.2s ease;
       position: relative;
@@ -54,46 +54,134 @@
       margin: 0 auto;
     }
 
-    /* SKY BLUE HEADER with ICF-SL Logo */
-    .sky-header {
-      background: #87CEEB;
-      background: linear-gradient(135deg, #7bc5e8, #6bb5d8);
+    /* BEAUTIFUL HEADER - Emerald Green / Health Theme */
+    .health-header {
+      background: linear-gradient(135deg, #0B5E42 0%, #1D8A5E 50%, #2BAE7A 100%);
       padding: 1rem 1rem 0.8rem 1rem;
-      border-bottom: 2px solid #eef7ff;
+      border-bottom: 3px solid #FFD700;
       text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* decorative pattern */
+    .health-header::before {
+      content: "🦟";
+      position: absolute;
+      font-size: 70px;
+      opacity: 0.08;
+      bottom: -15px;
+      right: -15px;
+      transform: rotate(15deg);
+      pointer-events: none;
+    }
+
+    .health-header::after {
+      content: "🌿";
+      position: absolute;
+      font-size: 60px;
+      opacity: 0.08;
+      top: -10px;
+      left: -15px;
+      transform: rotate(-10deg);
+      pointer-events: none;
     }
 
     .logo-area {
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-bottom: 0.3rem;
+      margin-bottom: 0.5rem;
+      position: relative;
+      z-index: 2;
     }
 
-    /* ICF-SL Logo image styling */
-    .icf-logo {
-      max-width: 80px;
-      max-height: 80px;
+    /* MOH Logo styling */
+    .moh-logo {
+      max-width: 70px;
+      max-height: 70px;
       width: auto;
       height: auto;
       display: block;
       object-fit: contain;
-      border-radius: 12px;
+      border-radius: 14px;
+      background: white;
+      padding: 5px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transition: transform 0.2s ease;
+    }
+
+    .moh-logo:hover {
+      transform: scale(1.02);
+    }
+
+    .campaign-title {
+      text-align: center;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #FFD700;
+      letter-spacing: 0.5px;
+      margin-top: 6px;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+      background: rgba(0, 0, 0, 0.25);
+      display: inline-block;
+      padding: 0.3rem 1.2rem;
+      border-radius: 40px;
+      backdrop-filter: blur(4px);
     }
 
     .header-brand {
       text-align: center;
       font-size: 0.7rem;
       font-weight: 600;
-      color: #1a4972;
+      color: #FFFFFF;
       letter-spacing: 0.4px;
-      margin-top: 4px;
+      margin-top: 5px;
       opacity: 0.95;
+    }
+
+    /* IMPLEMENTING PARTNERS SECTION */
+    .partners-section {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 0.6rem 0.8rem;
+      border-bottom: 1px solid #e0e8f0;
+      text-align: center;
+    }
+
+    .partners-title {
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: #0B5E42;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 0.5rem;
+    }
+
+    .partners-logos {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .partner-logo {
+      max-width: 55px;
+      max-height: 40px;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+      transition: transform 0.2s;
+    }
+
+    .partner-logo:hover {
+      transform: scale(1.05);
     }
 
     /* main content */
     .card-inner {
-      padding: 1.2rem 1.2rem 1rem 1.2rem;
+      padding: 1.2rem 1.3rem 1rem 1.3rem;
       background: #ffffff;
     }
 
@@ -108,13 +196,13 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.6px;
-      color: #2c5a7a;
+      color: #0B5E42;
       margin-bottom: 0.4rem;
     }
 
     .input-field {
       width: 100%;
-      padding: 0.8rem 1rem;
+      padding: 0.85rem 1rem;
       border: 1.5px solid #e2e8f0;
       border-radius: 1rem;
       font-size: 0.95rem;
@@ -128,8 +216,8 @@
 
     .input-field:focus {
       outline: none;
-      border-color: #5faee3;
-      box-shadow: 0 0 0 3px rgba(135, 206, 235, 0.3);
+      border-color: #2BAE7A;
+      box-shadow: 0 0 0 3px rgba(43, 174, 122, 0.2);
       background: #fff;
     }
 
@@ -141,10 +229,10 @@
     }
     
     .btn-primary {
-      background: #dc2626;
-      background: linear-gradient(135deg, #dc2626, #b91c1c);
+      background: #C62828;
+      background: linear-gradient(135deg, #C62828, #B71C1C);
       border: none;
-      padding: 0.75rem 2rem;
+      padding: 0.8rem 2rem;
       border-radius: 2.5rem;
       font-weight: 700;
       font-size: 1rem;
@@ -152,10 +240,10 @@
       font-family: 'Inter', sans-serif;
       cursor: pointer;
       transition: all 0.2s;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 12px rgba(198, 40, 40, 0.3);
       letter-spacing: 0.5px;
       width: auto;
-      min-width: 140px;
+      min-width: 150px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -174,8 +262,8 @@
     }
     
     .btn-scan {
-      background: #10b981;
-      background: linear-gradient(135deg, #10b981, #059669);
+      background: #00897B;
+      background: linear-gradient(135deg, #00897B, #00695C);
       border: none;
       padding: 0.7rem 1.8rem;
       border-radius: 2.5rem;
@@ -189,9 +277,9 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 4px 10px rgba(0, 137, 123, 0.3);
       width: auto;
-      min-width: 140px;
+      min-width: 150px;
     }
 
     .btn-scan:active {
@@ -203,70 +291,21 @@
       height: 16px;
     }
 
-    /* connectivity / test / provision row */
-    .grid-actions {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.6rem;
-      margin: 0.8rem 0 1rem;
-    }
-
-    .card-action-btn {
-      border: none;
-      border-radius: 1.2rem;
-      padding: 0.7rem 0.2rem;
-      font-size: 0.7rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.15s;
-      font-family: 'Inter', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      color: white;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      min-height: 64px;
-      text-align: center;
-      line-height: 1.2;
-    }
-
-    .card-action-btn:active {
-      transform: scale(0.97);
-    }
-
-    .card-action-btn svg {
-      width: 22px;
-      height: 22px;
-      margin-bottom: 2px;
-    }
-
-    #connectivityBtn {
-      background: linear-gradient(135deg, #0f7b6e, #0a5c52);
-    }
-    #testFingerprintBtn {
-      background: linear-gradient(135deg, #6d3b9b, #4a2c6d);
-    }
-    #provisionBtn {
-      background: linear-gradient(135deg, #e67e22, #b45f1b);
-    }
-
-    /* backup, language, about row */
+    /* bottom options - Backup, Language, About only (removed provision, fingerprint, connectivity) */
     .bottom-options {
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
-      gap: 0.6rem;
-      margin: 1rem 0 0.3rem;
+      gap: 0.8rem;
+      margin: 1rem 0 0.2rem;
       padding-top: 0.6rem;
       border-top: 1px solid #eef2f8;
     }
 
     .bottom-link {
       border: none;
-      font-size: 0.7rem;
+      font-size: 0.75rem;
       font-weight: 600;
       cursor: pointer;
       font-family: 'Inter', sans-serif;
@@ -274,12 +313,12 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      padding: 0.55rem 0.9rem;
+      gap: 8px;
+      padding: 0.6rem 1.2rem;
       border-radius: 2rem;
-      flex: 1;
-      min-width: 100px;
+      min-width: 120px;
       text-align: center;
+      flex: 1;
     }
 
     .bottom-link:active {
@@ -292,23 +331,22 @@
     }
 
     #backupSdBtn {
-      background: linear-gradient(135deg, #2c5282, #1a365d);
+      background: linear-gradient(135deg, #2E7D32, #1B5E20);
       color: white;
     }
     #languageBtn {
-      background: linear-gradient(135deg, #2f855a, #1f5a3e);
+      background: linear-gradient(135deg, #F57C00, #E65100);
       color: white;
     }
     #aboutBtn {
-      background: linear-gradient(135deg, #4a5568, #2d3748);
+      background: linear-gradient(135deg, #546E7A, #37474F);
       color: white;
     }
 
-    /* SKY BLUE FOOTER */
-    .sky-footer {
-      background: #87CEEB;
-      background: linear-gradient(100deg, #7bc5e8, #6bb5d8);
-      border-top: 2px solid #ceecff;
+    /* BEAUTIFUL FOOTER */
+    .health-footer {
+      background: linear-gradient(135deg, #0B5E42 0%, #1D8A5E 100%);
+      border-top: 3px solid #FFD700;
       padding: 0.8rem 1rem;
       text-align: center;
     }
@@ -316,10 +354,10 @@
     .dev-by {
       font-weight: 600;
       font-size: 0.6rem;
-      color: #0b3552;
+      color: #FFE0B2;
       letter-spacing: 0.3px;
       margin-bottom: 0.2rem;
-      text-shadow: 0 1px 0 rgba(255,255,255,0.2);
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -329,26 +367,27 @@
 
     .dev-by strong {
       font-weight: 800;
-      color: #0a2e48;
+      color: #FFD700;
     }
 
     .footer-author {
-      font-size: 0.65rem;
-      color: #124066;
+      font-size: 0.6rem;
+      color: #FFE0B2;
       font-weight: 600;
-      margin-top: 0.25rem;
-      background: rgba(255,255,250,0.35);
+      margin-top: 0.2rem;
+      background: rgba(255,255,250,0.2);
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 0.25rem 1rem;
+      padding: 0.2rem 1rem;
       border-radius: 40px;
       backdrop-filter: blur(2px);
     }
 
     .author-icon {
-      width: 14px;
-      height: 14px;
+      width: 12px;
+      height: 12px;
+      stroke: #FFD700;
     }
 
     /* IFRAME MODAL OVERLAY */
@@ -390,7 +429,7 @@
     }
 
     .iframe-header {
-      background: linear-gradient(135deg, #1f4e6e, #0f3e5c);
+      background: linear-gradient(135deg, #0B5E42, #1D8A5E);
       padding: 0.8rem 1rem;
       display: flex;
       justify-content: space-between;
@@ -432,7 +471,6 @@
       border: none;
     }
 
-    /* toast message */
     .toast-msg {
       position: fixed;
       bottom: 20px;
@@ -454,32 +492,42 @@
       max-width: 90%;
     }
 
-    @media (max-width: 450px) {
+    @media (max-width: 480px) {
       body { padding: 0.8rem; }
       .login-container { max-width: 100%; border-radius: 1.2rem; }
       .card-inner { padding: 1rem 1rem 0.9rem; }
-      .grid-actions { gap: 0.5rem; }
-      .card-action-btn { padding: 0.6rem 0.1rem; font-size: 0.65rem; min-height: 58px; }
-      .card-action-btn svg { width: 20px; height: 20px; }
-      .bottom-options { gap: 0.5rem; }
-      .bottom-link { padding: 0.5rem 0.6rem; font-size: 0.65rem; min-width: 85px; }
-      .btn-primary { padding: 0.7rem 1.5rem; min-width: 130px; font-size: 0.95rem; }
+      .bottom-options { gap: 0.5rem; flex-direction: column; }
+      .bottom-link { padding: 0.5rem 0.8rem; font-size: 0.7rem; min-width: auto; width: 100%; }
+      .btn-primary { padding: 0.7rem 1.5rem; min-width: 130px; font-size: 0.9rem; }
       .btn-scan { padding: 0.6rem 1.5rem; min-width: 130px; font-size: 0.85rem; }
       .iframe-container { width: 95%; height: 80%; }
-      .icf-logo { max-width: 60px; max-height: 60px; }
+      .moh-logo { max-width: 55px; max-height: 55px; }
+      .campaign-title { font-size: 0.7rem; padding: 0.2rem 0.8rem; }
+      .partners-logos { gap: 0.8rem; }
+      .partner-logo { max-width: 45px; max-height: 35px; }
     }
   </style>
 </head>
 <body>
 
 <div class="login-container">
-  <!-- SKY BLUE HEADER with ICF-SL Logo -->
-  <div class="sky-header">
+  <!-- BEAUTIFUL HEADER with MOH Logo and Campaign Title -->
+  <div class="health-header">
     <div class="logo-area">
-      <!-- ICF-SL Logo image -->
-      <img src="ICF-SL Logo.jpg" alt="ICF-SL Logo" class="icf-logo">
+      <img src="moh.png" alt="Ministry of Health Logo" class="moh-logo">
     </div>
-    <div class="header-brand">Informatics Consultancy Firm - Sierra Leone</div>
+    <div class="campaign-title">ITN Mass Campaign 2026/2027<br>Registration and Distribution</div>
+    <div class="header-brand">Ministry of Health - Sierra Leone</div>
+  </div>
+  
+  <!-- IMPLEMENTING PARTNERS SECTION -->
+  <div class="partners-section">
+    <div class="partners-title">IMPLEMENTING PARTNERS</div>
+    <div class="partners-logos">
+      <img src="global fund.png" alt="Global Fund" class="partner-logo" onerror="this.style.opacity='0.5'">
+      <img src="who.png" alt="World Health Organization" class="partner-logo" onerror="this.style.opacity='0.5'">
+      <img src="world vision.png" alt="World Vision" class="partner-logo" onerror="this.style.opacity='0.5'">
+    </div>
   </div>
   
   <!-- MAIN CONTENT -->
@@ -500,31 +548,15 @@
     <div class="scan-wrapper">
       <button class="btn-scan" id="scanBadgeBtn">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10v3a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3"/><path d="M7 7h10"/><path d="M12 3v4"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
-        Scan badge
+        Scan Badge
       </button>
     </div>
 
-    <!-- BUTTONS WITH CUSTOM SVG ICONS -->
-    <div class="grid-actions">
-      <button class="card-action-btn" id="connectivityBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="19" r="1.5" fill="white" stroke="none"/></svg>
-        <span>Connectivity</span>
-      </button>
-      <button class="card-action-btn" id="testFingerprintBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M12 2a6 6 0 0 0-6 6v3.6a6 6 0 0 0 12 0V8a6 6 0 0 0-6-6z"/><path d="M12 18v4"/><path d="M9 22h6"/><circle cx="12" cy="11" r="2" fill="white"/></svg>
-        <span>Test Fingerprint</span>
-      </button>
-      <button class="card-action-btn" id="provisionBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.7"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H5.78a1.65 1.65 0 0 0-1.51 1 1.65 1.65 0 0 0 .33 1.82l.07.08A10 10 0 0 0 12 18a10 10 0 0 0 6.26-2.22z"/></svg>
-        <span>Provision</span>
-      </button>
-    </div>
-
-    <!-- Bottom row -->
+    <!-- Bottom row - Only Backup, Language, About (Connectivity, Fingerprint, Provision removed) -->
     <div class="bottom-options">
       <button class="bottom-link" id="backupSdBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><path d="M8 7h8"/><path d="M16 18l-3 3-3-3"/><path d="M13 15v6"/></svg>
-        <span>Back-up to SD</span>
+        <span>Backup to SD</span>
       </button>
       <button class="bottom-link" id="languageBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.7"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
@@ -537,14 +569,14 @@
     </div>
   </div>
   
-  <!-- FOOTER -->
-  <div class="sky-footer">
+  <!-- BEAUTIFUL FOOTER -->
+  <div class="health-footer">
     <p class="dev-by">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0b3552" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
       Developed by <strong>Informatics Consultancy Firm-SL</strong> @2026
     </p>
     <div class="footer-author">
-      <svg class="author-icon" viewBox="0 0 24 24" fill="none" stroke="#124066" stroke-width="1.8"><path d="M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/><path d="M14 6l4 4"/></svg>
+      <svg class="author-icon" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="1.8"><path d="M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/><path d="M14 6l4 4"/></svg>
       <span>Author: Wisdom</span>
     </div>
   </div>
@@ -554,10 +586,10 @@
 <div id="iframeOverlay" class="iframe-overlay">
   <div class="iframe-container">
     <div class="iframe-header">
-      <h3>🏠 Home Dashboard</h3>
+      <h3>🦟 ITN Campaign Dashboard</h3>
       <button class="close-iframe" id="closeIframeBtn">✕</button>
     </div>
-    <iframe id="homeIframe" src="home.html" title="Home Portal"></iframe>
+    <iframe id="homeIframe" src="home.html" title="ITN Campaign Portal"></iframe>
   </div>
 </div>
 
@@ -569,7 +601,7 @@
   const homeIframe = document.getElementById('homeIframe');
   
   function showMessage(text, isError = false) {
-    toast.style.backgroundColor = isError ? '#b91c1c' : '#1f4e6e';
+    toast.style.backgroundColor = isError ? '#C62828' : '#0B5E42';
     toast.textContent = text;
     toast.style.opacity = '1';
     setTimeout(() => {
@@ -577,16 +609,12 @@
     }, 2000);
   }
 
-  // Store credentials from CSV
   let credentialsMap = new Map();
 
-  // Load and parse password.csv file
   async function loadCredentials() {
     try {
       const response = await fetch('password.csv');
       if (!response.ok) {
-        console.warn('password.csv not found, using demo mode with default credentials');
-        // Demo fallback credentials for testing
         credentialsMap.set('admin', 'admin123');
         credentialsMap.set('user', 'password');
         credentialsMap.set('demo', 'demo');
@@ -599,54 +627,34 @@
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i].trim();
         if (line === '') continue;
-        
-        // Split by comma - supports "username,password" format
         const parts = line.split(',');
         if (parts.length >= 2) {
-          // Skip header row if it contains 'username' or 'user' (case insensitive)
           const firstPartLower = parts[0].toLowerCase();
-          if (i === 0 && (firstPartLower === 'username' || firstPartLower === 'user' || firstPartLower === 'user name')) {
-            continue;
-          }
+          if (i === 0 && (firstPartLower === 'username' || firstPartLower === 'user')) continue;
           const username = parts[0].trim();
           const password = parts[1].trim();
-          if (username && password) {
-            credentialsMap.set(username, password);
-          }
+          if (username && password) credentialsMap.set(username, password);
         }
       }
       
-      console.log(`✅ Loaded ${credentialsMap.size} credential(s) from password.csv`);
-      
-      // If no credentials loaded, add demo fallback
       if (credentialsMap.size === 0) {
         credentialsMap.set('admin', 'admin123');
         credentialsMap.set('demo', 'demo');
-        console.log('⚠️ No valid credentials found in CSV, using demo fallback');
       }
-      
       return true;
     } catch (error) {
-      console.error('Error loading CSV:', error);
-      // Demo fallback
       credentialsMap.set('admin', 'admin123');
       credentialsMap.set('demo', 'demo');
       return true;
     }
   }
 
-  // Validate username and password against loaded credentials
   function validateCredentials(username, password) {
     const storedPassword = credentialsMap.get(username);
-    if (storedPassword && storedPassword === password) {
-      return true;
-    }
-    return false;
+    return storedPassword && storedPassword === password;
   }
 
-  // Open iframe with home.html
   function openHomeIframe() {
-    // Reload iframe to ensure fresh content
     homeIframe.src = homeIframe.src;
     iframeOverlay.style.display = 'flex';
   }
@@ -655,7 +663,6 @@
     iframeOverlay.style.display = 'none';
   }
 
-  // Login logic with CSV validation
   const loginBtn = document.getElementById('loginBtn');
   const usernameField = document.getElementById('usernameInput');
   const passwordField = document.getElementById('passwordInput');
@@ -669,17 +676,11 @@
       return;
     }
     
-    // Ensure credentials are loaded
-    if (credentialsMap.size === 0) {
-      await loadCredentials();
-    }
+    if (credentialsMap.size === 0) await loadCredentials();
     
     if (validateCredentials(username, password)) {
-      showMessage(`✅ Welcome, ${username}! Access granted. Loading home portal...`);
-      // Open home.html in iframe after successful login
-      setTimeout(() => {
-        openHomeIframe();
-      }, 500);
+      showMessage(`✅ Welcome, ${username}! Access granted. Loading ITN Campaign Portal...`);
+      setTimeout(() => openHomeIframe(), 500);
     } else {
       showMessage("❌ Invalid username or password. Please try again.", true);
       passwordField.value = '';
@@ -687,7 +688,6 @@
     }
   }
   
-  // Load credentials when page loads
   loadCredentials();
   
   loginBtn.addEventListener('click', (e) => {
@@ -695,7 +695,6 @@
     performLogin();
   });
   
-  // Allow Enter key to submit
   [usernameField, passwordField].forEach(inp => {
     inp.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') {
@@ -705,34 +704,15 @@
     });
   });
   
-  // Close iframe when clicking close button or overlay background
   document.getElementById('closeIframeBtn').addEventListener('click', closeIframe);
   iframeOverlay.addEventListener('click', (e) => {
     if (e.target === iframeOverlay) closeIframe();
   });
   
-  // Other button handlers (demo functionality)
-  document.getElementById('scanBadgeBtn').addEventListener('click', () => {
-    showMessage("📸 Badge scanned successfully (demo).");
-  });
-  document.getElementById('connectivityBtn').addEventListener('click', () => {
-    showMessage("🌐 Connectivity: Network stable & secure.");
-  });
-  document.getElementById('testFingerprintBtn').addEventListener('click', () => {
-    showMessage("🖐️ Fingerprint reader: Sensor ready.");
-  });
-  document.getElementById('provisionBtn').addEventListener('click', () => {
-    showMessage("⚙️ Provisioning wizard started.");
-  });
-  document.getElementById('backupSdBtn').addEventListener('click', () => {
-    showMessage("💾 Backup to SD card initiated.");
-  });
-  document.getElementById('languageBtn').addEventListener('click', () => {
-    showMessage("🌍 Language: English (default).");
-  });
-  document.getElementById('aboutBtn').addEventListener('click', () => {
-    showMessage("ℹ️ Informatics Portal v2.4 | Secure access with CSV authentication");
-  });
+  document.getElementById('scanBadgeBtn').addEventListener('click', () => showMessage("📸 Badge scanned successfully."));
+  document.getElementById('backupSdBtn').addEventListener('click', () => showMessage("💾 Backup to SD card initiated."));
+  document.getElementById('languageBtn').addEventListener('click', () => showMessage("🌍 Language: English (default)."));
+  document.getElementById('aboutBtn').addEventListener('click', () => showMessage("ℹ️ ITN Mass Campaign 2026/2027 | Secure Portal for Registration & Distribution"));
 </script>
 </body>
 </html>
