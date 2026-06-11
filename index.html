@@ -4,8 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
   <title>ITN Campaign | MOH Sierra Leone</title>
-  <!-- Google Fonts & simple reset -->
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <!-- Html5-QRCode Library for QR scanning -->
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
   <style>
     * {
       margin: 0;
@@ -14,7 +16,6 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* FULLSCREEN BACKGROUND IMAGE - using malaria.png */
     body {
       background: url('malaria.png') no-repeat center center fixed;
       background-size: cover;
@@ -27,7 +28,6 @@
       position: relative;
     }
 
-    /* dark overlay for better text contrast */
     body::before {
       content: "";
       position: fixed;
@@ -40,21 +40,18 @@
       z-index: 0;
     }
 
-    /* main card */
     .login-container {
       max-width: 450px;
       width: 100%;
       background: #ffffff;
       border-radius: 1.8rem;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
       overflow: hidden;
-      transition: all 0.2s ease;
       position: relative;
       z-index: 2;
       margin: 0 auto;
     }
 
-    /* BEAUTIFUL HEADER - Emerald Green / Health Theme */
     .health-header {
       background: linear-gradient(135deg, #0B5E42 0%, #1D8A5E 50%, #2BAE7A 100%);
       padding: 1rem 1rem 0.8rem 1rem;
@@ -64,7 +61,6 @@
       overflow: hidden;
     }
 
-    /* decorative pattern */
     .health-header::before {
       content: "🦟";
       position: absolute;
@@ -96,23 +92,13 @@
       z-index: 2;
     }
 
-    /* MOH Logo styling */
     .moh-logo {
       max-width: 70px;
       max-height: 70px;
-      width: auto;
-      height: auto;
-      display: block;
-      object-fit: contain;
-      border-radius: 14px;
       background: white;
       padding: 5px;
+      border-radius: 14px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      transition: transform 0.2s ease;
-    }
-
-    .moh-logo:hover {
-      transform: scale(1.02);
     }
 
     .campaign-title {
@@ -120,9 +106,7 @@
       font-size: 0.85rem;
       font-weight: 800;
       color: #FFD700;
-      letter-spacing: 0.5px;
       margin-top: 6px;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
       background: rgba(0, 0, 0, 0.25);
       display: inline-block;
       padding: 0.3rem 1.2rem;
@@ -135,12 +119,10 @@
       font-size: 0.7rem;
       font-weight: 600;
       color: #FFFFFF;
-      letter-spacing: 0.4px;
       margin-top: 5px;
       opacity: 0.95;
     }
 
-    /* IMPLEMENTING PARTNERS SECTION */
     .partners-section {
       background: rgba(255, 255, 255, 0.95);
       padding: 0.6rem 0.8rem;
@@ -169,8 +151,6 @@
     .partner-logo {
       max-width: 60px;
       max-height: 45px;
-      width: auto;
-      height: auto;
       object-fit: contain;
       filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
       transition: transform 0.2s;
@@ -180,22 +160,12 @@
       transform: scale(1.05);
     }
 
-    /* NMCP Logo specific styling */
     .nmcp-logo {
       max-width: 70px;
       max-height: 50px;
-      width: auto;
-      height: auto;
       object-fit: contain;
-      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
-      transition: transform 0.2s;
     }
 
-    .nmcp-logo:hover {
-      transform: scale(1.05);
-    }
-
-    /* INFOGRAPHICS SECTION */
     .infographics-section {
       background: #ffffff;
       padding: 0.8rem 1rem;
@@ -208,7 +178,6 @@
       font-weight: 700;
       color: #0B5E42;
       text-transform: uppercase;
-      letter-spacing: 0.6px;
       margin-bottom: 0.5rem;
     }
 
@@ -217,21 +186,14 @@
       height: auto;
       border-radius: 12px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s;
       cursor: pointer;
     }
 
-    .infographics-img:hover {
-      transform: scale(1.02);
-    }
-
-    /* main content */
     .card-inner {
       padding: 1.2rem 1.3rem 1rem 1.3rem;
       background: #ffffff;
     }
 
-    /* form elements */
     .input-group {
       margin-bottom: 1rem;
     }
@@ -255,19 +217,14 @@
       font-weight: 500;
       background: #fefefe;
       transition: all 0.2s;
-      font-family: 'Inter', monospace;
-      -webkit-appearance: none;
-      appearance: none;
     }
 
     .input-field:focus {
       outline: none;
       border-color: #2BAE7A;
       box-shadow: 0 0 0 3px rgba(43, 174, 122, 0.2);
-      background: #fff;
     }
 
-    /* LOGIN BUTTON */
     .login-wrapper {
       display: flex;
       justify-content: center;
@@ -275,7 +232,6 @@
     }
     
     .btn-primary {
-      background: #C62828;
       background: linear-gradient(135deg, #C62828, #B71C1C);
       border: none;
       padding: 0.8rem 2rem;
@@ -283,24 +239,19 @@
       font-weight: 700;
       font-size: 1rem;
       color: white;
-      font-family: 'Inter', sans-serif;
       cursor: pointer;
-      transition: all 0.2s;
-      box-shadow: 0 4px 12px rgba(198, 40, 40, 0.3);
-      letter-spacing: 0.5px;
-      width: auto;
       min-width: 150px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
+      transition: transform 0.2s;
     }
 
     .btn-primary:active {
       transform: scale(0.97);
     }
 
-    /* SCAN BADGE BUTTON */
     .scan-wrapper {
       display: flex;
       justify-content: center;
@@ -308,7 +259,6 @@
     }
     
     .btn-scan {
-      background: #00897B;
       background: linear-gradient(135deg, #00897B, #00695C);
       border: none;
       padding: 0.7rem 1.8rem;
@@ -317,14 +267,10 @@
       font-size: 0.9rem;
       color: white;
       cursor: pointer;
-      transition: all 0.2s;
-      font-family: 'Inter', sans-serif;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      box-shadow: 0 4px 10px rgba(0, 137, 123, 0.3);
-      width: auto;
       min-width: 150px;
     }
 
@@ -332,17 +278,10 @@
       transform: scale(0.97);
     }
 
-    .btn-scan svg {
-      width: 16px;
-      height: 16px;
-    }
-
-    /* bottom options - Backup, Language, About */
     .bottom-options {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      align-items: center;
       gap: 0.8rem;
       margin: 1rem 0 0.2rem;
       padding-top: 0.6rem;
@@ -354,42 +293,21 @@
       font-size: 0.75rem;
       font-weight: 600;
       cursor: pointer;
-      font-family: 'Inter', sans-serif;
-      transition: all 0.15s;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
       padding: 0.6rem 1.2rem;
       border-radius: 2rem;
-      min-width: 120px;
-      text-align: center;
       flex: 1;
-    }
-
-    .bottom-link:active {
-      transform: scale(0.97);
-    }
-
-    .bottom-link svg {
-      width: 16px;
-      height: 16px;
-    }
-
-    #backupSdBtn {
-      background: linear-gradient(135deg, #2E7D32, #1B5E20);
-      color: white;
-    }
-    #languageBtn {
-      background: linear-gradient(135deg, #F57C00, #E65100);
-      color: white;
-    }
-    #aboutBtn {
-      background: linear-gradient(135deg, #546E7A, #37474F);
+      min-width: 100px;
       color: white;
     }
 
-    /* BEAUTIFUL FOOTER */
+    #backupSdBtn { background: linear-gradient(135deg, #2E7D32, #1B5E20); }
+    #languageBtn { background: linear-gradient(135deg, #F57C00, #E65100); }
+    #aboutBtn { background: linear-gradient(135deg, #546E7A, #37474F); }
+
     .health-footer {
       background: linear-gradient(135deg, #0B5E42 0%, #1D8A5E 100%);
       border-top: 3px solid #FFD700;
@@ -401,9 +319,6 @@
       font-weight: 600;
       font-size: 0.6rem;
       color: #FFE0B2;
-      letter-spacing: 0.3px;
-      margin-bottom: 0.2rem;
-      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -412,14 +327,12 @@
     }
 
     .dev-by strong {
-      font-weight: 800;
       color: #FFD700;
     }
 
     .footer-author {
       font-size: 0.6rem;
       color: #FFE0B2;
-      font-weight: 600;
       margin-top: 0.2rem;
       background: rgba(255,255,250,0.2);
       display: inline-flex;
@@ -427,13 +340,153 @@
       gap: 6px;
       padding: 0.2rem 1rem;
       border-radius: 40px;
-      backdrop-filter: blur(2px);
     }
 
-    .author-icon {
-      width: 12px;
-      height: 12px;
-      stroke: #FFD700;
+    /* QR SCANNER MODAL */
+    .qr-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 20000;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .qr-modal-content {
+      width: 95%;
+      max-width: 550px;
+      background: white;
+      border-radius: 1.5rem;
+      overflow: hidden;
+      animation: slideUp 0.3s ease;
+    }
+
+    .qr-modal-header {
+      background: linear-gradient(135deg, #0B5E42, #1D8A5E);
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+
+    .qr-modal-header h3 {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .close-qr-modal {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .qr-reader-container {
+      padding: 1rem;
+      text-align: center;
+      background: #000;
+    }
+
+    #qr-reader {
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    #qr-reader video {
+      width: 100%;
+      border-radius: 12px;
+    }
+
+    .qr-instruction {
+      font-size: 0.8rem;
+      color: #ccc;
+      margin-top: 1rem;
+      text-align: center;
+      background: rgba(0,0,0,0.7);
+      padding: 8px;
+      border-radius: 8px;
+    }
+
+    /* ABOUT MODAL */
+    .about-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 20000;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .about-modal-content {
+      width: 90%;
+      max-width: 500px;
+      background: white;
+      border-radius: 1.5rem;
+      overflow: hidden;
+      animation: slideUp 0.3s ease;
+    }
+
+    .about-modal-header {
+      background: linear-gradient(135deg, #0B5E42, #1D8A5E);
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+
+    .about-modal-header h3 {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .close-about-modal {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .about-modal-body {
+      padding: 1.5rem;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: #333;
+      text-align: left;
+    }
+
+    .about-modal-body p {
+      margin-bottom: 0.8rem;
+    }
+
+    .about-modal-body strong {
+      color: #0B5E42;
     }
 
     /* IFRAME MODAL OVERLAY */
@@ -458,8 +511,6 @@
       background: white;
       border-radius: 1.5rem;
       overflow: hidden;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-      position: relative;
       animation: slideUp 0.3s ease;
     }
 
@@ -500,15 +551,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.2s;
-    }
-
-    .close-iframe:hover {
-      background: rgba(255,255,255,0.3);
-    }
-
-    .close-iframe:active {
-      transform: scale(0.95);
     }
 
     iframe {
@@ -527,74 +569,65 @@
       padding: 8px 18px;
       border-radius: 40px;
       font-size: 0.75rem;
-      font-weight: 500;
       z-index: 1001;
       opacity: 0;
       transition: opacity 0.2s;
       pointer-events: none;
-      font-family: monospace;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-      text-align: center;
-      max-width: 90%;
+      white-space: nowrap;
     }
 
     @media (max-width: 480px) {
       body { padding: 0.8rem; }
       .login-container { max-width: 100%; border-radius: 1.2rem; }
       .card-inner { padding: 1rem 1rem 0.9rem; }
-      .bottom-options { gap: 0.5rem; flex-direction: column; }
-      .bottom-link { padding: 0.5rem 0.8rem; font-size: 0.7rem; min-width: auto; width: 100%; }
-      .btn-primary { padding: 0.7rem 1.5rem; min-width: 130px; font-size: 0.9rem; }
-      .btn-scan { padding: 0.6rem 1.5rem; min-width: 130px; font-size: 0.85rem; }
+      .bottom-options { flex-direction: column; }
+      .bottom-link { width: 100%; }
+      .toast-msg { white-space: normal; max-width: 90%; text-align: center; }
       .iframe-container { width: 95%; height: 80%; }
       .moh-logo { max-width: 55px; max-height: 55px; }
       .campaign-title { font-size: 0.7rem; padding: 0.2rem 0.8rem; }
       .partners-logos { gap: 0.6rem; }
       .partner-logo { max-width: 45px; max-height: 35px; }
-      .nmcp-logo { max-width: 55px; max-height: 40px; }
-      .infographics-img { max-width: 100%; }
+      .qr-modal-content { width: 98%; }
+      .about-modal-content { width: 95%; }
+      .about-modal-body { padding: 1rem; font-size: 0.8rem; }
     }
   </style>
 </head>
 <body>
 
 <div class="login-container">
-  <!-- BEAUTIFUL HEADER with MOH Logo and Campaign Title -->
   <div class="health-header">
     <div class="logo-area">
-      <img src="moh_logo.png" alt="Ministry of Health Logo" class="moh-logo">
+      <img src="moh.png" alt="Ministry of Health Logo" class="moh-logo">
     </div>
     <div class="campaign-title">ITN Mass Campaign 2026/2027<br>Registration and Distribution</div>
     <div class="header-brand">Ministry of Health - Sierra Leone</div>
   </div>
   
-  <!-- IMPLEMENTING PARTNERS SECTION -->
   <div class="partners-section">
     <div class="partners-title">IMPLEMENTING PARTNERS</div>
     <div class="partners-logos">
-      <img src="global_fund.png" alt="Global Fund" class="partner-logo" onerror="this.style.opacity='0.5'">
-      <img src="who.png" alt="World Health Organization" class="partner-logo" onerror="this.style.opacity='0.5'">
-      <img src="world vision.png" alt="World Vision" class="partner-logo" onerror="this.style.opacity='0.5'">
-      <img src="pmi-evolve.png" alt="PMI Evolve" class="partner-logo" onerror="this.style.opacity='0.5'">
-      <img src="usa.png" alt="USA" class="partner-logo" onerror="this.style.opacity='0.5'">
+      <img src="global fund.png" alt="Global Fund" class="partner-logo">
+      <img src="who.png" alt="WHO" class="partner-logo">
+      <img src="world vision.png" alt="World Vision" class="partner-logo">
+      <img src="PMI-evolve.png" alt="PMI Evolve" class="partner-logo">
+      <img src="USaid.png" alt="USAID" class="partner-logo">
     </div>
-    <!-- NMCP Logo added separately -->
-    <div class="partners-logos" style="margin-top: 0.3rem;">
-      <img src="NMCP.png" alt="National Malaria Control Programme" class="nmcp-logo" onerror="this.style.opacity='0.5'">
+    <div class="partners-logos">
+      <img src="NMCP.png" alt="NMCP" class="nmcp-logo">
     </div>
   </div>
 
-  <!-- INFOGRAPHICS SECTION -->
   <div class="infographics-section">
     <div class="infographics-title">CAMPAIGN INFOGRAPHICS</div>
-    <img src="infographics.png" alt="Campaign Infographics" class="infographics-img" id="infographicsImg">
+    <img src="infographics.png" alt="Infographics" class="infographics-img" id="infographicsImg">
   </div>
   
-  <!-- MAIN CONTENT - LOGIN FORM -->
   <div class="card-inner">
     <div class="input-group">
       <label>Username</label>
-      <input type="text" class="input-field" id="usernameInput" placeholder="Enter your username" autocomplete="username" inputmode="text">
+      <input type="text" class="input-field" id="usernameInput" placeholder="Enter your username" autocomplete="username">
     </div>
     <div class="input-group">
       <label>Password</label>
@@ -607,42 +640,64 @@
 
     <div class="scan-wrapper">
       <button class="btn-scan" id="scanBadgeBtn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10v3a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3"/><path d="M7 7h10"/><path d="M12 3v4"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M3 10v3a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3"/><path d="M7 7h10"/><path d="M12 3v4"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
         Scan Badge
       </button>
     </div>
 
-    <!-- Bottom row - Backup, Language, About -->
     <div class="bottom-options">
       <button class="bottom-link" id="backupSdBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><path d="M8 7h8"/><path d="M16 18l-3 3-3-3"/><path d="M13 15v6"/></svg>
-        <span>Backup to SD</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><path d="M8 7h8"/><path d="M16 18l-3 3-3-3"/></svg>
+        Backup to SD
       </button>
       <button class="bottom-link" id="languageBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.7"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-        <span>Language</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.7"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10"/></svg>
+        Language
       </button>
       <button class="bottom-link" id="aboutBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.7"><circle cx="12" cy="12" r="10"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        <span>About</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.7"><circle cx="12" cy="12" r="10"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        About
       </button>
     </div>
   </div>
   
-  <!-- BEAUTIFUL FOOTER -->
   <div class="health-footer">
-    <p class="dev-by">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
-      Developed by <strong>Informatics Consultancy Firm-SL</strong> @2026
-    </p>
-    <div class="footer-author">
-      <svg class="author-icon" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="1.8"><path d="M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/><path d="M14 6l4 4"/></svg>
-      <span>Author: Wisdom</span>
+    <p class="dev-by">Developed by <strong>Informatics Consultancy Firm-SL</strong> @2026</p>
+    <div class="footer-author">Author: Wisdom</div>
+  </div>
+</div>
+
+<!-- QR SCANNER MODAL -->
+<div id="qrModal" class="qr-modal">
+  <div class="qr-modal-content">
+    <div class="qr-modal-header">
+      <h3>📷 Scan QR Code Badge</h3>
+      <button class="close-qr-modal" id="closeQrModalBtn">✕</button>
+    </div>
+    <div class="qr-reader-container">
+      <div id="qr-reader"></div>
+      <p class="qr-instruction">Position the QR code within the frame to scan</p>
     </div>
   </div>
 </div>
 
-<!-- IFRAME OVERLAY for home.html -->
+<!-- ABOUT MODAL -->
+<div id="aboutModal" class="about-modal">
+  <div class="about-modal-content">
+    <div class="about-modal-header">
+      <h3>📄 About Informatics Consultancy Firm–SL</h3>
+      <button class="close-about-modal" id="closeAboutModalBtn">✕</button>
+    </div>
+    <div class="about-modal-body">
+      <p><strong>Informatics Consultancy Firm–SL</strong> is a Sierra Leone-based information and communication technology (ICT) consultancy firm that provides professional technology solutions and digital services to organizations, institutions, businesses, and development partners.</p>
+      <p>The firm specializes in areas such as <strong>software development, database management, systems analysis and design, ICT consultancy, data management, training, and digital transformation solutions.</strong></p>
+      <p>Its goal is to <strong>improve organizational efficiency</strong> through innovative technology, information systems, and technical support services tailored to client needs in Sierra Leone and beyond.</p>
+      <p style="margin-top: 0.8rem; font-size: 0.75rem; color: #666; border-top: 1px solid #eee; padding-top: 0.8rem;">© 2026 Informatics Consultancy Firm-SL | Committed to Digital Excellence</p>
+    </div>
+  </div>
+</div>
+
+<!-- IFRAME OVERLAY -->
 <div id="iframeOverlay" class="iframe-overlay">
   <div class="iframe-container">
     <div class="iframe-header">
@@ -659,6 +714,9 @@
   const toast = document.getElementById('toastMsg');
   const iframeOverlay = document.getElementById('iframeOverlay');
   const homeIframe = document.getElementById('homeIframe');
+  const qrModal = document.getElementById('qrModal');
+  const aboutModal = document.getElementById('aboutModal');
+  let html5QrCode = null;
   
   function showMessage(text, isError = false) {
     toast.style.backgroundColor = isError ? '#C62828' : '#0B5E42';
@@ -669,16 +727,12 @@
     }, 2000);
   }
 
-  // Store credentials from password.csv
   let credentialsMap = new Map();
 
-  // Load and parse password.csv file
   async function loadCredentials() {
     try {
       const response = await fetch('password.csv');
       if (!response.ok) {
-        console.warn('password.csv not found, using demo mode with default credentials');
-        // Demo fallback credentials for testing
         credentialsMap.set('admin', 'admin123');
         credentialsMap.set('user', 'password');
         credentialsMap.set('demo', 'demo');
@@ -691,54 +745,34 @@
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i].trim();
         if (line === '') continue;
-        
-        // Split by comma - supports "username,password" format
         const parts = line.split(',');
         if (parts.length >= 2) {
-          // Skip header row if it contains 'username' or 'user' (case insensitive)
           const firstPartLower = parts[0].toLowerCase();
-          if (i === 0 && (firstPartLower === 'username' || firstPartLower === 'user' || firstPartLower === 'user name')) {
-            continue;
-          }
+          if (i === 0 && (firstPartLower === 'username' || firstPartLower === 'user')) continue;
           const username = parts[0].trim();
           const password = parts[1].trim();
-          if (username && password) {
-            credentialsMap.set(username, password);
-          }
+          if (username && password) credentialsMap.set(username, password);
         }
       }
       
-      console.log(`✅ Loaded ${credentialsMap.size} credential(s) from password.csv`);
-      
-      // If no credentials loaded, add demo fallback
       if (credentialsMap.size === 0) {
         credentialsMap.set('admin', 'admin123');
         credentialsMap.set('demo', 'demo');
-        console.log('⚠️ No valid credentials found in CSV, using demo fallback');
       }
-      
       return true;
     } catch (error) {
-      console.error('Error loading CSV:', error);
-      // Demo fallback
       credentialsMap.set('admin', 'admin123');
       credentialsMap.set('demo', 'demo');
       return true;
     }
   }
 
-  // Validate username and password against loaded credentials
   function validateCredentials(username, password) {
     const storedPassword = credentialsMap.get(username);
-    if (storedPassword && storedPassword === password) {
-      return true;
-    }
-    return false;
+    return storedPassword && storedPassword === password;
   }
 
-  // Open iframe with home.html
   function openHomeIframe() {
-    // Reload iframe to ensure fresh content
     homeIframe.src = homeIframe.src;
     iframeOverlay.style.display = 'flex';
   }
@@ -747,7 +781,96 @@
     iframeOverlay.style.display = 'none';
   }
 
-  // Login logic with CSV validation
+  // QR Scanner Functions
+  async function startQrScanner() {
+    if (html5QrCode) {
+      try {
+        await html5QrCode.stop();
+      } catch(e) {}
+    }
+    
+    const qrReaderDiv = document.getElementById("qr-reader");
+    qrReaderDiv.innerHTML = "";
+    
+    html5QrCode = new Html5Qrcode("qr-reader");
+    const config = { 
+      fps: 10, 
+      qrbox: { width: 280, height: 280 },
+      aspectRatio: 1.0
+    };
+    
+    try {
+      await html5QrCode.start({ facingMode: "environment" }, config, onScanSuccess, onScanFailure);
+    } catch (err) {
+      try {
+        await html5QrCode.start({ facingMode: "user" }, config, onScanSuccess, onScanFailure);
+      } catch (err2) {
+        showMessage("⚠️ Unable to access camera. Please check permissions.", true);
+        closeQrModal();
+      }
+    }
+  }
+
+  function onScanSuccess(decodedText, decodedResult) {
+    if (html5QrCode) {
+      html5QrCode.stop().catch(e => console.log(e));
+    }
+    closeQrModal();
+    
+    let username = decodedText;
+    let password = "";
+    
+    if (decodedText.includes(':')) {
+      const parts = decodedText.split(':');
+      username = parts[0];
+      password = parts[1];
+    } else if (decodedText.includes(',')) {
+      const parts = decodedText.split(',');
+      username = parts[0];
+      password = parts[1] || "";
+    } else {
+      password = credentialsMap.get(username) || "";
+    }
+    
+    if (username && validateCredentials(username, password)) {
+      showMessage(`✅ Welcome, ${username}! Access granted via QR scan.`);
+      setTimeout(() => openHomeIframe(), 500);
+    } else if (credentialsMap.has(decodedText)) {
+      showMessage(`✅ Welcome! Access granted via QR scan.`);
+      setTimeout(() => openHomeIframe(), 500);
+    } else {
+      showMessage("❌ Invalid QR code. Access denied.", true);
+    }
+  }
+
+  function onScanFailure(error) {}
+
+  function openQrModal() {
+    qrModal.style.display = 'flex';
+    setTimeout(() => {
+      startQrScanner();
+    }, 200);
+  }
+
+  function closeQrModal() {
+    qrModal.style.display = 'none';
+    if (html5QrCode) {
+      html5QrCode.stop().catch(e => console.log(e));
+      html5QrCode = null;
+    }
+    const qrReaderDiv = document.getElementById("qr-reader");
+    if (qrReaderDiv) qrReaderDiv.innerHTML = "";
+  }
+
+  // About Modal Functions
+  function openAboutModal() {
+    aboutModal.style.display = 'flex';
+  }
+
+  function closeAboutModal() {
+    aboutModal.style.display = 'none';
+  }
+
   const loginBtn = document.getElementById('loginBtn');
   const usernameField = document.getElementById('usernameInput');
   const passwordField = document.getElementById('passwordInput');
@@ -761,17 +884,11 @@
       return;
     }
     
-    // Ensure credentials are loaded
-    if (credentialsMap.size === 0) {
-      await loadCredentials();
-    }
+    if (credentialsMap.size === 0) await loadCredentials();
     
     if (validateCredentials(username, password)) {
       showMessage(`✅ Welcome, ${username}! Access granted. Loading ITN Campaign Portal...`);
-      // Open home.html in iframe after successful login
-      setTimeout(() => {
-        openHomeIframe();
-      }, 500);
+      setTimeout(() => openHomeIframe(), 500);
     } else {
       showMessage("❌ Invalid username or password. Please try again.", true);
       passwordField.value = '';
@@ -779,7 +896,6 @@
     }
   }
   
-  // Load credentials when page loads
   loadCredentials();
   
   loginBtn.addEventListener('click', (e) => {
@@ -787,7 +903,6 @@
     performLogin();
   });
   
-  // Allow Enter key to submit
   [usernameField, passwordField].forEach(inp => {
     inp.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') {
@@ -797,28 +912,33 @@
     });
   });
   
-  // Close iframe when clicking close button or overlay background
+  document.getElementById('scanBadgeBtn').addEventListener('click', () => {
+    openQrModal();
+  });
+  
   document.getElementById('closeIframeBtn').addEventListener('click', closeIframe);
   iframeOverlay.addEventListener('click', (e) => {
     if (e.target === iframeOverlay) closeIframe();
   });
   
-  // Other button handlers (demo functionality)
-  document.getElementById('scanBadgeBtn').addEventListener('click', () => {
-    showMessage("📸 Badge scanned successfully (demo).");
+  document.getElementById('closeQrModalBtn').addEventListener('click', closeQrModal);
+  qrModal.addEventListener('click', (e) => {
+    if (e.target === qrModal) closeQrModal();
   });
-  document.getElementById('backupSdBtn').addEventListener('click', () => {
-    showMessage("💾 Backup to SD card initiated.");
-  });
-  document.getElementById('languageBtn').addEventListener('click', () => {
-    showMessage("🌍 Language: English (default).");
-  });
+  
+  // About button event
   document.getElementById('aboutBtn').addEventListener('click', () => {
-    showMessage("ℹ️ ITN Mass Campaign 2026/2027 | Secure Portal for Registration & Distribution");
+    openAboutModal();
   });
-  document.getElementById('infographicsImg').addEventListener('click', () => {
-    showMessage("📊 ITN Campaign infographics displayed");
+  
+  document.getElementById('closeAboutModalBtn').addEventListener('click', closeAboutModal);
+  aboutModal.addEventListener('click', (e) => {
+    if (e.target === aboutModal) closeAboutModal();
   });
+  
+  document.getElementById('backupSdBtn').addEventListener('click', () => showMessage("💾 Backup to SD card initiated."));
+  document.getElementById('languageBtn').addEventListener('click', () => showMessage("🌍 Language: English (default)."));
+  document.getElementById('infographicsImg').addEventListener('click', () => showMessage("📊 ITN Campaign infographics displayed"));
 </script>
 </body>
 </html>
