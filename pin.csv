@@ -1,8 +1,0 @@
-USERNAME,PASSWORD,Registration,Distribution,Dashboard,Stock,Attendance,Monitoring
-reg001,1234,Yes,No,No,No,No,No
-dist002,1234,No,Yes,No,No,No,No
-Dash003,1234,No,No,Yes,No,No,No
-Stck004,1234,No,No,No,Yes,No,No
-Attend005,1234,No,No,No,No,Yes,No
-Monitor006,1234,No,No,No,No,No,Yes
-Admin007,1234,Yes,Yes,Yes,Yes,Yes,Yes
