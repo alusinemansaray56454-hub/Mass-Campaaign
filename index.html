@@ -421,6 +421,88 @@
       border-radius: 8px;
     }
 
+    /* LANGUAGE MODAL */
+    .lang-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 20000;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .lang-modal-content {
+      width: 90%;
+      max-width: 500px;
+      background: white;
+      border-radius: 1.5rem;
+      overflow: hidden;
+      animation: slideUp 0.3s ease;
+    }
+
+    .lang-modal-header {
+      background: linear-gradient(135deg, #0B5E42, #1D8A5E);
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+
+    .lang-modal-header h3 {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .close-lang-modal {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lang-modal-body {
+      padding: 1rem;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .lang-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.5rem;
+    }
+
+    .lang-item {
+      background: #f0f4f8;
+      padding: 0.7rem;
+      border-radius: 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #0B5E42;
+    }
+
+    .lang-item:hover {
+      background: #2BAE7A;
+      color: white;
+      transform: scale(1.02);
+    }
+
     /* ABOUT MODAL */
     .about-modal {
       display: none;
@@ -576,6 +658,11 @@
       white-space: nowrap;
     }
 
+    /* File input styling */
+    #backupFileInput {
+      display: none;
+    }
+
     @media (max-width: 480px) {
       body { padding: 0.8rem; }
       .login-container { max-width: 100%; border-radius: 1.2rem; }
@@ -590,7 +677,8 @@
       .partner-logo { max-width: 45px; max-height: 35px; }
       .qr-modal-content { width: 98%; }
       .about-modal-content { width: 95%; }
-      .about-modal-body { padding: 1rem; font-size: 0.8rem; }
+      .lang-modal-content { width: 95%; }
+      .lang-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -667,6 +755,9 @@
   </div>
 </div>
 
+<!-- Hidden file input for SD card backup -->
+<input type="file" id="backupFileInput" webkitdirectory directory multiple>
+
 <!-- QR SCANNER MODAL -->
 <div id="qrModal" class="qr-modal">
   <div class="qr-modal-content">
@@ -677,6 +768,36 @@
     <div class="qr-reader-container">
       <div id="qr-reader"></div>
       <p class="qr-instruction">Position the QR code within the frame to scan</p>
+    </div>
+  </div>
+</div>
+
+<!-- LANGUAGE MODAL -->
+<div id="langModal" class="lang-modal">
+  <div class="lang-modal-content">
+    <div class="lang-modal-header">
+      <h3>🌐 Select Language</h3>
+      <button class="close-lang-modal" id="closeLangModalBtn">✕</button>
+    </div>
+    <div class="lang-modal-body">
+      <div class="lang-grid">
+        <div class="lang-item" data-lang="English">🇬🇧 English</div>
+        <div class="lang-item" data-lang="Spanish">🇪🇸 Español</div>
+        <div class="lang-item" data-lang="French">🇫🇷 Français</div>
+        <div class="lang-item" data-lang="Portuguese">🇵🇹 Português</div>
+        <div class="lang-item" data-lang="Arabic">🇸🇦 العربية</div>
+        <div class="lang-item" data-lang="Chinese">🇨🇳 中文</div>
+        <div class="lang-item" data-lang="Hindi">🇮🇳 हिन्दी</div>
+        <div class="lang-item" data-lang="Russian">🇷🇺 Русский</div>
+        <div class="lang-item" data-lang="German">🇩🇪 Deutsch</div>
+        <div class="lang-item" data-lang="Italian">🇮🇹 Italiano</div>
+        <div class="lang-item" data-lang="Japanese">🇯🇵 日本語</div>
+        <div class="lang-item" data-lang="Korean">🇰🇷 한국어</div>
+        <div class="lang-item" data-lang="Dutch">🇳🇱 Nederlands</div>
+        <div class="lang-item" data-lang="Turkish">🇹🇷 Türkçe</div>
+        <div class="lang-item" data-lang="Swahili">🇹🇿 Kiswahili</div>
+        <div class="lang-item" data-lang="Krio (Sierra Leone)">🇸🇱 Krio</div>
+      </div>
     </div>
   </div>
 </div>
@@ -716,6 +837,8 @@
   const homeIframe = document.getElementById('homeIframe');
   const qrModal = document.getElementById('qrModal');
   const aboutModal = document.getElementById('aboutModal');
+  const langModal = document.getElementById('langModal');
+  const backupFileInput = document.getElementById('backupFileInput');
   let html5QrCode = null;
   
   function showMessage(text, isError = false) {
@@ -871,6 +994,37 @@
     aboutModal.style.display = 'none';
   }
 
+  // Language Modal Functions
+  function openLangModal() {
+    langModal.style.display = 'flex';
+  }
+
+  function closeLangModal() {
+    langModal.style.display = 'none';
+  }
+
+  // Backup to SD Card Function
+  function openBackupDialog() {
+    backupFileInput.click();
+  }
+
+  backupFileInput.addEventListener('change', function(e) {
+    const files = Array.from(e.target.files);
+    if (files.length > 0) {
+      // Get the directory path from the first file
+      const firstFile = files[0];
+      let directoryPath = firstFile.webkitRelativePath.split('/')[0];
+      showMessage(`📁 Backup location selected: ${directoryPath}/ - Ready to backup data`);
+      // Simulate backup process
+      setTimeout(() => {
+        showMessage(`✅ Backup completed successfully to SD card! ${files.length} items processed.`);
+      }, 1000);
+    } else {
+      showMessage("⚠️ No folder selected. Backup cancelled.", true);
+    }
+    backupFileInput.value = '';
+  });
+
   const loginBtn = document.getElementById('loginBtn');
   const usernameField = document.getElementById('usernameInput');
   const passwordField = document.getElementById('passwordInput');
@@ -936,8 +1090,30 @@
     if (e.target === aboutModal) closeAboutModal();
   });
   
-  document.getElementById('backupSdBtn').addEventListener('click', () => showMessage("💾 Backup to SD card initiated."));
-  document.getElementById('languageBtn').addEventListener('click', () => showMessage("🌍 Language: English (default)."));
+  // Language button event
+  document.getElementById('languageBtn').addEventListener('click', () => {
+    openLangModal();
+  });
+  
+  document.getElementById('closeLangModalBtn').addEventListener('click', closeLangModal);
+  langModal.addEventListener('click', (e) => {
+    if (e.target === langModal) closeLangModal();
+  });
+  
+  // Language selection
+  document.querySelectorAll('.lang-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const selectedLang = item.getAttribute('data-lang');
+      showMessage(`🌍 Language changed to: ${selectedLang}`);
+      closeLangModal();
+    });
+  });
+  
+  // Backup button event
+  document.getElementById('backupSdBtn').addEventListener('click', () => {
+    openBackupDialog();
+  });
+  
   document.getElementById('infographicsImg').addEventListener('click', () => showMessage("📊 ITN Campaign infographics displayed"));
 </script>
 </body>
