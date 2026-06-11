@@ -75,9 +75,68 @@
       margin-top: 0.3rem;
     }
 
+    /* Progress Bar */
+    .progress-bar {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      padding: 0 0.5rem;
+    }
+
+    .progress-step {
+      flex: 1;
+      text-align: center;
+      font-size: 0.7rem;
+      color: #94a3b8;
+      position: relative;
+      padding-top: 1.5rem;
+    }
+
+    .progress-step.active {
+      color: #3b82f6;
+      font-weight: 600;
+    }
+
+    .progress-step::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      border: 2px solid #cbd5e1;
+    }
+
+    .progress-step.active::before {
+      background: #3b82f6;
+      border-color: #3b82f6;
+    }
+
+    .progress-step.completed::before {
+      background: #10b981;
+      border-color: #10b981;
+    }
+
     .data-form {
       padding: 1.5rem 1rem;
       background: #ffffff;
+    }
+
+    .form-section {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .form-section.active-section {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateX(10px); }
+      to { opacity: 1; transform: translateX(0); }
     }
 
     .cards-grid {
@@ -297,7 +356,7 @@
       display: none;
     }
 
-    /* Registration Panel (shown after login) */
+    /* Registration Panel */
     .registration-panel {
       display: none;
       padding: 1rem;
@@ -320,7 +379,11 @@
       margin-bottom: 0.3rem;
     }
 
-    .reg-form-group input, .reg-form-group select {
+    .reg-form-group label .required {
+      color: #dc2626;
+    }
+
+    .reg-form-group input, .reg-form-group select, .reg-form-group textarea {
       width: 100%;
       padding: 0.75rem;
       border: 1.5px solid #e2e8f0;
@@ -331,21 +394,154 @@
       outline: none;
     }
 
-    .reg-form-group input:focus, .reg-form-group select:focus {
+    .reg-form-group input:focus, .reg-form-group select:focus, .reg-form-group textarea:focus {
       border-color: #3b82f6;
     }
 
-    .submit-reg {
-      background: linear-gradient(105deg, #10b981, #059669);
+    .reg-form-group input.error-input, .reg-form-group select.error-input {
+      border-color: #dc2626;
+    }
+
+    .readonly-input {
+      background: #f1f5f9;
+      color: #334155;
+    }
+
+    .error-message {
+      color: #dc2626;
+      font-size: 0.7rem;
+      margin-top: 0.25rem;
+      display: none;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    .gps-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .gps-row input {
+      flex: 1;
+    }
+
+    .gps-btn {
+      background: #3b82f6;
+      border: none;
+      padding: 0.75rem 1rem;
+      border-radius: 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+    }
+
+    .token-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .token-row input {
+      flex: 1;
+    }
+
+    .token-btn {
+      background: #10b981;
+      border: none;
+      padding: 0.75rem 1rem;
+      border-radius: 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+    }
+
+    .name-row {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .name-row .reg-form-group {
+      flex: 1;
+      min-width: 100px;
+    }
+
+    .summary-card {
+      background: #f8fafc;
+      border-radius: 1rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid #e2e8f0;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #e2e8f0;
+      font-size: 0.85rem;
+    }
+
+    .summary-row:last-child {
+      border-bottom: none;
+    }
+
+    .summary-label {
+      font-weight: 600;
+      color: #1e3a8a;
+    }
+
+    .summary-value {
+      color: #334155;
+    }
+
+    .bednet-message {
+      background: #dbeafe;
+      padding: 0.75rem;
+      border-radius: 0.75rem;
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #1e3a8a;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .nav-btn {
+      flex: 1;
+      background: #e2e8f0;
       border: none;
       padding: 0.85rem;
       border-radius: 2rem;
       font-weight: 600;
       font-size: 1rem;
-      color: white;
       cursor: pointer;
-      width: 100%;
-      margin-top: 0.5rem;
+      transition: 0.2s;
+    }
+
+    .nav-btn.next {
+      background: linear-gradient(105deg, #3b82f6, #2563eb);
+      color: white;
+    }
+
+    .nav-btn.prev {
+      background: #f1f5f9;
+      color: #1e3a8a;
+    }
+
+    .nav-btn.submit {
+      background: linear-gradient(105deg, #10b981, #059669);
+      color: white;
     }
 
     .back-btn {
@@ -373,7 +569,7 @@
       .card-icon svg { width: 28px; height: 28px; }
       .card-title { font-size: 0.75rem; }
       .lock-icon { width: 20px; height: 20px; }
-      .lock-icon svg { width: 12px; height: 12px; }
+      .name-row .reg-form-group { min-width: 100%; }
     }
   </style>
 </head>
@@ -394,123 +590,118 @@
         <div class="card-wrapper">
           <div class="card-link" data-module="registration">
             <div class="card card-registration">
-              <div class="lock-icon">
-                <svg viewBox="0 0 24 24" stroke="currentColor">
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                </svg>
-              </div>
-              <div class="card-icon">
-                <svg viewBox="0 0 24 24" stroke="currentColor">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                  <circle cx="12" cy="7" r="4" />
-                </svg>
-              </div>
+              <div class="lock-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+              <div class="card-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
               <div class="card-title">Registration</div>
             </div>
           </div>
         </div>
-
-        <div class="card-wrapper">
-          <div class="card-link disabled">
-            <div class="card card-distribution" style="opacity:0.6;">
-              <div class="lock-icon"><svg viewBox="0 0 24 24" stroke="white"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-              <div class="card-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M4 4h16v16H4z"/><path d="M8 8h8v8H8z"/></svg></div>
-              <div class="card-title">Distribution</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card-wrapper">
-          <div class="card-link disabled">
-            <div class="card card-dashboard" style="opacity:0.6;">
-              <div class="lock-icon"><svg viewBox="0 0 24 24" stroke="white"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-              <div class="card-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/><rect x="2" y="2" width="20" height="20" rx="2"/></svg></div>
-              <div class="card-title">Dashboard</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card-wrapper">
-          <div class="card-link disabled">
-            <div class="card card-stock" style="opacity:0.6;">
-              <div class="lock-icon"><svg viewBox="0 0 24 24" stroke="white"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-              <div class="card-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
-              <div class="card-title">Stock</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card-wrapper">
-          <div class="card-link disabled">
-            <div class="card card-attendance" style="opacity:0.6;">
-              <div class="lock-icon"><svg viewBox="0 0 24 24" stroke="white"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-              <div class="card-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-              <div class="card-title">Attendance</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card-wrapper">
-          <div class="card-link disabled">
-            <div class="card card-monitoring" style="opacity:0.6;">
-              <div class="lock-icon"><svg viewBox="0 0 24 24" stroke="white"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-              <div class="card-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0z"/></svg></div>
-              <div class="card-title">Monitoring</div>
-            </div>
-          </div>
-        </div>
+        <div class="card-wrapper"><div class="card-link disabled"><div class="card card-distribution" style="opacity:0.6;"><div class="lock-icon"><svg viewBox="0 0 24 24" stroke="white"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><div class="card-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M4 4h16v16H4z"/><path d="M8 8h8v8H8z"/></svg></div><div class="card-title">Distribution</div></div></div></div>
+        <div class="card-wrapper"><div class="card-link disabled"><div class="card card-dashboard" style="opacity:0.6;"><div class="lock-icon"><svg viewBox="0 0 24 24" stroke="white"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><div class="card-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/><rect x="2" y="2" width="20" height="20" rx="2"/></svg></div><div class="card-title">Dashboard</div></div></div></div>
+        <div class="card-wrapper"><div class="card-link disabled"><div class="card card-stock" style="opacity:0.6;"><div class="lock-icon"><svg viewBox="0 0 24 24" stroke="white"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><div class="card-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div><div class="card-title">Stock</div></div></div></div>
+        <div class="card-wrapper"><div class="card-link disabled"><div class="card card-attendance" style="opacity:0.6;"><div class="lock-icon"><svg viewBox="0 0 24 24" stroke="white"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><div class="card-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="card-title">Attendance</div></div></div></div>
+        <div class="card-wrapper"><div class="card-link disabled"><div class="card card-monitoring" style="opacity:0.6;"><div class="lock-icon"><svg viewBox="0 0 24 24" stroke="white"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><div class="card-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0z"/></svg></div><div class="card-title">Monitoring</div></div></div></div>
       </div>
     </div>
 
-    <!-- Registration Panel (shown after login) -->
+    <!-- Registration Panel with 4-step form -->
     <div id="registrationPanel" class="registration-panel">
       <button class="back-btn" id="backToMenuBtn">← Back to Menu</button>
-      <h3 style="color:#1e3a8a; margin-bottom:1rem; text-align:center;">Household Registration</h3>
-      <form id="regForm">
-        <div class="reg-form-group">
-          <label>Date</label>
-          <input type="text" id="regDate" readonly style="background:#f1f5f9;">
+      
+      <!-- Progress Bar -->
+      <div class="progress-bar">
+        <div class="progress-step" id="step1Indicator">Demographic Info</div>
+        <div class="progress-step" id="step2Indicator">Household Details</div>
+        <div class="progress-step" id="step3Indicator">Review</div>
+        <div class="progress-step" id="step4Indicator">Complete</div>
+      </div>
+
+      <form id="registrationForm">
+        <!-- Section 1: Demographic Information -->
+        <div class="form-section active-section" id="section1">
+          <div class="reg-form-group">
+            <label>Date <span class="required">*</span></label>
+            <input type="text" id="currentDate" class="readonly-input" readonly>
+          </div>
+          <div class="reg-form-group">
+            <label>District <span class="required">*</span></label>
+            <select id="district"><option value="">Select District</option></select>
+          </div>
+          <div class="reg-form-group">
+            <label>Chiefdom <span class="required">*</span></label>
+            <select id="chiefdom" disabled><option value="">Select Chiefdom first</option></select>
+          </div>
+          <div class="reg-form-group">
+            <label>PHU <span class="required">*</span></label>
+            <select id="phu" disabled><option value="">Select PHU first</option></select>
+          </div>
+          <div class="reg-form-group">
+            <label>Community <span class="required">*</span></label>
+            <select id="community" disabled><option value="">Select Community first</option></select>
+          </div>
+          <div class="reg-form-group">
+            <label>HHR Name <span class="required">*</span></label>
+            <select id="hhr" disabled><option value="">Select HHR first</option></select>
+          </div>
         </div>
-        <div class="reg-form-group">
-          <label>District</label>
-          <select id="regDistrict">
-            <option value="">Select District</option>
-            <option>Bo</option>
-            <option>Kenema</option>
-            <option>Western Urban</option>
-            <option>Western Rural</option>
-          </select>
+
+        <!-- Section 2: Household Details -->
+        <div class="form-section" id="section2">
+          <div class="name-row">
+            <div class="reg-form-group"><label>First Name</label><input type="text" id="firstName" placeholder="Enter first name"></div>
+            <div class="reg-form-group"><label>Middle Name</label><input type="text" id="middleName" placeholder="Enter middle name"></div>
+            <div class="reg-form-group"><label>Surname</label><input type="text" id="surname" placeholder="Enter surname"></div>
+          </div>
+          <div class="reg-form-group"><label>Gender</label><select id="gender"><option value="">Select Gender</option><option value="Male">Male</option><option value="Female">Female</option><option value="Other">Other</option></select></div>
+          <div class="reg-form-group"><label>Telephone</label><input type="tel" id="telephone" placeholder="0XXXXXXXX" maxlength="9"><div class="error-message" id="phoneError">Phone number must be exactly 9 digits and start with 0</div></div>
+          <div class="reg-form-group"><label>Number of People in Household</label><input type="number" id="totalPeople" min="0" step="1" value="0"></div>
+          <div class="reg-form-group"><label>Number of Under Five</label><input type="number" id="underFive" min="0" step="1" value="0"><div class="error-message" id="underFiveError">Under five children cannot exceed total household members</div></div>
+          <div class="reg-form-group"><label>Number of Pregnant Women</label><input type="number" id="pregnantWomen" min="0" step="1" value="0"><div class="error-message" id="pregnantError">Pregnant women cannot exceed total household members</div></div>
+          <div class="reg-form-group"><label>Total Family Member (Auto-calculated)</label><input type="text" id="totalFamily" class="readonly-input" readonly></div>
+          <div class="reg-form-group"><label>GPS Coordinates</label><div class="gps-row"><input type="text" id="gps" placeholder="Click 'Get GPS' to capture location" readonly class="readonly-input"><button type="button" id="getGpsBtn" class="gps-btn">Get GPS</button></div><div class="error-message" id="gpsError">Unable to get GPS location. Please check permissions.</div></div>
+          <div class="reg-form-group"><label>Registration Token</label><div class="token-row"><input type="text" id="token" placeholder="Click 'Generate Token'" readonly class="readonly-input"><button type="button" id="generateTokenBtn" class="token-btn">Generate Token</button></div></div>
         </div>
-        <div class="reg-form-group">
-          <label>Chiefdom</label>
-          <input type="text" id="regChiefdom" placeholder="Enter chiefdom">
+
+        <!-- Section 3: Review -->
+        <div class="form-section" id="section3">
+          <div class="summary-card">
+            <div class="summary-row"><span class="summary-label">Date:</span><span class="summary-value" id="summaryDate">-</span></div>
+            <div class="summary-row"><span class="summary-label">District:</span><span class="summary-value" id="summaryDistrict">-</span></div>
+            <div class="summary-row"><span class="summary-label">Chiefdom:</span><span class="summary-value" id="summaryChiefdom">-</span></div>
+            <div class="summary-row"><span class="summary-label">PHU:</span><span class="summary-value" id="summaryPhu">-</span></div>
+            <div class="summary-row"><span class="summary-label">Community:</span><span class="summary-value" id="summaryCommunity">-</span></div>
+            <div class="summary-row"><span class="summary-label">HHR Name:</span><span class="summary-value" id="summaryHhr">-</span></div>
+            <div class="summary-row"><span class="summary-label">First Name:</span><span class="summary-value" id="summaryFirstName">-</span></div>
+            <div class="summary-row"><span class="summary-label">Middle Name:</span><span class="summary-value" id="summaryMiddleName">-</span></div>
+            <div class="summary-row"><span class="summary-label">Surname:</span><span class="summary-value" id="summarySurname">-</span></div>
+            <div class="summary-row"><span class="summary-label">Full Name:</span><span class="summary-value" id="summaryFullName">-</span></div>
+            <div class="summary-row"><span class="summary-label">Gender:</span><span class="summary-value" id="summaryGender">-</span></div>
+            <div class="summary-row"><span class="summary-label">Telephone:</span><span class="summary-value" id="summaryPhone">-</span></div>
+            <div class="summary-row"><span class="summary-label">Total People:</span><span class="summary-value" id="summaryTotalPeople">-</span></div>
+            <div class="summary-row"><span class="summary-label">Under Five:</span><span class="summary-value" id="summaryUnderFive">-</span></div>
+            <div class="summary-row"><span class="summary-label">Pregnant Women:</span><span class="summary-value" id="summaryPregnant">-</span></div>
+            <div class="summary-row"><span class="summary-label">Total Family:</span><span class="summary-value" id="summaryTotalFamily">-</span></div>
+            <div class="summary-row"><span class="summary-label">GPS:</span><span class="summary-value" id="summaryGps">-</span></div>
+            <div class="summary-row"><span class="summary-label">Token:</span><span class="summary-value" id="summaryToken">-</span></div>
+          </div>
         </div>
-        <div class="reg-form-group">
-          <label>Community/PHU</label>
-          <input type="text" id="regCommunity" placeholder="Enter community/PHU">
+
+        <!-- Section 4: Complete -->
+        <div class="form-section" id="section4">
+          <div class="summary-card">
+            <div class="summary-row"><span class="summary-label">Full Name:</span><span class="summary-value" id="completeFullName">-</span></div>
+            <div class="summary-row"><span class="summary-label">Total Family Size:</span><span class="summary-value" id="completeTotalFamily">-</span></div>
+            <div class="summary-row"><span class="summary-label">Token:</span><span class="summary-value" id="completeToken">-</span></div>
+          </div>
+          <div class="bednet-message" id="bednetMessage"></div>
         </div>
-        <div class="reg-form-group">
-          <label>Household Head Name</label>
-          <input type="text" id="regHeadName" placeholder="Enter full name">
+
+        <!-- Navigation Buttons -->
+        <div class="nav-buttons">
+          <button type="button" class="nav-btn prev" id="prevBtn" style="display: none;">Previous</button>
+          <button type="button" class="nav-btn next" id="nextBtn">Next</button>
+          <button type="button" class="nav-btn submit" id="submitBtn" style="display: none;">Complete</button>
         </div>
-        <div class="reg-form-group">
-          <label>Telephone</label>
-          <input type="tel" id="regPhone" placeholder="0XXXXXXXX" maxlength="9">
-        </div>
-        <div class="reg-form-group">
-          <label>Number of People in Household</label>
-          <input type="number" id="regTotalPeople" min="0" value="0">
-        </div>
-        <div class="reg-form-group">
-          <label>Number of Under Five</label>
-          <input type="number" id="regUnderFive" min="0" value="0">
-        </div>
-        <div class="reg-form-group">
-          <label>Number of Pregnant Women</label>
-          <input type="number" id="regPregnantWomen" min="0" value="0">
-        </div>
-        <button type="button" class="submit-reg" onclick="submitRegistration()">Save Registration</button>
       </form>
     </div>
 
@@ -537,8 +728,10 @@
 </div>
 
 <script>
+  let currentSection = 1;
+  const totalSections = 4;
   let validCredentials = [];
-  let isLoggedIn = false;
+  let cascadingData = [];
 
   const modal = document.getElementById('loginModal');
   const loginUsername = document.getElementById('loginUsername');
@@ -550,147 +743,301 @@
 
   // Set current date
   const today = new Date();
-  const formattedDate = today.toLocaleDateString('en-GB');
-  document.getElementById('regDate').value = formattedDate;
+  const formattedDate = today.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  document.getElementById('currentDate').value = formattedDate;
 
-  // Load credentials from ping.csv file
+  // Load credentials from ping.csv
   async function loadCredentials() {
     try {
       const response = await fetch('ping.csv');
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       const csvText = await response.text();
       const lines = csvText.trim().split('\n');
-      
-      let startIndex = 0;
-      const firstLine = lines[0].toLowerCase();
-      if (firstLine.includes('username') && firstLine.includes('password')) {
-        startIndex = 1;
-      }
-      
+      let startIndex = lines[0].toLowerCase().includes('username') ? 1 : 0;
       for (let i = startIndex; i < lines.length; i++) {
         const line = lines[i].trim();
         if (line === '') continue;
-        
         const parts = line.split(',');
         if (parts.length >= 2) {
           const username = parts[0].replace(/^["']|["']$/g, '');
           const password = parts[1].replace(/^["']|["']$/g, '');
-          if (username && password) {
-            validCredentials.push({ username, password });
-          }
+          if (username && password) validCredentials.push({ username, password });
         }
       }
-      
-      if (validCredentials.length === 0) {
-        validCredentials.push({ username: "Reg001", password: "1234" });
-        validCredentials.push({ username: "Admin", password: "1234" });
-      }
+      if (validCredentials.length === 0) validCredentials.push({ username: "Reg001", password: "1234" });
     } catch (error) {
-      console.error('Error loading ping.csv:', error);
       validCredentials.push({ username: "Reg001", password: "1234" });
-      validCredentials.push({ username: "Admin", password: "1234" });
     }
   }
 
-  function validateLogin(username, password) {
-    return validCredentials.some(cred => cred.username === username && cred.password === password);
+  // Load cascading data
+  async function loadCascadingData() {
+    try {
+      const response = await fetch('cascading.csv');
+      const csvText = await response.text();
+      const lines = csvText.trim().split('\n');
+      for (let i = 1; i < lines.length; i++) {
+        const values = lines[i].split(',').map(v => v.trim());
+        if (values.length >= 5) {
+          cascadingData.push({ District: values[0], Chiefdom: values[1], PHU: values[2], Community: values[3], HHR: values[4] });
+        }
+      }
+      populateDistricts();
+    } catch (error) { console.error('Error loading cascading.csv:', error); }
   }
 
-  function showLogin() {
-    modalTitle.textContent = `Registration - Login Required`;
-    loginUsername.value = '';
-    loginPassword.value = '';
-    loginError.style.display = 'none';
-    modal.style.display = 'flex';
+  function populateDistricts() {
+    const districts = [...new Set(cascadingData.map(item => item.District))];
+    districts.forEach(district => {
+      const option = document.createElement('option');
+      option.value = district;
+      option.textContent = district;
+      districtSelect.appendChild(option);
+    });
   }
 
-  function closeModal() {
-    modal.style.display = 'none';
+  function getUniqueValues(field, parentFilters = {}) {
+    let filtered = [...cascadingData];
+    if (parentFilters.District) filtered = filtered.filter(item => item.District === parentFilters.District);
+    if (parentFilters.Chiefdom) filtered = filtered.filter(item => item.Chiefdom === parentFilters.Chiefdom);
+    if (parentFilters.PHU) filtered = filtered.filter(item => item.PHU === parentFilters.PHU);
+    if (parentFilters.Community) filtered = filtered.filter(item => item.Community === parentFilters.Community);
+    return [...new Set(filtered.map(item => item[field]))];
   }
 
-  function showRegistrationPanel() {
-    mainMenu.style.display = 'none';
-    registrationPanel.classList.add('active');
+  function resetSelect(select, placeholder, disabled) {
+    select.innerHTML = `<option value="">${placeholder}</option>`;
+    select.disabled = disabled;
   }
 
-  function hideRegistrationPanel() {
-    mainMenu.style.display = 'block';
-    registrationPanel.classList.remove('active');
+  // DOM Elements
+  const districtSelect = document.getElementById('district');
+  const chiefdomSelect = document.getElementById('chiefdom');
+  const phuSelect = document.getElementById('phu');
+  const communitySelect = document.getElementById('community');
+  const hhrSelect = document.getElementById('hhr');
+  const firstNameInput = document.getElementById('firstName');
+  const middleNameInput = document.getElementById('middleName');
+  const surnameInput = document.getElementById('surname');
+  const genderSelect = document.getElementById('gender');
+  const telephoneInput = document.getElementById('telephone');
+  const phoneError = document.getElementById('phoneError');
+  const totalPeopleInput = document.getElementById('totalPeople');
+  const underFiveInput = document.getElementById('underFive');
+  const pregnantWomenInput = document.getElementById('pregnantWomen');
+  const totalFamilyInput = document.getElementById('totalFamily');
+  const underFiveError = document.getElementById('underFiveError');
+  const pregnantError = document.getElementById('pregnantError');
+  const gpsInput = document.getElementById('gps');
+  const getGpsBtn = document.getElementById('getGpsBtn');
+  const gpsError = document.getElementById('gpsError');
+  const tokenInput = document.getElementById('token');
+  const generateTokenBtn = document.getElementById('generateTokenBtn');
+
+  function getFullName() {
+    const firstName = firstNameInput.value.trim();
+    const middleName = middleNameInput.value.trim();
+    const surname = surnameInput.value.trim();
+    let fullName = '';
+    if (firstName) fullName += firstName;
+    if (middleName) fullName += ' ' + middleName;
+    if (surname) fullName += ' ' + surname;
+    return fullName.trim() || '';
   }
 
-  function attemptLogin() {
-    const username = loginUsername.value.trim();
-    const password = loginPassword.value;
-    
-    if (validateLogin(username, password)) {
-      loginError.style.display = 'none';
-      closeModal();
-      showRegistrationPanel();
-    } else {
-      loginError.textContent = 'Invalid username or password. Use Reg001 / 1234';
-      loginError.style.display = 'block';
+  function updateSection() {
+    for (let i = 1; i <= totalSections; i++) {
+      const section = document.getElementById(`section${i}`);
+      if (section) section.classList.remove('active-section');
+      const indicator = document.getElementById(`step${i}Indicator`);
+      if (indicator) {
+        indicator.classList.remove('active', 'completed');
+        if (i === currentSection) indicator.classList.add('active');
+        else if (i < currentSection) indicator.classList.add('completed');
+      }
     }
+    document.getElementById(`section${currentSection}`).classList.add('active-section');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    if (currentSection === 1) { prevBtn.style.display = 'none'; nextBtn.style.display = 'block'; submitBtn.style.display = 'none'; }
+    else if (currentSection === totalSections) { prevBtn.style.display = 'block'; nextBtn.style.display = 'none'; submitBtn.style.display = 'block'; updateCompleteSection(); }
+    else { prevBtn.style.display = 'block'; nextBtn.style.display = 'block'; submitBtn.style.display = 'none'; }
+    if (currentSection === 3) updateReviewSummary();
   }
 
-  function submitRegistration() {
+  function updateReviewSummary() {
+    document.getElementById('summaryDate').textContent = formattedDate;
+    document.getElementById('summaryDistrict').textContent = districtSelect.value || '-';
+    document.getElementById('summaryChiefdom').textContent = chiefdomSelect.value || '-';
+    document.getElementById('summaryPhu').textContent = phuSelect.value || '-';
+    document.getElementById('summaryCommunity').textContent = communitySelect.value || '-';
+    document.getElementById('summaryHhr').textContent = hhrSelect.value || '-';
+    document.getElementById('summaryFirstName').textContent = firstNameInput.value.trim() || '-';
+    document.getElementById('summaryMiddleName').textContent = middleNameInput.value.trim() || '-';
+    document.getElementById('summarySurname').textContent = surnameInput.value.trim() || '-';
+    document.getElementById('summaryFullName').textContent = getFullName() || '-';
+    document.getElementById('summaryGender').textContent = genderSelect.value || '-';
+    document.getElementById('summaryPhone').textContent = telephoneInput.value || '-';
+    document.getElementById('summaryTotalPeople').textContent = totalPeopleInput.value || '0';
+    document.getElementById('summaryUnderFive').textContent = underFiveInput.value || '0';
+    document.getElementById('summaryPregnant').textContent = pregnantWomenInput.value || '0';
+    document.getElementById('summaryTotalFamily').textContent = totalFamilyInput.value || '0';
+    document.getElementById('summaryGps').textContent = gpsInput.value || '-';
+    document.getElementById('summaryToken').textContent = tokenInput.value || '-';
+  }
+
+  function updateCompleteSection() {
+    const totalPeople = parseInt(totalPeopleInput.value) || 0;
+    let bednetCount = 0, bednetMessage = '';
+    if (totalPeople === 1 || totalPeople === 2) { bednetCount = 1; bednetMessage = 'Based on household size of ' + totalPeople + ' people, this household should receive 1 bednet.'; }
+    else if (totalPeople === 3 || totalPeople === 4) { bednetCount = 2; bednetMessage = 'Based on household size of ' + totalPeople + ' people, this household should receive 2 bednets.'; }
+    else if (totalPeople >= 5) { bednetCount = 3; bednetMessage = 'Based on household size of ' + totalPeople + ' people, this household should receive 3 bednets.'; }
+    else { bednetMessage = 'Please enter number of people in household to see bednet recommendation.'; }
+    document.getElementById('completeFullName').textContent = getFullName() || '-';
+    document.getElementById('completeTotalFamily').textContent = totalFamilyInput.value || '0';
+    document.getElementById('completeToken').textContent = tokenInput.value || '-';
+    document.getElementById('bednetMessage').innerHTML = 'Bednet Recommendation: ' + bednetMessage;
+  }
+
+  function nextSection() { if (currentSection < totalSections) { currentSection++; updateSection(); } }
+  function prevSection() { if (currentSection > 1) { currentSection--; updateSection(); } }
+
+  function completeRegistration() {
+    const phone = telephoneInput.value;
+    if (phone && !validateTelephone(phone)) {
+      phoneError.classList.add('show');
+      telephoneInput.classList.add('error-input');
+      alert('Please enter a valid phone number (9 digits starting with 0)');
+      return;
+    }
+    if (!tokenInput.value) tokenInput.value = generateToken();
+    const totalPeople = parseInt(totalPeopleInput.value) || 0;
+    let bednetCount = totalPeople === 1 || totalPeople === 2 ? 1 : (totalPeople === 3 || totalPeople === 4 ? 2 : (totalPeople >= 5 ? 3 : 0));
     const registrationData = {
-      date: document.getElementById('regDate').value,
-      district: document.getElementById('regDistrict').value,
-      chiefdom: document.getElementById('regChiefdom').value,
-      community: document.getElementById('regCommunity').value,
-      householdHead: document.getElementById('regHeadName').value,
-      telephone: document.getElementById('regPhone').value,
-      totalPeople: document.getElementById('regTotalPeople').value,
-      underFive: document.getElementById('regUnderFive').value,
-      pregnantWomen: document.getElementById('regPregnantWomen').value
+      date: formattedDate, district: districtSelect.value, chiefdom: chiefdomSelect.value, phu: phuSelect.value,
+      community: communitySelect.value, hhr: hhrSelect.value, firstName: firstNameInput.value.trim(),
+      middleName: middleNameInput.value.trim(), surname: surnameInput.value.trim(), fullName: getFullName(),
+      gender: genderSelect.value, telephone: phone || '', totalPeople: totalPeople,
+      underFive: parseInt(underFiveInput.value), pregnantWomen: parseInt(pregnantWomenInput.value),
+      totalFamily: parseInt(totalFamilyInput.value), gps: gpsInput.value || '', token: tokenInput.value || '',
+      bednetRecommended: bednetCount
     };
-    
-    console.log('Registration Data:', registrationData);
-    
     let allRegistrations = JSON.parse(localStorage.getItem('householdRegistrations') || '[]');
     allRegistrations.push(registrationData);
     localStorage.setItem('householdRegistrations', JSON.stringify(allRegistrations));
-    
-    alert('Registration completed successfully!\n\nHousehold Head: ' + (registrationData.householdHead || 'Not provided'));
-    
-    // Reset form
-    document.getElementById('regChiefdom').value = '';
-    document.getElementById('regCommunity').value = '';
-    document.getElementById('regHeadName').value = '';
-    document.getElementById('regPhone').value = '';
-    document.getElementById('regTotalPeople').value = '0';
-    document.getElementById('regUnderFive').value = '0';
-    document.getElementById('regPregnantWomen').value = '0';
+    alert('Registration Completed!\nFull Name: ' + (registrationData.fullName || 'Not provided') + '\nTotal Family: ' + registrationData.totalFamily + '\nBednets: ' + bednetCount + '\nToken: ' + registrationData.token);
+    if (confirm('Register another household?')) resetForm();
   }
 
+  function resetForm() {
+    districtSelect.value = ''; chiefdomSelect.innerHTML = '<option value="">Select Chiefdom first</option>'; chiefdomSelect.disabled = true;
+    phuSelect.innerHTML = '<option value="">Select PHU first</option>'; phuSelect.disabled = true;
+    communitySelect.innerHTML = '<option value="">Select Community first</option>'; communitySelect.disabled = true;
+    hhrSelect.innerHTML = '<option value="">Select HHR first</option>'; hhrSelect.disabled = true;
+    firstNameInput.value = ''; middleNameInput.value = ''; surnameInput.value = ''; genderSelect.value = '';
+    telephoneInput.value = ''; totalPeopleInput.value = '0'; underFiveInput.value = '0'; pregnantWomenInput.value = '0';
+    gpsInput.value = ''; tokenInput.value = ''; calculateTotalFamily(); currentSection = 1; updateSection();
+  }
+
+  function calculateTotalFamily() {
+    const total = (parseInt(totalPeopleInput.value) || 0) + (parseInt(underFiveInput.value) || 0) + (parseInt(pregnantWomenInput.value) || 0);
+    totalFamilyInput.value = total;
+  }
+
+  function validateHouseholdNumbers() {
+    const totalPeople = parseInt(totalPeopleInput.value) || 0;
+    const underFive = parseInt(underFiveInput.value) || 0;
+    const pregnantWomen = parseInt(pregnantWomenInput.value) || 0;
+    let valid = true;
+    if (underFive > totalPeople && totalPeople > 0) { underFiveError.classList.add('show'); underFiveInput.classList.add('error-input'); valid = false; }
+    else { underFiveError.classList.remove('show'); underFiveInput.classList.remove('error-input'); }
+    if (pregnantWomen > totalPeople && totalPeople > 0) { pregnantError.classList.add('show'); pregnantWomenInput.classList.add('error-input'); valid = false; }
+    else { pregnantError.classList.remove('show'); pregnantWomenInput.classList.remove('error-input'); }
+    return valid;
+  }
+
+  function generateToken() {
+    const fullName = getFullName();
+    let phone = telephoneInput.value.trim();
+    let cleanName = fullName ? fullName.replace(/[^a-zA-Z0-9]/g, '_').replace(/_+/g, '_') : 'noName';
+    const randomSuffix = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+    return `${cleanName}_${phone || 'noPhone'}_${randomSuffix}`;
+  }
+
+  function validateTelephone(phone) { return !phone || /^0[0-9]{8}$/.test(phone); }
+
   // Event Listeners
-  document.querySelector('.card-link[data-module="registration"]').addEventListener('click', (e) => {
-    e.preventDefault();
-    showLogin();
+  generateTokenBtn.addEventListener('click', () => { tokenInput.value = generateToken(); if (currentSection === 3) updateReviewSummary(); if (currentSection === 4) updateCompleteSection(); });
+  [firstNameInput, middleNameInput, surnameInput].forEach(input => input.addEventListener('input', () => { if (tokenInput.value) tokenInput.value = generateToken(); }));
+  telephoneInput.addEventListener('input', (e) => { let v = e.target.value.slice(0,9).replace(/[^0-9]/g, ''); e.target.value = v; if (v && !/^0[0-9]{8}$/.test(v)) phoneError.classList.add('show'); else phoneError.classList.remove('show'); if (tokenInput.value) tokenInput.value = generateToken(); });
+  telephoneInput.addEventListener('blur', () => { const p = telephoneInput.value; if (p && !/^0[0-9]{8}$/.test(p)) { phoneError.classList.add('show'); telephoneInput.classList.add('error-input'); } else { phoneError.classList.remove('show'); telephoneInput.classList.remove('error-input'); } });
+  getGpsBtn.addEventListener('click', () => { if (!navigator.geolocation) { gpsError.style.display = 'block'; return; } getGpsBtn.textContent = 'Getting...'; getGpsBtn.disabled = true; navigator.geolocation.getCurrentPosition(p => { gpsInput.value = `${p.coords.latitude.toFixed(6)}, ${p.coords.longitude.toFixed(6)}`; getGpsBtn.textContent = 'Get GPS'; getGpsBtn.disabled = false; }, () => { gpsError.style.display = 'block'; getGpsBtn.textContent = 'Get GPS'; getGpsBtn.disabled = false; }); });
+  [totalPeopleInput, underFiveInput, pregnantWomenInput].forEach(input => input.addEventListener('input', () => { calculateTotalFamily(); validateHouseholdNumbers(); if (currentSection === 3) updateReviewSummary(); if (currentSection === 4) updateCompleteSection(); }));
+
+  // Cascading dropdown events
+  districtSelect.addEventListener('change', () => {
+    const selectedDistrict = districtSelect.value;
+    resetSelect(chiefdomSelect, 'Select Chiefdom first', true);
+    resetSelect(phuSelect, 'Select PHU first', true);
+    resetSelect(communitySelect, 'Select Community first', true);
+    resetSelect(hhrSelect, 'Select HHR first', true);
+    if (selectedDistrict) {
+      const chiefdoms = getUniqueValues('Chiefdom', { District: selectedDistrict });
+      chiefdomSelect.disabled = false;
+      chiefdomSelect.innerHTML = '<option value="">Select Chiefdom</option>';
+      chiefdoms.forEach(chiefdom => { const option = document.createElement('option'); option.value = chiefdom; option.textContent = chiefdom; chiefdomSelect.appendChild(option); });
+    }
+  });
+  chiefdomSelect.addEventListener('change', () => {
+    const selectedDistrict = districtSelect.value, selectedChiefdom = chiefdomSelect.value;
+    resetSelect(phuSelect, 'Select PHU first', true); resetSelect(communitySelect, 'Select Community first', true); resetSelect(hhrSelect, 'Select HHR first', true);
+    if (selectedChiefdom) {
+      const phus = getUniqueValues('PHU', { District: selectedDistrict, Chiefdom: selectedChiefdom });
+      phuSelect.disabled = false; phuSelect.innerHTML = '<option value="">Select PHU</option>';
+      phus.forEach(phu => { const option = document.createElement('option'); option.value = phu; option.textContent = phu; phuSelect.appendChild(option); });
+    }
+  });
+  phuSelect.addEventListener('change', () => {
+    const selectedDistrict = districtSelect.value, selectedChiefdom = chiefdomSelect.value, selectedPHU = phuSelect.value;
+    resetSelect(communitySelect, 'Select Community first', true); resetSelect(hhrSelect, 'Select HHR first', true);
+    if (selectedPHU) {
+      const communities = getUniqueValues('Community', { District: selectedDistrict, Chiefdom: selectedChiefdom, PHU: selectedPHU });
+      communitySelect.disabled = false; communitySelect.innerHTML = '<option value="">Select Community</option>';
+      communities.forEach(community => { const option = document.createElement('option'); option.value = community; option.textContent = community; communitySelect.appendChild(option); });
+    }
+  });
+  communitySelect.addEventListener('change', () => {
+    const selectedDistrict = districtSelect.value, selectedChiefdom = chiefdomSelect.value, selectedPHU = phuSelect.value, selectedCommunity = communitySelect.value;
+    resetSelect(hhrSelect, 'Select HHR first', true);
+    if (selectedCommunity) {
+      const hhrs = getUniqueValues('HHR', { District: selectedDistrict, Chiefdom: selectedChiefdom, PHU: selectedPHU, Community: selectedCommunity });
+      hhrSelect.disabled = false; hhrSelect.innerHTML = '<option value="">Select HHR</option>';
+      hhrs.forEach(hhr => { const option = document.createElement('option'); option.value = hhr; option.textContent = hhr; hhrSelect.appendChild(option); });
+    }
   });
 
-  document.querySelectorAll('.card-link.disabled').forEach(card => {
-    card.addEventListener('click', (e) => {
-      e.preventDefault();
-      alert('This module is coming soon. Only Registration is available at this time.');
-    });
-  });
+  document.getElementById('nextBtn').addEventListener('click', nextSection);
+  document.getElementById('prevBtn').addEventListener('click', prevSection);
+  document.getElementById('submitBtn').addEventListener('click', completeRegistration);
+  document.getElementById('registrationForm').addEventListener('submit', e => e.preventDefault());
 
-  document.getElementById('backToMenuBtn').addEventListener('click', () => {
-    hideRegistrationPanel();
-  });
+  // Login functions
+  function validateLogin(username, password) { return validCredentials.some(cred => cred.username === username && cred.password === password); }
+  function showLogin() { modalTitle.textContent = `Registration - Login Required`; loginUsername.value = ''; loginPassword.value = ''; loginError.style.display = 'none'; modal.style.display = 'flex'; }
+  function closeModal() { modal.style.display = 'none'; }
+  function showRegistrationPanel() { mainMenu.style.display = 'none'; registrationPanel.classList.add('active'); updateSection(); calculateTotalFamily(); loadCascadingData(); }
+  function hideRegistrationPanel() { mainMenu.style.display = 'block'; registrationPanel.classList.remove('active'); }
+  function attemptLogin() { const username = loginUsername.value.trim(), password = loginPassword.value; if (validateLogin(username, password)) { loginError.style.display = 'none'; closeModal(); showRegistrationPanel(); } else { loginError.textContent = 'Invalid username or password. Use Reg001 / 1234'; loginError.style.display = 'block'; } }
 
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) closeModal();
-  });
-
-  loginPassword.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') attemptLogin();
-  });
+  document.querySelector('.card-link[data-module="registration"]').addEventListener('click', (e) => { e.preventDefault(); showLogin(); });
+  document.querySelectorAll('.card-link.disabled').forEach(card => { card.addEventListener('click', (e) => { e.preventDefault(); alert('This module is coming soon. Only Registration is available.'); }); });
+  document.getElementById('backToMenuBtn').addEventListener('click', hideRegistrationPanel);
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+  loginPassword.addEventListener('keypress', (e) => { if (e.key === 'Enter') attemptLogin(); });
 
   loadCredentials();
+  calculateTotalFamily();
 </script>
 </body>
 </html>
