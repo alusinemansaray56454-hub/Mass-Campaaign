@@ -1,0 +1,8 @@
+Username,Password,Registration,Distribution,Stock,Dashboard,Attendance,Monitoring
+Admin,1234,Yes,Yes,Yes,Yes,Yes,Yes
+Reg001,1234,Yes,No,No,No,No,No
+Dist002,1234,No,Yes,No,No,No,No
+Stock003,1234,No,No,Yes,No,No,No
+Dashb004,1234,No,No,No,Yes,No,No
+Attend005,1234,No,No,No,No,Yes,No
+Monitor006,1234,No,No,No,No,No,Yes
