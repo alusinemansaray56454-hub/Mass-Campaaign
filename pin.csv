@@ -1,4 +1,4 @@
-USERNAME,PASSWORD,Registration,Distribution,Dashboard,Stock,Attendnce,Monitoring
+USERNAME,PASSWORD,Registration,Distribution,Dashboard,Stock,Attendance,Monitoring
 reg001,1234,Yes,No,No,No,No,No
 dist002,1234,No,Yes,No,No,No,No
 Dash003,1234,No,No,Yes,No,No,No
